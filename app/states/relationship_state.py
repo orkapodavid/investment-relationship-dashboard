@@ -84,6 +84,7 @@ class RelationshipState(rx.State):
         """Load accounts from database. Handles failures gracefully by using mock data."""
         try:
             with rx.session() as session:
+                sqlmodel.SQLModel.metadata.create_all(session.get_bind())
                 statement = sqlmodel.select(Account).options(
                     selectinload(Account.contacts)
                     .selectinload(Contact.relationship)
@@ -180,6 +181,7 @@ class RelationshipState(rx.State):
         ]
         try:
             with rx.session() as session:
+                sqlmodel.SQLModel.metadata.create_all(session.get_bind())
                 accounts_objs = []
                 for acc_data in sample_accounts:
                     account = Account(**acc_data)
