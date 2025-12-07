@@ -7,10 +7,11 @@ from app.components.side_panel import side_panel
 
 def new_entity_fab() -> rx.Component:
     return rx.el.button(
+        rx.el.span("NEW", class_name="font-black text-white mr-1 text-sm"),
         rx.icon("plus", class_name="w-8 h-8 text-white"),
         on_click=RelationshipState.start_node_creation,
-        class_name="absolute top-6 right-6 z-[60] w-14 h-14 bg-indigo-600 hover:bg-indigo-700 border-2 border-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95",
-        title="Create New Entity",
+        class_name="absolute top-6 right-6 z-[9999] w-20 h-20 bg-red-500 hover:bg-red-600 border-4 border-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95",
+        title="Create New Entity (Debug)",
     )
 
 
