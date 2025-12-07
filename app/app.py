@@ -3,7 +3,8 @@ import reflex_enterprise as rxe
 from contextlib import asynccontextmanager
 import sqlmodel
 from app.states.relationship_state import RelationshipState
-from app.components.graph_view import graph_view
+from app.components.graph_view import graph_view, new_entity_fab
+from app.components.side_panel import side_panel
 from app.models import Account, Contact, Relationship, RelationshipLog
 
 
@@ -20,6 +21,8 @@ def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
         graph_view(),
+        new_entity_fab(),
+        side_panel(),
         class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative",
     )
 
