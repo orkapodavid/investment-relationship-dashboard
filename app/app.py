@@ -20,21 +20,18 @@ async def lifespan_task():
 def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
-        graph_view(),
-        rx.el.button(
-            rx.icon("plus", class_name="w-8 h-8"),
-            on_click=RelationshipState.start_node_creation,
-            class_name="fixed top-20 right-8 z-[99999] p-4 text-white bg-red-600 hover:bg-red-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto",
-            aria_label="DEBUG: Create New Entity (Top)",
-        ),
-        rx.el.button(
-            rx.icon("plus", class_name="w-8 h-8"),
-            on_click=RelationshipState.start_node_creation,
-            class_name="fixed bottom-8 right-8 z-[99999] p-4 text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto",
-            aria_label="DEBUG: Create New Entity (Bottom)",
+        rx.el.div(graph_view(), class_name="absolute inset-0 z-0 w-full h-full"),
+        rx.el.div(
+            rx.el.button(
+                rx.icon("plus", class_name="w-8 h-8"),
+                on_click=RelationshipState.start_node_creation,
+                class_name="p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto transition-all cursor-pointer",
+                aria_label="Create New Entity",
+            ),
+            class_name="absolute bottom-8 right-8 z-50 flex flex-col gap-4 pointer-events-none [&>*]:pointer-events-auto",
         ),
         side_panel(),
-        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-visible relative",
+        class_name="relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden",
     )
 
 
