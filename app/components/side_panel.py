@@ -441,7 +441,46 @@ def node_details_view() -> rx.Component:
                         class_name="py-8 bg-gray-50 rounded-lg border border-dashed border-gray-200",
                     ),
                 ),
-                class_name="flex-1 overflow-y-auto",
+                class_name="flex-1 overflow-y-auto mb-4",
+            ),
+            rx.el.div(class_name="border-t border-gray-200 my-6"),
+            rx.el.div(
+                rx.el.h3(
+                    "Record Metadata", class_name="text-sm font-bold text-gray-900 mb-4"
+                ),
+                rx.el.label(
+                    "Modified By",
+                    class_name="text-xs font-medium text-gray-500 mb-1 block",
+                ),
+                rx.el.input(
+                    read_only=True,
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",
+                    default_value="System User",
+                    key="System User",
+                ),
+                rx.el.label(
+                    "Operation Type",
+                    class_name="text-xs font-medium text-gray-500 mb-1 block",
+                ),
+                rx.el.select(
+                    rx.el.option("CREATE", value="CREATE"),
+                    rx.el.option("UPDATE", value="UPDATE"),
+                    rx.el.option("DELETE", value="DELETE"),
+                    value="UPDATE",
+                    disabled=True,
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",
+                ),
+                rx.el.label(
+                    "Timestamp",
+                    class_name="text-xs font-medium text-gray-500 mb-1 block",
+                ),
+                rx.el.input(
+                    read_only=True,
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-600",
+                    default_value="2024-01-15 14:30:00",
+                    key="2024-01-15 14:30:00",
+                ),
+                class_name="shrink-0",
             ),
             class_name="flex-1 flex flex-col min-h-0",
         ),
@@ -579,10 +618,16 @@ def side_panel() -> rx.Component:
             rx.cond(
                 ~RelationshipState.node_create_mode
                 & ~RelationshipState.is_creating_relationship
-                & (RelationshipState.edit_mode == "node"),
-                rx.cond(
-                    RelationshipState.is_editing, node_edit_view(), node_details_view()
-                ),
+                & (RelationshipState.edit_mode == "node")
+                & RelationshipState.is_editing,
+                node_edit_view(),
+            ),
+            rx.cond(
+                ~RelationshipState.node_create_mode
+                & ~RelationshipState.is_creating_relationship
+                & (RelationshipState.edit_mode == "node")
+                & ~RelationshipState.is_editing,
+                node_details_view(),
             ),
             rx.cond(
                 ~RelationshipState.node_create_mode
