@@ -27,6 +27,7 @@ class RelationshipState(rx.State):
     edit_mode: str = "none"
     selected_node_data: dict = {}
     editing_score: int = 0
+    editing_relationship_type: str = ""
 
     @rx.event
     def load_data(self):
@@ -278,8 +279,13 @@ class RelationshipState(rx.State):
         self.selected_edge_id = edge["id"]
         data = edge.get("data", {})
         self.editing_score = int(data.get("score", 0))
+        self.editing_relationship_type = str(data.get("type", "employment"))
         if edge["id"].startswith("rel-"):
             self.edit_mode = "edge"
+            self.show_side_panel = True
+        elif edge["id"].startswith("emp-"):
+            self.edit_mode = "edge"
+            self.editing_relationship_type = "employment"
             self.show_side_panel = True
         else:
             self.edit_mode = "none"
@@ -336,24 +342,38 @@ class RelationshipState(rx.State):
         source = connection["source"]
         target = connection["target"]
         try:
-
-            @rx.event
-            def parse_node_id(node_str):
-                parts = node_str.split("-")
-                type_str = "company" if parts[0] == "acc" else "person"
-                id_val = int(parts[1])
-                return (type_str, id_val)
-
-            src_type, src_id = parse_node_id(source)
-            tgt_type, tgt_id = parse_node_id(target)
+            src_parts = source.split("-")
+            tgt_parts = target.split("-")
+            if len(src_parts) < 2 or len(tgt_parts) < 2:
+                return rx.toast("Invalid node identifiers", duration=3000)
+            src_prefix, src_id_str = (src_parts[0], src_parts[1])
+            tgt_prefix, tgt_id_str = (tgt_parts[0], tgt_parts[1])
+            src_id = int(src_id_str)
+            tgt_id = int(tgt_id_str)
+            src_type = "company" if src_prefix == "acc" else "person"
+            tgt_type = "company" if tgt_prefix == "acc" else "person"
+            if src_type == tgt_type and src_id == tgt_id:
+                return rx.toast("Cannot connect a node to itself", duration=3000)
             rel_type = RelationshipType.SOCIAL
             if src_type == "company" and tgt_type == "company":
                 rel_type = RelationshipType.BUSINESS
-            elif src_type == "person" and tgt_type == "company":
-                rel_type = RelationshipType.EMPLOYMENT
-            elif src_type == "company" and tgt_type == "person":
+            elif (
+                src_type == "person"
+                and tgt_type == "company"
+                or (src_type == "company" and tgt_type == "person")
+            ):
                 rel_type = RelationshipType.EMPLOYMENT
             with rx.session() as session:
+                existing = session.exec(
+                    sqlmodel.select(Relationship).where(
+                        Relationship.source_type == src_type,
+                        Relationship.source_id == src_id,
+                        Relationship.target_type == tgt_type,
+                        Relationship.target_id == tgt_id,
+                    )
+                ).first()
+                if existing:
+                    return rx.toast("Relationship already exists", duration=3000)
                 new_rel = Relationship(
                     score=0,
                     relationship_type=rel_type,
@@ -365,5 +385,7 @@ class RelationshipState(rx.State):
                 session.add(new_rel)
                 session.commit()
             self.load_data()
+            return rx.toast(f"Created new {rel_type.value} relationship", duration=3000)
         except Exception as e:
             logging.exception(f"Failed to link nodes: {e}")
+            return rx.toast("Failed to create relationship", duration=3000)
