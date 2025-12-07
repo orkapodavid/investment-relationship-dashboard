@@ -27,6 +27,9 @@ class Account(sqlmodel.SQLModel, table=True):
     name: str
     ticker: str
     dynamics_account_id: str = ""
+    created_at: datetime = sqlmodel.Field(default_factory=datetime.now)
+    updated_at: datetime = sqlmodel.Field(default_factory=datetime.now)
+    last_modified_by: str = sqlmodel.Field(default="System User")
     contacts: list["Contact"] = sqlmodel.Relationship(back_populates="account")
 
 
@@ -38,6 +41,9 @@ class Contact(sqlmodel.SQLModel, table=True):
     last_name: str
     job_title: str
     dynamics_contact_id: str = ""
+    created_at: datetime = sqlmodel.Field(default_factory=datetime.now)
+    updated_at: datetime = sqlmodel.Field(default_factory=datetime.now)
+    last_modified_by: str = sqlmodel.Field(default="System User")
     account_id: Optional[int] = sqlmodel.Field(default=None, foreign_key="account.id")
     account: Optional[Account] = sqlmodel.Relationship(back_populates="contacts")
 
@@ -47,7 +53,9 @@ class Relationship(sqlmodel.SQLModel, table=True):
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     score: int = 0
+    created_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     last_updated: datetime = sqlmodel.Field(default_factory=datetime.now)
+    last_modified_by: str = sqlmodel.Field(default="System User")
     relationship_type: RelationshipType = sqlmodel.Field(
         default=RelationshipType.EMPLOYMENT
     )

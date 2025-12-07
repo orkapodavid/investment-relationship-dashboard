@@ -80,7 +80,7 @@ def search_bar() -> rx.Component:
             rx.icon("plus", class_name="w-4 h-4 sm:mr-2"),
             rx.el.span("Node", class_name="hidden sm:inline"),
             on_click=RelationshipState.start_node_creation,
-            class_name="flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9",
+            class_name="flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",
             title="Create New Entity",
         ),
         rx.el.button(
@@ -90,8 +90,8 @@ def search_bar() -> rx.Component:
             on_click=RelationshipState.start_relationship_creation,
             class_name=rx.cond(
                 RelationshipState.selected_node_id == "",
-                "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9",
-                "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9",
+                "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0",
+                "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0",
             ),
             title=rx.cond(
                 RelationshipState.selected_node_id == "",

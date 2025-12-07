@@ -92,6 +92,9 @@ class RelationshipState(rx.State):
     is_loading: bool = False
     zoom_level: float = 1.0
     show_historic: bool = False
+    current_user: str = "System User"
+    last_operation_type: str = ""
+    last_operation_timestamp: str = ""
 
     @rx.var
     def relationship_terms(self) -> list[str]:
@@ -612,10 +615,44 @@ class RelationshipState(rx.State):
         """Handle node click to show details."""
         if isinstance(node, dict):
             self.selected_node_id = node.get("id", "")
-            self.selected_node_data = node.get("data", {}) or {}
         else:
             self.selected_node_id = getattr(node, "id", "")
-            self.selected_node_data = getattr(node, "data", None) or {}
+        try:
+            parts = self.selected_node_id.split("-")
+            if len(parts) >= 2:
+                prefix, id_str = (parts[0], parts[1])
+                node_id = int(id_str)
+                node_type = "company" if prefix == "acc" else "person"
+                with rx.session() as session:
+                    if node_type == "company":
+                        obj = session.get(Account, node_id)
+                        if obj:
+                            self.selected_node_data = {
+                                "display_name": obj.name,
+                                "job": "Company",
+                                "type": "company",
+                                "updated_at": obj.updated_at.strftime(
+                                    "%Y-%m-%d %H:%M:%S"
+                                ),
+                                "last_modified_by": obj.last_modified_by,
+                                "operation_type": "UPDATE",
+                            }
+                    else:
+                        obj = session.get(Contact, node_id)
+                        if obj:
+                            self.selected_node_data = {
+                                "display_name": f"{obj.first_name} {obj.last_name}",
+                                "job": obj.job_title,
+                                "type": "person",
+                                "updated_at": obj.updated_at.strftime(
+                                    "%Y-%m-%d %H:%M:%S"
+                                ),
+                                "last_modified_by": obj.last_modified_by,
+                                "operation_type": "UPDATE",
+                            }
+        except Exception as e:
+            logging.exception(f"Error loading node details: {e}")
+            self.selected_node_data = {}
         self.edit_mode = "node"
         self.node_create_mode = False
         self.show_side_panel = True
@@ -678,6 +715,102 @@ class RelationshipState(rx.State):
             logging.exception(f"Failed to save relationship: {e}")
 
     @rx.event
+    def save_node(self):
+        """Consolidated handler for creating or updating a node with audit trail."""
+        self.is_loading = True
+        yield
+        try:
+            timestamp = datetime.now()
+            self.last_operation_timestamp = timestamp.strftime("%Y-%m-%d %H:%M:%S")
+            with rx.session() as session:
+                if self.node_create_mode:
+                    self.last_operation_type = "CREATE"
+                    if self.new_node_type == "person":
+                        if not self.new_node_name.strip():
+                            rx.toast("First name is required", duration=3000)
+                            return
+                        existing = session.exec(
+                            select(Contact).where(
+                                col(Contact.first_name).ilike(self.new_node_name),
+                                col(Contact.last_name).ilike(self.new_node_last_name),
+                            )
+                        ).first()
+                        if existing:
+                            rx.toast(f"Contact already exists", duration=3000)
+                            return
+                        new_node = Contact(
+                            first_name=self.new_node_name,
+                            last_name=self.new_node_last_name,
+                            job_title=self.new_node_title_or_ticker,
+                            created_at=timestamp,
+                            updated_at=timestamp,
+                            last_modified_by=self.current_user,
+                        )
+                        session.add(new_node)
+                        session.commit()
+                        rx.toast(f"Created Person: {self.new_node_name}", duration=3000)
+                    else:
+                        if not self.new_node_name.strip():
+                            rx.toast("Company name is required", duration=3000)
+                            return
+                        existing = session.exec(
+                            select(Account).where(
+                                col(Account.name).ilike(self.new_node_name)
+                            )
+                        ).first()
+                        if existing:
+                            rx.toast(f"Company already exists", duration=3000)
+                            return
+                        new_node = Account(
+                            name=self.new_node_name,
+                            ticker=self.new_node_title_or_ticker,
+                            created_at=timestamp,
+                            updated_at=timestamp,
+                            last_modified_by=self.current_user,
+                        )
+                        session.add(new_node)
+                        session.commit()
+                        rx.toast(
+                            f"Created Company: {self.new_node_name}", duration=3000
+                        )
+                    self.node_create_mode = False
+                    self.show_side_panel = False
+                elif self.edit_mode == "node" and self.editing_node_id:
+                    self.last_operation_type = "UPDATE"
+                    if self.editing_node_type == "company":
+                        node = session.get(Account, self.editing_node_id)
+                        if node:
+                            if "name" in self.editing_node_data:
+                                node.name = self.editing_node_data["name"]
+                            if "ticker" in self.editing_node_data:
+                                node.ticker = self.editing_node_data["ticker"]
+                            node.updated_at = timestamp
+                            node.last_modified_by = self.current_user
+                            session.add(node)
+                    else:
+                        node = session.get(Contact, self.editing_node_id)
+                        if node:
+                            if "first_name" in self.editing_node_data:
+                                node.first_name = self.editing_node_data["first_name"]
+                            if "last_name" in self.editing_node_data:
+                                node.last_name = self.editing_node_data["last_name"]
+                            if "job_title" in self.editing_node_data:
+                                node.job_title = self.editing_node_data["job_title"]
+                            node.updated_at = timestamp
+                            node.last_modified_by = self.current_user
+                            session.add(node)
+                    session.commit()
+                    rx.toast("Node updated successfully", duration=3000)
+                    self.is_editing = False
+                    yield RelationshipState.on_node_click(node)
+            yield RelationshipState.load_data
+        except Exception as e:
+            logging.exception(f"Error in save_node: {e}")
+            rx.toast(f"Failed to save: {str(e)}", duration=3000)
+        finally:
+            self.is_loading = False
+
+    @rx.event
     def update_relationship_score(self, rel_id: int, new_score: int):
         """Update the relationship score."""
         try:
@@ -687,6 +820,7 @@ class RelationshipState(rx.State):
                     previous_score = relationship.score
                     relationship.score = new_score
                     relationship.last_updated = datetime.now()
+                    relationship.last_modified_by = self.current_user
                     session.add(relationship)
                     log_entry = RelationshipLog(
                         relationship_id=relationship.id,
@@ -775,6 +909,7 @@ class RelationshipState(rx.State):
                     relationship.is_directed = defaults["is_directed"]
                     relationship.score = defaults["default_score"]
                     relationship.last_updated = datetime.now()
+                    relationship.last_modified_by = self.current_user
                     session.add(relationship)
                     log_entry = RelationshipLog(
                         relationship_id=relationship.id,
@@ -1405,25 +1540,4 @@ class RelationshipState(rx.State):
     @rx.event
     def submit_node_creation(self):
         """Submit new node creation."""
-        if self.new_node_type == "person":
-            if not self.new_node_name.strip():
-                return rx.toast("First name is required", duration=3000)
-            full_name = f"{self.new_node_name} {self.new_node_last_name}".strip()
-            self.add_node(
-                node_type="person",
-                name=full_name,
-                title_or_ticker=self.new_node_title_or_ticker,
-                additional_data={
-                    "first_name": self.new_node_name,
-                    "last_name": self.new_node_last_name,
-                },
-            )
-        else:
-            if not self.new_node_name.strip():
-                return rx.toast("Company name is required", duration=3000)
-            self.add_node(
-                node_type="company",
-                name=self.new_node_name,
-                title_or_ticker=self.new_node_title_or_ticker,
-            )
-        self.node_create_mode = False
+        return RelationshipState.save_node

@@ -136,9 +136,14 @@ def node_creation_view() -> rx.Component:
                 ),
             ),
             rx.el.button(
-                "Create Entity",
-                on_click=RelationshipState.submit_node_creation,
-                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",
+                rx.cond(
+                    RelationshipState.is_loading,
+                    rx.el.span("Saving...", class_name="animate-pulse"),
+                    "Create Entity",
+                ),
+                on_click=RelationshipState.save_node,
+                disabled=RelationshipState.is_loading,
+                class_name="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",
             ),
             rx.el.button(
                 "Cancel",
@@ -221,12 +226,13 @@ def node_edit_view() -> rx.Component:
                 ),
             ),
             rx.el.button(
-                "Save Changes",
-                on_click=lambda: RelationshipState.update_node(
-                    RelationshipState.editing_node_id,
-                    RelationshipState.editing_node_type,
-                    RelationshipState.editing_node_data,
+                rx.cond(
+                    RelationshipState.is_loading,
+                    rx.el.span("Saving...", class_name="animate-pulse"),
+                    "Save Changes",
                 ),
+                on_click=RelationshipState.save_node,
+                disabled=RelationshipState.is_loading,
                 class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",
             ),
             rx.el.button(
@@ -454,31 +460,33 @@ def node_details_view() -> rx.Component:
                 ),
                 rx.el.input(
                     read_only=True,
-                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",
-                    default_value="System User",
-                    key="System User",
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600 cursor-not-allowed",
+                    default_value=RelationshipState.selected_node_data[
+                        "last_modified_by"
+                    ],
+                    key=RelationshipState.selected_node_id.to_string() + "_mod_by",
                 ),
                 rx.el.label(
                     "Operation Type",
                     class_name="text-xs font-medium text-gray-500 mb-1 block",
                 ),
-                rx.el.select(
-                    rx.el.option("CREATE", value="CREATE"),
-                    rx.el.option("UPDATE", value="UPDATE"),
-                    rx.el.option("DELETE", value="DELETE"),
-                    value="UPDATE",
-                    disabled=True,
-                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",
+                rx.el.input(
+                    read_only=True,
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600 cursor-not-allowed",
+                    default_value=RelationshipState.selected_node_data[
+                        "operation_type"
+                    ],
+                    key=RelationshipState.selected_node_id.to_string() + "_op_type",
                 ),
                 rx.el.label(
-                    "Timestamp",
+                    "Last Updated",
                     class_name="text-xs font-medium text-gray-500 mb-1 block",
                 ),
                 rx.el.input(
                     read_only=True,
-                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-600",
-                    default_value="2024-01-15 14:30:00",
-                    key="2024-01-15 14:30:00",
+                    class_name="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-600 cursor-not-allowed",
+                    default_value=RelationshipState.selected_node_data["updated_at"],
+                    key=RelationshipState.selected_node_id.to_string() + "_ts",
                 ),
                 class_name="shrink-0",
             ),
