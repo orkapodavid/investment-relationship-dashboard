@@ -103,25 +103,25 @@ const on_change_dbb875a17bd75c23b5e5195c35e9af66 = useCallback(((_e) => (addEven
 }
 
 
-function Button_20ac03f39fc5755cfc8f244b70ce721a () {
+function Button_29538862fd3a5116ebe49e3d270af884 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9",onClick:on_click_928ccc08d030188db40bb6156b3c7ece,title:"Create New Entity"},jsx(LucidePlus,{className:"w-4 h-4 sm:mr-2"},),jsx("span",{className:"hidden sm:inline"},"Node"))
+    jsx("button",{className:"flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",onClick:on_click_928ccc08d030188db40bb6156b3c7ece,title:"Create New Entity"},jsx(LucidePlus,{className:"w-4 h-4 sm:mr-2"},),jsx("span",{className:"hidden sm:inline"},"Node"))
   )
 }
 
 
-function Button_26537dc17bfcb9ce8c87f3a48dfa6309 () {
+function Button_221847b6b34a7639946626955ea5b5c8 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_6852d3b8a60347257df2d18475c600f7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_relationship_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9" : "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9"),disabled:(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()),onClick:on_click_6852d3b8a60347257df2d18475c600f7,title:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "Select a node to add a link" : "Add connection")},jsx(LucideLink,{className:"w-4 h-4 sm:mr-1.5"},),jsx("span",{className:"hidden sm:inline"},"Link"))
+    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0" : "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0"),disabled:(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()),onClick:on_click_6852d3b8a60347257df2d18475c600f7,title:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "Select a node to add a link" : "Add connection")},jsx(LucideLink,{className:"w-4 h-4 sm:mr-1.5"},),jsx("span",{className:"hidden sm:inline"},"Link"))
   )
 }
 
@@ -231,13 +231,25 @@ function Fragment_976b9f06e2113fe4cb50b7ed1f18470f () {
 }
 
 
-function Button_1162c7ed27ce8a4ec3bfbd1296cc26b9 () {
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
+function Fragment_3a84e2b498715578c2bfe0e730464bef () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
-const on_click_a3052fa559a288c7369af4803f4df8d8 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.submit_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
 
   return (
-    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",onClick:on_click_a3052fa559a288c7369af4803f4df8d8},"Create Entity")
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_?(jsx(Fragment,{},jsx("span",{className:"animate-pulse"},"Saving..."))):(jsx(Fragment,{},"Create Entity"))))
+  )
+}
+
+
+function Button_57f2c6f1e33c9ccf7c78aa06def76a98 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_54341ee1d6bb0baaa14876fabb7f9b85 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.save_node", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",disabled:reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_,onClick:on_click_54341ee1d6bb0baaa14876fabb7f9b85},jsx(Fragment_3a84e2b498715578c2bfe0e730464bef,{},))
   )
 }
 
@@ -253,13 +265,13 @@ const on_click_3f40e4c127332733e83ea2042c15a08a = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_8949fedd3503e80d38d7f3810d2c6700 () {
+function Fragment_4f70ecdcc8aa1e28ebcf8fa4b8fd3239 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col bg-white"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col bg-white"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_57f2c6f1e33c9ccf7c78aa06def76a98,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment,{},))))
   )
 }
 
@@ -460,14 +472,25 @@ function Fragment_ef33331c4ea73149a8831c04708f9fbf () {
 }
 
 
-function Button_e643d83e135c8145f1aed390bda6f32c () {
+function Fragment_4e5c11b9343b50b07ae2b435bb240494 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_?(jsx(Fragment,{},jsx("span",{className:"animate-pulse"},"Saving..."))):(jsx(Fragment,{},"Save Changes"))))
+  )
+}
+
+
+function Button_d74149214ac81f9d2f29ad56fcd34c2b () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_click_337115e787ba9918f306cfdb4e9f6c89 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.update_node", ({ ["node_id"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_id_rx_state_, ["node_type"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_, ["updated_data"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_ }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state])
+const on_click_54341ee1d6bb0baaa14876fabb7f9b85 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.save_node", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",onClick:on_click_337115e787ba9918f306cfdb4e9f6c89},"Save Changes")
+    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",disabled:reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_,onClick:on_click_54341ee1d6bb0baaa14876fabb7f9b85},jsx(Fragment_4e5c11b9343b50b07ae2b435bb240494,{},))
   )
 }
 
@@ -495,13 +518,13 @@ const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_0105e875379a4cd15f0bc44235b3bb59 () {
+function Fragment_dc926d50e82a36f76ce14452c6fbbd1e () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_d74149214ac81f9d2f29ad56fcd34c2b,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},))))
   )
 }
 
@@ -584,13 +607,46 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_f3cc26d9720c690b7d86779515250db9 () {
+function Input_37b0e791659245d96e21b6265c32c56b () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto mb-4"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},)),jsx("div",{className:"border-t border-gray-200 my-6"},),jsx("div",{className:"shrink-0"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-4"},"Record Metadata"),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Modified By"),jsx("input",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",defaultValue:"System User",key:"System User",readOnly:true},),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Operation Type"),jsx("select",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600",disabled:true,value:"UPDATE"},jsx("option",{value:"CREATE"},"CREATE"),jsx("option",{value:"UPDATE"},"UPDATE"),jsx("option",{value:"DELETE"},"DELETE")),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Timestamp"),jsx("input",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-600",defaultValue:"2024-01-15 14:30:00",key:"2024-01-15 14:30:00",readOnly:true},)))))):(jsx(Fragment,{},))))
+    jsx("input",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600 cursor-not-allowed",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.selected_node_data_rx_state_?.["last_modified_by"],key:((JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_))+"_mod_by"),readOnly:true},)
+  )
+}
+
+
+function Input_27cd45ed4f28943c349a95bcfdfdcbcf () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("input",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm mb-3 bg-gray-50 text-gray-600 cursor-not-allowed",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.selected_node_data_rx_state_?.["operation_type"],key:((JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_))+"_op_type"),readOnly:true},)
+  )
+}
+
+
+function Input_de89f4bb91b03033f0f01aab29436c97 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("input",{className:"w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-gray-50 text-gray-600 cursor-not-allowed",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.selected_node_data_rx_state_?.["updated_at"],key:((JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_))+"_ts"),readOnly:true},)
+  )
+}
+
+
+function Fragment_ac64cd54221f31136167172942404ed1 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto mb-4"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},)),jsx("div",{className:"border-t border-gray-200 my-6"},),jsx("div",{className:"shrink-0"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-4"},"Record Metadata"),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Modified By"),jsx(Input_37b0e791659245d96e21b6265c32c56b,{},),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Operation Type"),jsx(Input_27cd45ed4f28943c349a95bcfdfdcbcf,{},),jsx("label",{className:"text-xs font-medium text-gray-500 mb-1 block"},"Last Updated"),jsx(Input_de89f4bb91b03033f0f01aab29436c97,{},)))))):(jsx(Fragment,{},))))
   )
 }
 
@@ -697,13 +753,13 @@ function Fragment_fae5bd58257b0d36b4df7c913455e174 () {
 }
 
 
-function Aside_7cdf0d21e3022ccc2a2187af0cb6c085 () {
+function Aside_b5c871f3b1be68c7373fab0dcd7af540 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative z-50"},jsx(Fragment_8949fedd3503e80d38d7f3810d2c6700,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_0105e875379a4cd15f0bc44235b3bb59,{},),jsx(Fragment_f3cc26d9720c690b7d86779515250db9,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},)))
+    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative z-50"},jsx(Fragment_4f70ecdcc8aa1e28ebcf8fa4b8fd3239,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_dc926d50e82a36f76ce14452c6fbbd1e,{},),jsx(Fragment_ac64cd54221f31136167172942404ed1,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},)))
   )
 }
 
@@ -715,6 +771,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"w-px h-8 bg-gray-300 mx-1"},),jsx(Button_20ac03f39fc5755cfc8f244b70ce721a,{},),jsx(Button_26537dc17bfcb9ce8c87f3a48dfa6309,{},),jsx(Fragment_8994c3799f48025c3a92771051b484c0,{},)))),jsx(Aside_7cdf0d21e3022ccc2a2187af0cb6c085,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"w-px h-8 bg-gray-300 mx-1"},),jsx(Button_29538862fd3a5116ebe49e3d270af884,{},),jsx(Button_221847b6b34a7639946626955ea5b5c8,{},),jsx(Fragment_8994c3799f48025c3a92771051b484c0,{},)))),jsx(Aside_b5c871f3b1be68c7373fab0dcd7af540,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
