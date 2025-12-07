@@ -1,9 +1,9 @@
 import reflex as rx
+import reflex_enterprise as rxe
 from contextlib import asynccontextmanager
 import sqlmodel
 from app.states.relationship_state import RelationshipState
-from app.components.sidebar import sidebar
-from app.components.account_view import account_view
+from app.components.graph_view import graph_view
 from app.models import Account, Contact, Relationship, RelationshipLog
 
 
@@ -18,15 +18,12 @@ async def lifespan_task():
 def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
-        sidebar(),
-        rx.el.main(
-            account_view(), class_name="flex-1 h-screen overflow-y-auto bg-gray-50/30"
-        ),
-        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter']",
+        graph_view(),
+        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative",
     )
 
 
-app = rx.App(
+app = rxe.App(
     theme=rx.theme(appearance="light"),
     head_components=[
         rx.el.link(
