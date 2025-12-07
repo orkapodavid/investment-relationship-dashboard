@@ -578,10 +578,16 @@ def side_panel() -> rx.Component:
         rx.cond(
             (RelationshipState.edit_mode == "node")
             & ~RelationshipState.node_create_mode
-            & ~RelationshipState.is_creating_relationship,
-            rx.cond(
-                RelationshipState.is_editing, node_edit_view(), node_details_view()
-            ),
+            & ~RelationshipState.is_creating_relationship
+            & RelationshipState.is_editing,
+            node_edit_view(),
+        ),
+        rx.cond(
+            (RelationshipState.edit_mode == "node")
+            & ~RelationshipState.node_create_mode
+            & ~RelationshipState.is_creating_relationship
+            & ~RelationshipState.is_editing,
+            node_details_view(),
         ),
         rx.cond(
             (RelationshipState.edit_mode == "edge")
