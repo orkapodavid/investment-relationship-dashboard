@@ -11,6 +11,15 @@ class RelationshipType(str, enum.Enum):
     BUSINESS = "business"
 
 
+class RelationshipTerm(str, enum.Enum):
+    WORKS_FOR = "works_for"
+    INVESTED_IN = "invested_in"
+    COMPETITOR = "competitor"
+    COLLEAGUE = "colleague"
+    FRIEND = "friend"
+    ENEMY = "enemy"
+
+
 class Account(sqlmodel.SQLModel, table=True):
     """Represents a company or organization node."""
 
@@ -42,6 +51,9 @@ class Relationship(sqlmodel.SQLModel, table=True):
     relationship_type: RelationshipType = sqlmodel.Field(
         default=RelationshipType.EMPLOYMENT
     )
+    is_active: bool = sqlmodel.Field(default=True)
+    is_directed: bool = sqlmodel.Field(default=True)
+    term: RelationshipTerm = sqlmodel.Field(default=RelationshipTerm.WORKS_FOR)
     source_type: str = "person"
     source_id: int
     target_type: str = "company"
@@ -55,6 +67,9 @@ class RelationshipLog(sqlmodel.SQLModel, table=True):
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     previous_score: int
     new_score: int
+    previous_term: Optional[str] = None
+    new_term: Optional[str] = None
+    action: str = "score_change"
     changed_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     note: Optional[str] = None
     relationship_id: int = sqlmodel.Field(foreign_key="relationship.id")

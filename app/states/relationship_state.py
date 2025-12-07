@@ -6,7 +6,23 @@ from typing import Optional
 from datetime import datetime
 import logging
 from collections import Counter, defaultdict
-from app.models import Account, Contact, Relationship, RelationshipLog, RelationshipType
+from app.models import (
+    Account,
+    Contact,
+    Relationship,
+    RelationshipLog,
+    RelationshipType,
+    RelationshipTerm,
+)
+
+TERM_DEFAULTS = {
+    RelationshipTerm.WORKS_FOR: {"is_directed": True, "default_score": 0},
+    RelationshipTerm.INVESTED_IN: {"is_directed": True, "default_score": 50},
+    RelationshipTerm.COMPETITOR: {"is_directed": False, "default_score": -50},
+    RelationshipTerm.COLLEAGUE: {"is_directed": False, "default_score": 20},
+    RelationshipTerm.FRIEND: {"is_directed": False, "default_score": 80},
+    RelationshipTerm.ENEMY: {"is_directed": False, "default_score": -100},
+}
 
 
 class RelationshipState(rx.State):
@@ -221,6 +237,8 @@ class RelationshipState(rx.State):
                 rel_social = Relationship(
                     score=20,
                     relationship_type=RelationshipType.SOCIAL,
+                    term=RelationshipTerm.COLLEAGUE,
+                    is_directed=False,
                     source_type="person",
                     source_id=tony.id,
                     target_type="person",
@@ -230,6 +248,8 @@ class RelationshipState(rx.State):
                 rel_biz = Relationship(
                     score=-50,
                     relationship_type=RelationshipType.BUSINESS,
+                    term=RelationshipTerm.COMPETITOR,
+                    is_directed=False,
                     source_type="company",
                     source_id=stark.id,
                     target_type="company",
@@ -239,6 +259,8 @@ class RelationshipState(rx.State):
                 rel_social2 = Relationship(
                     score=90,
                     relationship_type=RelationshipType.SOCIAL,
+                    term=RelationshipTerm.FRIEND,
+                    is_directed=False,
                     source_type="person",
                     source_id=pepper.id,
                     target_type="person",
