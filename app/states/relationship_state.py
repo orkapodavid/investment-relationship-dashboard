@@ -49,9 +49,32 @@ class RelationshipState(rx.State):
     selected_node_data: dict = {}
     editing_score: int = 0
     editing_relationship_type: str = ""
+    editing_term: str = ""
+    editing_is_directed: bool = True
     is_loading: bool = False
     zoom_level: float = 1.0
     show_historic: bool = False
+
+    @rx.var
+    def relationship_terms(self) -> list[str]:
+        """Return list of available relationship terms."""
+        return [t.value for t in RelationshipTerm]
+
+    @rx.event
+    def toggle_historic(self, value: bool):
+        """Toggle visibility of historic/deleted relationships."""
+        self.show_historic = value
+        yield RelationshipState.load_data
+
+    @rx.event
+    def handle_term_change(self, new_term: str):
+        """Handle term change from UI dropdown."""
+        try:
+            if self.selected_edge_id.startswith("rel-"):
+                rel_id = int(self.selected_edge_id.split("-")[1])
+                self.update_relationship_term(rel_id, new_term)
+        except Exception as e:
+            logging.exception(f"Error handling term change: {e}")
 
     @rx.event
     async def load_data(self):
@@ -84,7 +107,10 @@ class RelationshipState(rx.State):
     def get_most_connected_nodes(self, limit: int):
         """Fetch the top N most connected nodes and their immediate relationships."""
         with rx.session() as session:
-            rels = session.exec(select(Relationship)).all()
+            query = select(Relationship)
+            if not self.show_historic:
+                query = query.where(Relationship.is_active == True)
+            rels = session.exec(query).all()
             counter = Counter()
             for r in rels:
                 counter[r.source_type, r.source_id] += 1
@@ -136,7 +162,10 @@ class RelationshipState(rx.State):
             for c in con_matches:
                 frontier.add(("person", c.id))
             visited = set(frontier)
-            all_rels = session.exec(select(Relationship)).all()
+            query = select(Relationship)
+            if not self.show_historic:
+                query = query.where(Relationship.is_active == True)
+            all_rels = session.exec(query).all()
             adj = defaultdict(list)
             for r in all_rels:
                 src = (r.source_type, r.source_id)
@@ -382,19 +411,44 @@ class RelationshipState(rx.State):
                     }
                 )
         for rel in current_relationships:
+            if not rel.is_active and (not self.show_historic):
+                continue
             src_prefix = "acc-" if rel.source_type == "company" else "con-"
             tgt_prefix = "acc-" if rel.target_type == "company" else "con-"
             src_id = f"{src_prefix}{rel.source_id}"
             tgt_id = f"{tgt_prefix}{rel.target_id}"
             is_employment = rel.relationship_type == RelationshipType.EMPLOYMENT
+            edge_data = {
+                "score": rel.score,
+                "type": rel.relationship_type.value,
+                "term": rel.term.value,
+                "is_directed": rel.is_directed,
+                "is_active": rel.is_active,
+            }
             edge_dict = {
                 "id": f"rel-{rel.id}",
                 "source": src_id,
                 "target": tgt_id,
                 "type": "smoothstep",
-                "data": {"score": rel.score, "type": rel.relationship_type.value},
+                "data": edge_data,
             }
-            if is_employment:
+            if rel.is_directed:
+                edge_dict["markerEnd"] = {"type": "arrowclosed"}
+            if not rel.is_active:
+                edge_dict.update(
+                    {
+                        "animated": False,
+                        "label": f"{rel.term.value} (Deleted)",
+                        "style": {
+                            "stroke": "#94a3b8",
+                            "strokeWidth": 1,
+                            "strokeDasharray": "5,5",
+                            "opacity": 0.4,
+                        },
+                        "labelStyle": {"fill": "#94a3b8", "fontSize": 10},
+                    }
+                )
+            elif is_employment:
                 edge_dict.update(
                     {
                         "animated": False,
@@ -484,12 +538,16 @@ class RelationshipState(rx.State):
         data = edge.get("data", {})
         self.editing_score = int(data.get("score", 0))
         self.editing_relationship_type = str(data.get("type", "employment"))
+        self.editing_term = str(data.get("term", "works_for"))
+        self.editing_is_directed = bool(data.get("is_directed", True))
         if edge["id"].startswith("rel-"):
             self.edit_mode = "edge"
             self.show_side_panel = True
         elif edge["id"].startswith("emp-"):
             self.edit_mode = "edge"
             self.editing_relationship_type = "employment"
+            self.editing_term = "works_for"
+            self.editing_is_directed = True
             self.show_side_panel = True
         else:
             self.edit_mode = "none"

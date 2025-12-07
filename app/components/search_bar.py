@@ -61,6 +61,24 @@ def search_bar() -> rx.Component:
             ),
             class_name="flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center",
         ),
+        rx.el.div(
+            rx.el.label(
+                rx.el.input(
+                    type="checkbox",
+                    on_change=RelationshipState.toggle_historic,
+                    checked=RelationshipState.show_historic,
+                    class_name="sr-only peer",
+                ),
+                rx.el.div(
+                    class_name="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"
+                ),
+                rx.el.span(
+                    "Show Historic", class_name="ml-2 text-sm font-medium text-gray-700"
+                ),
+                class_name="relative inline-flex items-center cursor-pointer",
+            ),
+            class_name="border-l pl-4 border-gray-200",
+        ),
         rx.cond(
             RelationshipState.search_query != "",
             rx.el.button(

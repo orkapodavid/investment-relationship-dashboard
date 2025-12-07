@@ -52,9 +52,20 @@ def side_panel() -> rx.Component:
                         ),
                         rx.el.span(
                             RelationshipState.editing_relationship_type.upper(),
-                            class_name="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200",
+                            class_name="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200 mr-2",
                         ),
-                        class_name="mb-6 flex items-center",
+                        rx.cond(
+                            RelationshipState.editing_is_directed,
+                            rx.el.span(
+                                "Directed →",
+                                class_name="px-2 py-1 rounded-full text-xs font-bold bg-blue-50 text-blue-700 border border-blue-100",
+                            ),
+                            rx.el.span(
+                                "Mutual ↔",
+                                class_name="px-2 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-100",
+                            ),
+                        ),
+                        class_name="mb-6 flex items-center flex-wrap gap-2",
                     ),
                     rx.cond(
                         RelationshipState.editing_relationship_type == "employment",
@@ -74,6 +85,21 @@ def side_panel() -> rx.Component:
                             class_name="bg-gray-50 rounded-lg p-6 border border-gray-100",
                         ),
                         rx.el.div(
+                            rx.el.div(
+                                rx.el.label(
+                                    "Nature of Relationship",
+                                    class_name="text-sm font-medium text-gray-500 mb-2 block",
+                                ),
+                                rx.el.select(
+                                    rx.foreach(
+                                        RelationshipState.relationship_terms,
+                                        lambda t: rx.el.option(t, value=t),
+                                    ),
+                                    value=RelationshipState.editing_term,
+                                    on_change=RelationshipState.handle_term_change,
+                                    class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white",
+                                ),
+                            ),
                             rx.el.label(
                                 "Relationship Score",
                                 class_name="text-sm font-medium text-gray-500 mb-4 block",
@@ -115,7 +141,17 @@ def side_panel() -> rx.Component:
                             rx.el.button(
                                 "Save Changes",
                                 on_click=RelationshipState.save_relationship_update,
-                                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm",
+                                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mb-4",
+                            ),
+                            rx.el.button(
+                                rx.icon("trash", class_name="w-4 h-4 mr-2"),
+                                "Delete Relationship",
+                                on_click=lambda: RelationshipState.soft_delete_relationship(
+                                    RelationshipState.selected_edge_id.split("-")[1].to(
+                                        int
+                                    )
+                                ),
+                                class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors",
                             ),
                             class_name="flex flex-col",
                         ),
