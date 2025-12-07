@@ -137,35 +137,35 @@ def contact_card(contact: Contact) -> rx.Component:
                 rx.el.div(
                     rx.el.h4(
                         f"{contact.first_name} {contact.last_name}",
-                        class_name="font-bold text-gray-900 text-lg",
+                        class_name="font-bold text-gray-900 text-base",
                     ),
                     rx.el.p(
                         contact.job_title,
-                        class_name="text-sm text-gray-500 font-medium",
+                        class_name="text-sm text-gray-500 font-medium truncate",
                     ),
-                    class_name="flex flex-col",
+                    class_name="flex flex-col min-w-0 flex-1 mr-2",
                 ),
                 rx.el.div(
                     get_sentiment_label(score),
                     class_name=rx.cond(
                         score <= -30,
-                        "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700",
+                        "px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-700 shrink-0",
                         rx.cond(
                             score >= 30,
-                            "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700",
-                            "px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700",
+                            "px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700 shrink-0",
+                            "px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-700 shrink-0",
                         ),
                     ),
                 ),
                 class_name="flex justify-between items-start mb-4",
             ),
-            class_name="p-5",
+            class_name="p-4",
         ),
         rx.el.div(
             rx.el.div(
                 rx.el.span(
                     "Relationship Score",
-                    class_name="text-xs font-semibold text-gray-400 uppercase tracking-wider",
+                    class_name="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2",
                 ),
                 rx.el.span(
                     score.to_string(),
@@ -179,7 +179,7 @@ def contact_card(contact: Contact) -> rx.Component:
                         ),
                     ),
                 ),
-                class_name="flex justify-between items-center mb-3",
+                class_name="flex justify-between items-center",
             ),
             rx.el.input(
                 type="range",
@@ -193,11 +193,11 @@ def contact_card(contact: Contact) -> rx.Component:
                 ).throttle(500),
                 class_name=rx.cond(
                     score <= -30,
-                    "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500 mb-4",
+                    "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-red-500 mb-2",
                     rx.cond(
                         score >= 30,
-                        "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-emerald-500 mb-4",
-                        "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-500 mb-4",
+                        "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-emerald-500 mb-2",
+                        "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-gray-500 mb-2",
                     ),
                 ),
             ),
@@ -207,7 +207,7 @@ def contact_card(contact: Contact) -> rx.Component:
                     on_change=lambda val: RelationshipState.set_contact_note(
                         contact.id, val
                     ),
-                    class_name="w-full text-xs px-2 py-1 bg-white border border-gray-200 rounded focus:ring-1 focus:ring-indigo-500 outline-none mb-3",
+                    class_name="w-48 text-xs px-2 py-1 bg-white border border-gray-200 rounded focus:ring-1 focus:ring-indigo-500 outline-none mb-3",
                     default_value=RelationshipState.contact_notes[contact.id],
                 ),
                 rx.el.div(
@@ -224,7 +224,7 @@ def contact_card(contact: Contact) -> rx.Component:
                     class_name="flex justify-between px-1",
                 ),
             ),
-            class_name="bg-gray-50/80 border-t border-gray-100 p-5",
+            class_name="bg-gray-50/80 border-t border-gray-100 p-4",
         ),
         rx.el.div(
             rx.el.button(
