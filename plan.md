@@ -60,18 +60,11 @@
 - [x] Verify graph layout with mixed relationship types
 - [x] Test interactive node connection and relationship creation flow
 
----
-
-# SCALABILITY AND PERFORMANCE REFACTOR
-
 ## Phase 9: Backend Search-First Architecture ✅
 - [x] Refactor load_data to NOT load entire database by default
 - [x] Add search_query state var and node_limit state var (default 100)
 - [x] Implement get_most_connected_nodes() method to return top N nodes by relationship count
-- [x] Implement search_and_build_subgraph() method that:
-  - Searches for matching Account or Contact by name
-  - Returns the matched node + all neighbors up to 2 degrees of separation
-  - Limits results to node_limit to prevent overload
+- [x] Implement search_and_build_subgraph() method that builds 2-degree subgraph from search results
 - [x] Update graph_data to use filtered_accounts, filtered_contacts, filtered_relationships
 
 ## Phase 10: Search UI and Performance Controls ✅
@@ -81,16 +74,61 @@
 - [x] Add visual indicator showing "X nodes displayed out of Y total"
 - [x] Implement debounced search to avoid excessive re-renders
 
-## Phase 11: Rendering Optimizations and Level of Detail
-- [ ] Configure React Flow to use proper performance settings (fitView, snapToGrid)
-- [ ] Implement zoom-based label visibility (hide labels when zoom < 0.5)
-- [ ] Add node clustering for distant nodes when zoomed out
-- [ ] Optimize edge rendering: reduce stroke width and remove labels when zoomed out
-- [ ] Add loading state for subgraph generation
+---
 
-## Phase 12: UI Verification for Scalable Architecture
-- [ ] Test empty search state (shows top 10 most connected or nothing)
-- [ ] Test search with single company/person and verify 2-degree subgraph
-- [ ] Test node limit slider (50/100/250/500) and verify performance
-- [ ] Test zoom-based label visibility (labels appear/disappear based on zoom)
-- [ ] Verify graph remains responsive with 500+ nodes displayed
+# ADVANCED RELATIONSHIP PROPERTIES & AUDIT LOGGING REFACTOR
+
+## Phase 11: Data Model Refactor - Advanced Relationship Properties
+- [ ] Create RelationshipTerm enum with specific terms and default properties:
+  - "works_for" (Directed, Score: 0)
+  - "invested_in" (Directed, Score: +50)
+  - "competitor" (Non-Directed, Score: -50)
+  - "colleague" (Non-Directed, Score: +20)
+  - "friend" (Non-Directed, Score: +80)
+  - "enemy" (Non-Directed, Score: -100)
+- [ ] Add new fields to Relationship model:
+  - is_active: Boolean (default True) for soft delete
+  - is_directed: Boolean (default True) for edge directionality
+  - term: RelationshipTerm enum representing the specific nature of the link
+- [ ] Update RelationshipLog to track term changes and soft delete actions
+- [ ] Create migration/seed logic to set default terms for existing relationships
+
+## Phase 12: Backend State Management - Lifecycle & Audit Logic
+- [ ] Implement create_relationship_with_term() method:
+  - Accept term parameter and automatically set is_directed and default score based on term
+  - Allow manual score override after term selection
+  - Log the creation in RelationshipLog
+- [ ] Update update_relationship_score() to create RelationshipLog entry before committing any change (score, term, status)
+- [ ] Implement soft_delete_relationship() method:
+  - Set is_active = False instead of deleting row
+  - Create log entry with note="Relationship deleted" and new_score=0
+- [ ] Update on_connect handler to use term-based relationship creation
+- [ ] Add toggle state variable: show_historic (default False) to control historic/deleted edge visibility
+
+## Phase 13: Graph Visualization - Directionality & Historic View
+- [ ] Update graph_data computed var to:
+  - Filter out is_active=False edges by default (unless show_historic is True)
+  - Conditionally render arrowheads: if is_directed=False, use edge type without arrows
+  - Render deleted edges as dotted lines when show_historic=True
+- [ ] Add edge styling logic for directed vs non-directed edges
+- [ ] Implement visual distinction for historic/deleted relationships (dotted, faded color)
+- [ ] Update get_most_connected_nodes and search_and_build_subgraph to respect is_active filter
+
+## Phase 14: UI Components - Term Selection & History Toggle
+- [ ] Add toggle switch in search bar: "Show Historic/Deleted" relationships
+- [ ] Update side_panel.py edge editor:
+  - Replace generic input with dropdown for RelationshipTerm selection
+  - Show read-only badge indicating "Directed" or "Mutual" based on selected term
+  - Auto-populate score when term changes (but allow manual override)
+- [ ] Add "Delete Relationship" button in edge editor (triggers soft delete)
+- [ ] Update edge editor to show term field and allow term changes (with logging)
+- [ ] Add visual feedback for when viewing a deleted/historic relationship
+
+## Phase 15: UI Verification - Advanced Features Testing
+- [ ] Test relationship creation with different terms (works_for, friend, competitor, etc.)
+- [ ] Verify is_directed property controls arrowhead rendering correctly
+- [ ] Test soft delete: verify edge disappears from graph but remains in database
+- [ ] Toggle "Show Historic" and verify deleted edges appear as dotted lines
+- [ ] Test term dropdown in edge editor and verify auto-populated score
+- [ ] Verify all changes create proper RelationshipLog entries
+- [ ] Test non-directed relationships (colleague, competitor) render without arrows
