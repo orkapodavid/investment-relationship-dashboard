@@ -441,9 +441,9 @@ def node_details_view() -> rx.Component:
                         class_name="py-8 bg-gray-50 rounded-lg border border-dashed border-gray-200",
                     ),
                 ),
-                class_name="flex-1 overflow-y-auto min-h-0",
+                class_name="flex-1 overflow-y-auto",
             ),
-            class_name="flex flex-col h-full",
+            class_name="flex-1 flex flex-col min-h-0",
         ),
         class_name="p-6 h-full flex flex-col",
     )
