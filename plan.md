@@ -41,12 +41,12 @@
 - [x] Create migration logic to preserve existing data (existing Account→Contact relationships become "Employment" type)
 - [x] Update RelationshipLog to track relationship type changes
 
-## Phase 6: Graph Data Transformation for Multi-Type Network
-- [ ] Update graph_data computed var to fetch and merge all three relationship types
-- [ ] Add 'group' field to nodes to distinguish Person vs Company in the visualization
-- [ ] Create unified links list combining Employment (neutral), Social (colored by score), and Business (colored by score)
-- [ ] Implement edge styling logic: Employment = grey/black solid line, Social/Business = color gradient based on score
-- [ ] Add edge labels to show relationship type (Employment, Social, Business)
+## Phase 6: Graph Data Transformation for Multi-Type Network ✅
+- [x] Update graph_data computed var to fetch and merge all three relationship types
+- [x] Add 'group' field to nodes to distinguish Person vs Company in the visualization
+- [x] Create unified links list combining Employment (neutral), Social (colored by score), and Business (colored by score)
+- [x] Implement edge styling logic: Employment = grey/black solid line, Social/Business = color gradient based on score
+- [x] Add edge labels to show relationship type (Employment, Social, Business)
 
 ## Phase 7: Interactive Multi-Type Relationship Creation
 - [ ] Update on_connect handler to detect node types and determine valid relationship type
