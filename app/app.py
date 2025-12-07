@@ -12,6 +12,7 @@ from app.models import Account, Contact, Relationship, RelationshipLog
 async def lifespan_task():
     """Initialize the database on startup."""
     with rx.session() as session:
+        sqlmodel.SQLModel.metadata.drop_all(session.get_bind())
         sqlmodel.SQLModel.metadata.create_all(session.get_bind())
     yield
 

@@ -257,7 +257,7 @@ class RelationshipState(rx.State):
                 )
                 session.add(rel_biz)
                 rel_social2 = Relationship(
-                    score=90,
+                    score=80,
                     relationship_type=RelationshipType.SOCIAL,
                     term=RelationshipTerm.FRIEND,
                     is_directed=False,
@@ -267,6 +267,17 @@ class RelationshipState(rx.State):
                     target_id=tony.id,
                 )
                 session.add(rel_social2)
+                rel_invest = Relationship(
+                    score=50,
+                    relationship_type=RelationshipType.BUSINESS,
+                    term=RelationshipTerm.INVESTED_IN,
+                    is_directed=True,
+                    source_type="company",
+                    source_id=wayne.id,
+                    target_type="company",
+                    target_id=acme.id,
+                )
+                session.add(rel_invest)
                 session.commit()
         except Exception as e:
             logging.exception(f"Error seeding database: {e}")
