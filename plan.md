@@ -29,10 +29,6 @@
 - [x] Test edge click opens score editor with slider
 - [x] Verify relationship score updates persist to database and update graph colors
 
----
-
-# NEW REQUIREMENTS: Multi-Type Relationship Network
-
 ## Phase 5: Database Schema Refactor for Complex Relationships ✅
 - [x] Refactor models.py to support three relationship types: Employment, Social, Business
 - [x] Add `relationship_type` enum field to Relationship model (Employment/Social/Business)
@@ -57,9 +53,44 @@
 - [x] Add Employment relationship handling (neutral/structural, non-scored)
 - [x] Implement toast notifications for user feedback
 
-## Phase 8: UI Verification for Multi-Type Network
-- [ ] Test Person→Person social relationships with score editing
-- [ ] Test Company→Company business relationships with score editing
-- [ ] Test Employment relationships display correctly with neutral styling
-- [ ] Verify graph layout with mixed relationship types
-- [ ] Test interactive node connection and relationship creation flow
+## Phase 8: UI Verification for Multi-Type Network ✅
+- [x] Test Person→Person social relationships with score editing
+- [x] Test Company→Company business relationships with score editing
+- [x] Test Employment relationships display correctly with neutral styling
+- [x] Verify graph layout with mixed relationship types
+- [x] Test interactive node connection and relationship creation flow
+
+---
+
+# SCALABILITY AND PERFORMANCE REFACTOR
+
+## Phase 9: Backend Search-First Architecture
+- [ ] Refactor load_data to NOT load entire database by default
+- [ ] Add search_query state var and node_limit state var (default 100)
+- [ ] Implement get_most_connected_nodes() method to return top N nodes by relationship count
+- [ ] Implement search_and_build_subgraph() method that:
+  - Searches for matching Account or Contact by name
+  - Returns the matched node + all neighbors up to 2 degrees of separation
+  - Limits results to node_limit to prevent overload
+- [ ] Update graph_data to use filtered_accounts, filtered_contacts, filtered_relationships
+
+## Phase 10: Search UI and Performance Controls
+- [ ] Add prominent search bar at top of graph container with real-time search
+- [ ] Add node limit slider (50/100/250/500) to give user control over performance
+- [ ] Add "Clear Search" button to reset to landing view
+- [ ] Add visual indicator showing "X nodes displayed out of Y total"
+- [ ] Implement debounced search to avoid excessive re-renders
+
+## Phase 11: Rendering Optimizations and Level of Detail
+- [ ] Configure React Flow to use proper performance settings (fitView, snapToGrid)
+- [ ] Implement zoom-based label visibility (hide labels when zoom < 0.5)
+- [ ] Add node clustering for distant nodes when zoomed out
+- [ ] Optimize edge rendering: reduce stroke width and remove labels when zoomed out
+- [ ] Add loading state for subgraph generation
+
+## Phase 12: UI Verification for Scalable Architecture
+- [ ] Test empty search state (shows top 10 most connected or nothing)
+- [ ] Test search with single company/person and verify 2-degree subgraph
+- [ ] Test node limit slider (50/100/250/500) and verify performance
+- [ ] Test zoom-based label visibility (labels appear/disappear based on zoom)
+- [ ] Verify graph remains responsive with 500+ nodes displayed
