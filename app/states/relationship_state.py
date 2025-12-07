@@ -1364,6 +1364,7 @@ class RelationshipState(rx.State):
     @rx.event
     def start_node_creation(self):
         """Enter node creation mode."""
+        logging.info("Starting node creation mode")
         self.node_create_mode = True
         self.new_node_type = "person"
         self.new_node_name = ""

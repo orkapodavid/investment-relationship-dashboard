@@ -90,7 +90,7 @@ def search_bar() -> rx.Component:
                 on_click=RelationshipState.start_node_creation,
                 class_name="flex items-center px-3 py-2 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors font-medium shadow-sm hover:shadow-md",
             ),
-            class_name="flex items-center ml-auto sm:ml-0",
+            class_name="flex items-center ml-auto sm:ml-0 gap-2",
         ),
         class_name="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300",
     )

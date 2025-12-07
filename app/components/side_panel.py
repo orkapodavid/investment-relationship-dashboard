@@ -574,33 +574,36 @@ def side_panel() -> rx.Component:
             on_click=RelationshipState.close_panel,
             class_name="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors z-10",
         ),
-        rx.cond(
-            RelationshipState.node_create_mode,
-            node_creation_view(),
+        rx.el.div(
             rx.cond(
-                RelationshipState.edit_mode == "node",
+                RelationshipState.node_create_mode,
+                node_creation_view(),
                 rx.cond(
-                    RelationshipState.is_editing,
-                    node_edit_view(),
+                    RelationshipState.edit_mode == "node",
                     rx.cond(
-                        RelationshipState.is_creating_relationship,
-                        relationship_creation_view(),
-                        node_details_view(),
+                        RelationshipState.is_editing,
+                        node_edit_view(),
+                        rx.cond(
+                            RelationshipState.is_creating_relationship,
+                            relationship_creation_view(),
+                            node_details_view(),
+                        ),
                     ),
-                ),
-                rx.cond(
-                    RelationshipState.edit_mode == "edge",
-                    edge_edit_view(),
-                    rx.el.div(
-                        "Select an item to view details",
-                        class_name="p-6 text-center text-gray-400",
+                    rx.cond(
+                        RelationshipState.edit_mode == "edge",
+                        edge_edit_view(),
+                        rx.el.div(
+                            "Select an item to view details",
+                            class_name="p-6 text-center text-gray-400",
+                        ),
                     ),
                 ),
             ),
+            class_name="flex-1 min-h-0 w-full flex flex-col",
         ),
         class_name=rx.cond(
             RelationshipState.show_side_panel,
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l flex flex-col",
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l flex flex-col min-h-0",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l flex flex-col min-h-0",
         ),
     )
