@@ -139,6 +139,7 @@ class RelationshipState(rx.State):
                 {
                     "id": f"acc-{acc.id}",
                     "type": "account",
+                    "group": "company",
                     "data": {"label": acc.name, "job": "Company"},
                     "position": {"x": x, "y": y},
                     "style": {
@@ -166,6 +167,7 @@ class RelationshipState(rx.State):
                 {
                     "id": f"con-{con.id}",
                     "type": "contact",
+                    "group": "person",
                     "data": {
                         "label": f"{con.first_name} {con.last_name}",
                         "job": con.job_title,
@@ -196,7 +198,7 @@ class RelationshipState(rx.State):
                         "type": "smoothstep",
                         "animated": False,
                         "style": {
-                            "stroke": "#94a3b8",
+                            "stroke": "#334155",
                             "strokeWidth": 2,
                             "strokeDasharray": "5,5",
                         },
@@ -208,17 +210,34 @@ class RelationshipState(rx.State):
             tgt_prefix = "acc-" if rel.target_type == "company" else "con-"
             src_id = f"{src_prefix}{rel.source_id}"
             tgt_id = f"{tgt_prefix}{rel.target_id}"
-            edge_color = self.get_edge_color(rel.score)
+            is_employment = rel.relationship_type == RelationshipType.EMPLOYMENT
+            if is_employment:
+                edge_color = "#334155"
+                is_animated = False
+                label = "Employed"
+                stroke_dash = "5,5"
+                stroke_width = 2
+            else:
+                edge_color = self.get_edge_color(rel.score)
+                is_animated = True
+                label = f"{rel.relationship_type.value.title()} ({rel.score})"
+                stroke_dash = "0"
+                stroke_width = 3
             edges.append(
                 {
                     "id": f"rel-{rel.id}",
                     "source": src_id,
                     "target": tgt_id,
-                    "label": f"{rel.relationship_type.value} ({rel.score})",
-                    "animated": True,
-                    "style": {"stroke": edge_color, "strokeWidth": 3},
+                    "label": label,
+                    "animated": is_animated,
+                    "type": "smoothstep",
+                    "style": {
+                        "stroke": edge_color,
+                        "strokeWidth": stroke_width,
+                        "strokeDasharray": stroke_dash,
+                    },
                     "labelStyle": {"fill": edge_color, "fontWeight": 700},
-                    "data": {"score": rel.score, "type": rel.relationship_type},
+                    "data": {"score": rel.score, "type": rel.relationship_type.value},
                 }
             )
         return {"nodes": nodes, "edges": edges}
