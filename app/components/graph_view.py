@@ -4,9 +4,19 @@ from app.states.relationship_state import RelationshipState
 from app.components.search_bar import search_bar
 
 
+def new_entity_fab() -> rx.Component:
+    return rx.el.button(
+        rx.icon("plus", class_name="w-8 h-8 text-white"),
+        on_click=RelationshipState.start_node_creation,
+        class_name="fixed top-4 right-4 z-20 w-14 h-14 bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95",
+        title="Create New Entity",
+    )
+
+
 def graph_view() -> rx.Component:
     return rx.el.div(
         search_bar(),
+        new_entity_fab(),
         rxe.flow(
             rxe.flow.background(variant="dots", gap=12, size=1),
             rxe.flow.controls(),
