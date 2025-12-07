@@ -1382,6 +1382,27 @@ class RelationshipState(rx.State):
         self.new_node_title_or_ticker = ""
 
     @rx.event
+    def delete_current_selection(self):
+        """Delete the currently selected node or relationship."""
+        if self.edit_mode == "node" and self.selected_node_id:
+            try:
+                parts = self.selected_node_id.split("-")
+                if len(parts) >= 2:
+                    prefix, id_str = (parts[0], parts[1])
+                    node_type = "company" if prefix == "acc" else "person"
+                    return RelationshipState.delete_node(int(id_str), node_type)
+            except Exception as e:
+                logging.exception(f"Error parsing node deletion: {e}")
+        elif self.edit_mode == "edge" and self.selected_edge_id:
+            try:
+                if self.selected_edge_id.startswith("rel-"):
+                    rel_id = int(self.selected_edge_id.split("-")[1])
+                    return RelationshipState.soft_delete_relationship(rel_id)
+            except Exception as e:
+                logging.exception(f"Error parsing edge deletion: {e}")
+        return rx.toast("Nothing selected to delete", duration=3000)
+
+    @rx.event
     def submit_node_creation(self):
         """Submit new node creation."""
         if self.new_node_type == "person":

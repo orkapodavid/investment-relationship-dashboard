@@ -572,22 +572,28 @@ def side_panel() -> rx.Component:
         rx.el.div(
             rx.cond(RelationshipState.node_create_mode, node_creation_view()),
             rx.cond(
-                RelationshipState.is_creating_relationship
-                & ~RelationshipState.node_create_mode,
+                ~RelationshipState.node_create_mode
+                & RelationshipState.is_creating_relationship,
                 relationship_creation_view(),
             ),
             rx.cond(
-                (RelationshipState.edit_mode == "node")
-                & ~RelationshipState.node_create_mode
-                & ~RelationshipState.is_creating_relationship,
-                rx.cond(
-                    RelationshipState.is_editing, node_edit_view(), node_details_view()
-                ),
+                ~RelationshipState.node_create_mode
+                & ~RelationshipState.is_creating_relationship
+                & (RelationshipState.edit_mode == "node")
+                & RelationshipState.is_editing,
+                node_edit_view(),
             ),
             rx.cond(
-                (RelationshipState.edit_mode == "edge")
-                & ~RelationshipState.node_create_mode
-                & ~RelationshipState.is_creating_relationship,
+                ~RelationshipState.node_create_mode
+                & ~RelationshipState.is_creating_relationship
+                & (RelationshipState.edit_mode == "node")
+                & ~RelationshipState.is_editing,
+                node_details_view(),
+            ),
+            rx.cond(
+                ~RelationshipState.node_create_mode
+                & ~RelationshipState.is_creating_relationship
+                & (RelationshipState.edit_mode == "edge"),
                 edge_edit_view(),
             ),
             class_name="flex-1 w-full h-full bg-white relative",

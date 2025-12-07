@@ -12,7 +12,7 @@ def search_bar() -> rx.Component:
             rx.el.input(
                 placeholder="Search...",
                 on_change=RelationshipState.handle_search.debounce(300),
-                class_name="pl-10 pr-4 py-2.5 w-full sm:w-64 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all bg-gray-50 focus:bg-white",
+                class_name="pl-10 pr-4 py-2.5 w-full sm:w-56 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all bg-gray-50 focus:bg-white",
                 default_value=RelationshipState.search_query,
             ),
             class_name="relative flex-shrink-0 w-full sm:w-auto",
@@ -73,18 +73,62 @@ def search_bar() -> rx.Component:
             ),
             class_name="flex items-center flex-wrap gap-y-2",
         ),
-        rx.el.div(class_name="flex-grow hidden lg:block"),
+        rx.el.div(class_name="w-px h-8 bg-gray-200 mx-1 hidden md:block"),
         rx.el.div(
+            rx.el.button(
+                rx.icon("plus", class_name="w-4 h-4 mr-1.5"),
+                "Node",
+                on_click=RelationshipState.start_node_creation,
+                class_name="flex items-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm",
+            ),
+            rx.el.button(
+                rx.icon("link", class_name="w-4 h-4 mr-1.5"),
+                "Link",
+                disabled=RelationshipState.selected_node_id == "",
+                on_click=RelationshipState.start_relationship_creation,
+                class_name=rx.cond(
+                    RelationshipState.selected_node_id == "",
+                    "flex items-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed",
+                    "flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm",
+                ),
+                title=rx.cond(
+                    RelationshipState.selected_node_id == "",
+                    "Select a node to add a link",
+                    "Add connection",
+                ),
+            ),
+            rx.cond(
+                RelationshipState.show_side_panel,
+                rx.el.div(
+                    rx.el.button(
+                        rx.icon("pencil", class_name="w-4 h-4"),
+                        on_click=RelationshipState.prepare_node_edit,
+                        class_name=rx.cond(
+                            RelationshipState.edit_mode == "node",
+                            "p-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors shadow-sm",
+                            "hidden",
+                        ),
+                        title="Edit Selected",
+                    ),
+                    rx.el.button(
+                        rx.icon("trash-2", class_name="w-4 h-4"),
+                        on_click=RelationshipState.delete_current_selection,
+                        class_name="p-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 rounded-lg transition-colors shadow-sm",
+                        title="Delete Selected",
+                    ),
+                    class_name="flex gap-2 ml-1 items-center",
+                ),
+            ),
             rx.cond(
                 RelationshipState.search_query != "",
                 rx.el.button(
-                    rx.icon("x", class_name="w-4 h-4 mr-1"),
-                    "Clear",
+                    rx.icon("x", class_name="w-4 h-4"),
                     on_click=RelationshipState.clear_search,
-                    class_name="flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium border border-transparent hover:border-red-100 mr-2",
+                    class_name="flex items-center p-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-colors ml-1",
+                    title="Clear Search",
                 ),
             ),
-            class_name="flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0",
+            class_name="flex items-center gap-2",
         ),
         class_name="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300",
     )

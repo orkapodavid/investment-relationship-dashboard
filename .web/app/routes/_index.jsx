@@ -103,13 +103,13 @@ function Fragment_49f47727d12f3a30aa38dcd6781ef743 () {
 }
 
 
-function Button_3771a09b1c1e6e3103a2e08f33d354bc () {
+function Button_6e441b89f5c0f92c8a208568d7486046 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"fixed top-4 right-16 z-[9999] flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 font-semibold cursor-pointer",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-5 h-5 mr-2"},),"New Entity")
+    jsx("button",{className:"flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 font-semibold cursor-pointer pointer-events-auto",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-5 h-5 mr-2"},),"New Entity")
   )
 }
 
@@ -449,17 +449,6 @@ const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_e84b9c2cfe542a7c326eec1d58425d27 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},(((((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.()) && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},))))
-  )
-}
-
-
 function Span_823b17d275118f0afdf798c2bbe13366 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
@@ -538,13 +527,24 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_5cc9155532d197f3276473e5f8e0c283 () {
+function Fragment_24349bb6bdc464103ce6b914671818b1 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(((((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.()) && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},)))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
+  )
+}
+
+
+function Fragment_ff06bcd6477dc13c3adce7ff9c6e7aff () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},((((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.()) && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_))?(jsx(Fragment_24349bb6bdc464103ce6b914671818b1,{},)):(jsx(Fragment,{},))))
   )
 }
 
@@ -651,13 +651,13 @@ function Fragment_d86191ae5182d7cb715995c52280bc32 () {
 }
 
 
-function Aside_409621523382e5f25feb288aa020f618 () {
+function Aside_acf7cc614dc6c1a42d0da3521443621b () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx(Fragment_8949fedd3503e80d38d7f3810d2c6700,{},),jsx(Fragment_40ebdd3ed8cf4492dcc206300bc721e1,{},),jsx(Fragment_e84b9c2cfe542a7c326eec1d58425d27,{},),jsx(Fragment_5cc9155532d197f3276473e5f8e0c283,{},),jsx(Fragment_d86191ae5182d7cb715995c52280bc32,{},))
+    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative"},jsx(Fragment_8949fedd3503e80d38d7f3810d2c6700,{},),jsx(Fragment_40ebdd3ed8cf4492dcc206300bc721e1,{},),jsx(Fragment_ff06bcd6477dc13c3adce7ff9c6e7aff,{},),jsx(Fragment_d86191ae5182d7cb715995c52280bc32,{},)))
   )
 }
 
@@ -669,6 +669,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},))))),jsx(Button_3771a09b1c1e6e3103a2e08f33d354bc,{},),jsx(Aside_409621523382e5f25feb288aa020f618,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},))))),jsx("div",{className:"absolute top-4 right-16 z-50 pointer-events-none"},jsx(Button_6e441b89f5c0f92c8a208568d7486046,{},)),jsx(Aside_acf7cc614dc6c1a42d0da3521443621b,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
