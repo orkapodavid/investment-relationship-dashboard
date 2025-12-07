@@ -4,6 +4,9 @@ import {EventLoopContext,StateContexts} from "$/utils/context"
 import {ReflexEvent,isNotNullOrUndefined,isTrue} from "$/utils/state"
 import "@xyflow/react/dist/style.css"
 import {Briefcase as LucideBriefcase,Link as LucideLink,Pencil as LucidePencil,Plus as LucidePlus,Search as LucideSearch,Trash as LucideTrash,Trash2 as LucideTrash2,Users as LucideUsers,X as LucideX} from "lucide-react"
+import {Drawer as VaulDrawer} from "vaul"
+import {Theme as RadixThemesTheme} from "@radix-ui/themes"
+import theme from "$/utils/theme"
 import {jsx} from "@emotion/react"
 
 
@@ -156,6 +159,17 @@ function Fragment_8eed47756cf2d6e2478f3a09f391e035 () {
 
   return (
     jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_?(jsx(Fragment,{},jsx("div",{className:"flex gap-2 items-center border-l border-gray-200 pl-4"},jsx(Button_f41fec4278ee4fe7f565f5973c6b58ed,{},),jsx(Button_ec9228d5321e54b8591c54d677480797,{},)))):(jsx(Fragment,{},))))
+  )
+}
+
+
+function Drawer__overlay_d9d9ab0269c326a388c7caead6a2ac5b () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_480e95f021a096d625b5bcb51e7ce240 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.close_panel", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx(VaulDrawer.Overlay,{className:"fixed inset-0 bg-black/40 z-[9999]",css:({ ["position"] : "fixed", ["left"] : "0", ["right"] : "0", ["bottom"] : "0", ["top"] : "0", ["zIndex"] : 50, ["background"] : "rgba(0, 0, 0, 0.5)" }),onClick:on_click_480e95f021a096d625b5bcb51e7ce240},)
   )
 }
 
@@ -764,13 +778,13 @@ function Fragment_fae5bd58257b0d36b4df7c913455e174 () {
 }
 
 
-function Aside_cf1b53b6d2179b13c81d42e578355261 () {
+function Drawer__root_c5b8790bb3eea8284beb3fce580b53ec () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative z-50"},jsx(Fragment_9d0a3a3ae2bea91f5e33c84f440fb14b,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_1e770ae33cc3193fe57e976208606a5e,{},),jsx(Fragment_ed976ff1e6b0adeda690fb519ab1a4fc,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},)))
+    jsx(VaulDrawer.Root,{direction:"right",open:reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_},jsx(VaulDrawer.Portal,{},jsx(Drawer__overlay_d9d9ab0269c326a388c7caead6a2ac5b,{},),jsx(RadixThemesTheme,{css:{...theme.styles.global[':root'], ...theme.styles.global.body}},jsx(VaulDrawer.Content,{className:"fixed top-0 right-0 h-full w-96 flex flex-col bg-white shadow-2xl z-[10000] border-l border-gray-200 outline-none",css:({ ["left"] : "0", ["right"] : "0", ["bottom"] : "0", ["top"] : "0", ["position"] : "fixed", ["zIndex"] : 50, ["display"] : "flex" })},jsx("div",{className:"flex-1 w-full h-full bg-white relative"},jsx(Fragment_9d0a3a3ae2bea91f5e33c84f440fb14b,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_1e770ae33cc3193fe57e976208606a5e,{},),jsx(Fragment_ed976ff1e6b0adeda690fb519ab1a4fc,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},))))))
   )
 }
 
@@ -782,6 +796,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-[500] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[90vw]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"flex items-center gap-2 border-l border-gray-200 pl-4"},jsx(Button_fb0683f843e8c094fc19cb2fe1b75ee2,{},),jsx(Button_b2366988962a5fc89439289a79f7269b,{},)),jsx(Fragment_8eed47756cf2d6e2478f3a09f391e035,{},)))),jsx(Aside_cf1b53b6d2179b13c81d42e578355261,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},))),jsx("div",{className:"absolute top-4 left-4 z-[500] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[90vw]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"flex items-center gap-2 border-l border-gray-200 pl-4"},jsx(Button_fb0683f843e8c094fc19cb2fe1b75ee2,{},),jsx(Button_b2366988962a5fc89439289a79f7269b,{},)),jsx(Fragment_8eed47756cf2d6e2478f3a09f391e035,{},)),jsx(Drawer__root_c5b8790bb3eea8284beb3fce580b53ec,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
