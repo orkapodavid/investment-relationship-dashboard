@@ -4,14 +4,6 @@ from app.states.relationship_state import RelationshipState
 from app.components.search_bar import search_bar
 
 
-def new_entity_fab() -> rx.Component:
-    return rx.el.button(
-        "TEST BUTTON",
-        on_click=RelationshipState.start_node_creation,
-        class_name="fixed top-0 right-0 z-[9999] bg-red-500 text-white p-4 font-bold border-4 border-black",
-    )
-
-
 def graph_view() -> rx.Component:
     return rx.el.div(
         rxe.flow(
