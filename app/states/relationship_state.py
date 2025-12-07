@@ -23,6 +23,14 @@ TERM_DEFAULTS = {
     RelationshipTerm.FRIEND: {"is_directed": False, "default_score": 80},
     RelationshipTerm.ENEMY: {"is_directed": False, "default_score": -100},
 }
+TERM_TO_TYPE = {
+    RelationshipTerm.WORKS_FOR: RelationshipType.EMPLOYMENT,
+    RelationshipTerm.INVESTED_IN: RelationshipType.BUSINESS,
+    RelationshipTerm.COMPETITOR: RelationshipType.BUSINESS,
+    RelationshipTerm.COLLEAGUE: RelationshipType.BUSINESS,
+    RelationshipTerm.FRIEND: RelationshipType.SOCIAL,
+    RelationshipTerm.ENEMY: RelationshipType.SOCIAL,
+}
 
 
 class RelationshipState(rx.State):
@@ -328,7 +336,20 @@ class RelationshipState(rx.State):
         should_animate_particles = total_nodes <= 100
         comp_size = "50px" if small_nodes else "100px"
         pers_size = "30px" if small_nodes else "60px"
+
+        @rx.event
+        def get_id(obj):
+            return getattr(obj, "id", obj.get("id") if isinstance(obj, dict) else None)
+
+        @rx.event
+        def get_attr(obj, attr, default=""):
+            return getattr(
+                obj, attr, obj.get(attr, default) if isinstance(obj, dict) else default
+            )
+
         for idx, acc in enumerate(current_accounts):
+            acc_id = get_id(acc)
+            acc_name = get_attr(acc, "name")
             x = center_x + 300 * math.cos(
                 2 * math.pi * idx / (len(current_accounts) or 1)
             )
@@ -337,11 +358,11 @@ class RelationshipState(rx.State):
             )
             nodes.append(
                 {
-                    "id": f"acc-{acc.id}",
+                    "id": f"acc-{acc_id}",
                     "type": "account",
                     "group": "company",
                     "data": {
-                        "label": acc.name if show_labels else "",
+                        "label": acc_name if show_labels else "",
                         "job": "Company",
                     },
                     "position": {"x": x, "y": y},
@@ -360,6 +381,11 @@ class RelationshipState(rx.State):
                 }
             )
         for idx, con in enumerate(current_contacts):
+            con_id = get_id(con)
+            con_first = get_attr(con, "first_name")
+            con_last = get_attr(con, "last_name")
+            con_job = get_attr(con, "job_title")
+            con_acc_id = get_attr(con, "account_id")
             offset_x = 400 + 100 * math.cos(
                 2 * math.pi * idx / (len(current_contacts) or 1)
             )
@@ -368,14 +394,12 @@ class RelationshipState(rx.State):
             )
             nodes.append(
                 {
-                    "id": f"con-{con.id}",
+                    "id": f"con-{con_id}",
                     "type": "contact",
                     "group": "person",
                     "data": {
-                        "label": f"{con.first_name} {con.last_name}"
-                        if show_labels
-                        else "",
-                        "job": con.job_title,
+                        "label": f"{con_first} {con_last}" if show_labels else "",
+                        "job": con_job,
                     },
                     "position": {"x": offset_x, "y": offset_y},
                     "style": {
@@ -393,13 +417,13 @@ class RelationshipState(rx.State):
                     },
                 }
             )
-            acc_ids = {a.id for a in current_accounts}
-            if con.account_id and con.account_id in acc_ids:
+            acc_ids = {get_id(a) for a in current_accounts}
+            if con_acc_id and con_acc_id in acc_ids:
                 edges.append(
                     {
-                        "id": f"emp-{con.id}-{con.account_id}",
-                        "source": f"acc-{con.account_id}",
-                        "target": f"con-{con.id}",
+                        "id": f"emp-{con_id}-{con_acc_id}",
+                        "source": f"acc-{con_acc_id}",
+                        "target": f"con-{con_id}",
                         "type": "smoothstep",
                         "animated": False,
                         "style": {
@@ -661,12 +685,14 @@ class RelationshipState(rx.State):
             defaults = TERM_DEFAULTS.get(
                 term_enum, {"is_directed": False, "default_score": 0}
             )
+            new_type = TERM_TO_TYPE.get(term_enum, RelationshipType.SOCIAL)
             with rx.session() as session:
                 relationship = session.get(Relationship, rel_id)
                 if relationship:
                     previous_term = relationship.term
                     previous_score = relationship.score
                     relationship.term = term_enum
+                    relationship.relationship_type = new_type
                     relationship.is_directed = defaults["is_directed"]
                     relationship.score = defaults["default_score"]
                     relationship.last_updated = datetime.now()
@@ -683,6 +709,10 @@ class RelationshipState(rx.State):
                     )
                     session.add(log_entry)
                     session.commit()
+                    self.editing_relationship_type = new_type.value
+                    self.editing_term = new_term
+                    self.editing_is_directed = defaults["is_directed"]
+                    self.editing_score = defaults["default_score"]
             self.load_data()
             return rx.toast(f"Updated relationship to {new_term}", duration=3000)
         except Exception as e:
@@ -731,23 +761,49 @@ class RelationshipState(rx.State):
                         Relationship.target_id == tgt_id,
                     )
                 ).first()
+                rel_to_edit = None
                 if existing:
                     if not existing.is_active:
                         existing.is_active = True
                         existing.last_updated = datetime.now()
                         session.add(existing)
-                        session.commit()
-                        self.load_data()
-                        return rx.toast(
-                            "Reactivated existing relationship", duration=3000
+                        log_entry = RelationshipLog(
+                            relationship_id=existing.id,
+                            previous_score=existing.score,
+                            new_score=existing.score,
+                            action="reactivate",
+                            changed_at=datetime.now(),
+                            note="Reactivated via graph connection",
                         )
-                    return rx.toast("Relationship already exists", duration=3000)
-                self.create_relationship_with_term(
-                    session, src_type, src_id, tgt_type, tgt_id, default_term, rel_type
-                )
-                session.commit()
+                        session.add(log_entry)
+                        session.commit()
+                        rel_to_edit = existing
+                        rx.toast("Reactivated existing relationship", duration=3000)
+                    else:
+                        return rx.toast("Relationship already exists", duration=3000)
+                else:
+                    rel_to_edit = self.create_relationship_with_term(
+                        session,
+                        src_type,
+                        src_id,
+                        tgt_type,
+                        tgt_id,
+                        default_term,
+                        rel_type,
+                    )
+                    session.commit()
+                    rx.toast(
+                        f"Created new {rel_type.value} relationship", duration=3000
+                    )
             self.load_data()
-            return rx.toast(f"Created new {rel_type.value} relationship", duration=3000)
+            if rel_to_edit:
+                self.selected_edge_id = f"rel-{rel_to_edit.id}"
+                self.editing_score = rel_to_edit.score
+                self.editing_relationship_type = rel_to_edit.relationship_type.value
+                self.editing_term = rel_to_edit.term.value
+                self.editing_is_directed = rel_to_edit.is_directed
+                self.edit_mode = "edge"
+                self.show_side_panel = True
         except Exception as e:
             logging.exception(f"Failed to link nodes: {e}")
             return rx.toast("Failed to create relationship", duration=3000)
