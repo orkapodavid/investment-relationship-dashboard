@@ -147,24 +147,24 @@ function P_a8af4cced5cf51987e96fae843fba187 () {
 }
 
 
-function Fragment_8e0e65409173c416667cc679e0f7b40b () {
+function Fragment_7a498a3c6e24c02fe226773bb6d341c3 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Details"),jsx("div",{className:"space-y-4"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Name"),jsx(P_e073ce3a23f8484dfb97644caa59115a,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Role/Info"),jsx(P_a8af4cced5cf51987e96fae843fba187,{},))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0"},"Details"),jsx("div",{className:"space-y-4 overflow-y-auto flex-1"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Name"),jsx(P_e073ce3a23f8484dfb97644caa59115a,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Role/Info"),jsx(P_a8af4cced5cf51987e96fae843fba187,{},))))):(jsx(Fragment,{},))))
   )
 }
 
 
-function Span_05853e945b5b1ad30a4beb24eb52063d () {
+function Span_a75135667ce8f5f11b2403f552f90a1e () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("span",{className:"px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200 mr-2"},reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_.toUpperCase())
+    jsx("span",{className:"px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200"},reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_.toUpperCase())
   )
 }
 
@@ -215,13 +215,13 @@ function Span_b05afbf33bb1f3f0340d12de6ffb8667 () {
 }
 
 
-function Button_765fc1c63dafde612ac01e6ecb48cdf8 () {
+function Button_421d2a246942f54eae651c112a4f7572 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_8bba1865c705f793b46feff123127746 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.save_relationship_update", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mb-4",onClick:on_click_8bba1865c705f793b46feff123127746},"Save Changes")
+    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm",onClick:on_click_8bba1865c705f793b46feff123127746},"Save Changes")
   )
 }
 
@@ -238,35 +238,35 @@ const on_click_36e92fe604bb92bc8ecc130d9925c652 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_e1f7b009946ff0120354acbab51d44f8 () {
+function Fragment_e2d86d5ea60575d32a4b695e87b2dbd9 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_?.valueOf?.() === "employment"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"bg-gray-50 rounded-lg p-6 border border-gray-100"},jsx(LucideBriefcase,{className:"w-12 h-12 text-gray-300 mx-auto mb-3"},),jsx("p",{className:"text-center text-gray-600 font-medium mb-1"},"Employment relationships are structural links."),jsx("p",{className:"text-center text-gray-400 text-sm"},"They do not carry a sentiment score.")))):(jsx(Fragment,{},jsx("div",{className:"flex flex-col"},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Nature of Relationship"),jsx(Select_053b4d3f4dcf63589a41a708903ba045,{},)),jsx("label",{className:"text-sm font-medium text-gray-500 mb-4 block"},"Relationship Score"),jsx("div",{className:"flex justify-between w-full mb-2 px-1"},jsx("span",{className:"text-xs font-bold text-red-500"},"-100 (Enemy)"),jsx("span",{className:"text-xs font-bold text-gray-500"},"0 (Neutral)"),jsx("span",{className:"text-xs font-bold text-green-500"},"+100 (Ally)")),jsx(Input_e481125afc2a7eadcfae9a6f1f95c59a,{},),jsx("div",{className:"text-center text-sm text-gray-600 mb-8"},"Current Score: ",jsx(Span_b05afbf33bb1f3f0340d12de6ffb8667,{},)),jsx(Button_765fc1c63dafde612ac01e6ecb48cdf8,{},),jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},))))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_?.valueOf?.() === "employment"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"bg-gray-50 rounded-lg p-6 border border-gray-100"},jsx(LucideBriefcase,{className:"w-12 h-12 text-gray-300 mx-auto mb-3"},),jsx("p",{className:"text-center text-gray-600 font-medium mb-1"},"Employment relationships are structural links."),jsx("p",{className:"text-center text-gray-400 text-sm"},"They do not carry a sentiment score.")))):(jsx(Fragment,{},jsx("div",{className:"flex flex-col flex-1"},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Nature of Relationship"),jsx(Select_053b4d3f4dcf63589a41a708903ba045,{},)),jsx("label",{className:"text-sm font-medium text-gray-500 mb-4 block"},"Relationship Score"),jsx("div",{className:"flex justify-between w-full mb-2 px-1"},jsx("span",{className:"text-xs font-bold text-red-500"},"-100 (Enemy)"),jsx("span",{className:"text-xs font-bold text-gray-500"},"0 (Neutral)"),jsx("span",{className:"text-xs font-bold text-green-500"},"+100 (Ally)")),jsx(Input_e481125afc2a7eadcfae9a6f1f95c59a,{},),jsx("div",{className:"text-center text-sm text-gray-600 mb-8"},"Current Score: ",jsx(Span_b05afbf33bb1f3f0340d12de6ffb8667,{},)),jsx("div",{className:"flex flex-col gap-3 mt-auto pb-4"},jsx(Button_421d2a246942f54eae651c112a4f7572,{},),jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))))
   )
 }
 
 
-function Fragment_0732e3ae5372a95f5435ce6ebada1595 () {
+function Fragment_13835b82e4052c0256c01d38fef5d67a () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Relationship"),jsx("div",{className:"flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_05853e945b5b1ad30a4beb24eb52063d,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_e1f7b009946ff0120354acbab51d44f8,{},))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0"},"Edit Relationship"),jsx("div",{className:"flex flex-col flex-1 overflow-y-auto pr-1"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2 shrink-0"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_e2d86d5ea60575d32a4b695e87b2dbd9,{},))))):(jsx(Fragment,{},))))
   )
 }
 
 
-function Div_8af86ccb05e5ff84cd59763f5f80b1b7 () {
+function Div_537491ddf5f7b5b790d3003f76926b18 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_8e0e65409173c416667cc679e0f7b40b,{},),jsx(Fragment_0732e3ae5372a95f5435ce6ebada1595,{},))
+    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_7a498a3c6e24c02fe226773bb6d341c3,{},),jsx(Fragment_13835b82e4052c0256c01d38fef5d67a,{},))
   )
 }
 
@@ -278,6 +278,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},)),jsx(Reactflow_677c03afc226ba332fca82201349d827,{},)),jsx(Div_8af86ccb05e5ff84cd59763f5f80b1b7,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},)),jsx(Reactflow_677c03afc226ba332fca82201349d827,{},)),jsx(Div_537491ddf5f7b5b790d3003f76926b18,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
