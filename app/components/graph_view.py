@@ -36,7 +36,7 @@ def graph_view() -> rx.Component:
             on_node_click=RelationshipState.on_node_click,
             on_edge_click=RelationshipState.on_edge_click,
             on_connect=RelationshipState.on_connect,
-            class_name="bg-gray-50",
+            class_name="bg-gray-50 w-full h-full",
         ),
         search_bar(),
         new_entity_fab(),
