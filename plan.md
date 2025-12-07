@@ -1,4 +1,4 @@
-# Relationship Network Visualization - Implementation Plan
+# Relationship Network Visualization - COMPLETE ✅
 
 ## Phase 1: Graph Component Setup and Data Transformation ✅
 - [x] Install reflex-enterprise for react-flow support
@@ -31,12 +31,34 @@
 
 ---
 
-## 🎉 Project Complete
+# NEW REQUIREMENTS: Multi-Type Relationship Network
 
-All phases implemented successfully. The Relationship Network Visualization is fully functional with:
-- Interactive force-directed graph using react-flow
-- Visual distinction between Account (squares) and Contact (circles) nodes
-- Dynamic edge colors representing relationship scores (-100 to +100)
-- Side panel for viewing node details and editing relationship scores
-- Database persistence with history tracking
-- Zoom, pan, and drag capabilities
+## Phase 5: Database Schema Refactor for Complex Relationships
+- [ ] Refactor models.py to support three relationship types: Employment, Social, Business
+- [ ] Add `relationship_type` enum field to Relationship model (Employment/Social/Business)
+- [ ] Update Relationship model to support flexible source/target (Person→Person, Company→Company, Person→Company)
+- [ ] Add polymorphic foreign keys or use a generic approach for source_id/target_id with source_type/target_type
+- [ ] Create migration logic to preserve existing data (existing Account→Contact relationships become "Employment" type)
+- [ ] Update RelationshipLog to track relationship type changes
+
+## Phase 6: Graph Data Transformation for Multi-Type Network
+- [ ] Update graph_data computed var to fetch and merge all three relationship types
+- [ ] Add 'group' field to nodes to distinguish Person vs Company in the visualization
+- [ ] Create unified links list combining Employment (neutral), Social (colored by score), and Business (colored by score)
+- [ ] Implement edge styling logic: Employment = grey/black solid line, Social/Business = color gradient based on score
+- [ ] Add edge labels to show relationship type (Employment, Social, Business)
+
+## Phase 7: Interactive Multi-Type Relationship Creation
+- [ ] Update on_connect handler to detect node types and determine valid relationship type
+- [ ] Create relationship type selector modal when connecting nodes (if multiple types valid)
+- [ ] Implement Person→Person social relationship creation
+- [ ] Implement Company→Company business relationship creation
+- [ ] Add validation to prevent invalid relationship types (e.g., Employment between two companies without a person)
+- [ ] Update side panel to show relationship type when editing edges
+
+## Phase 8: UI Verification for Multi-Type Network
+- [ ] Test Person→Person social relationships with score editing
+- [ ] Test Company→Company business relationships with score editing
+- [ ] Test Employment relationships remain neutral colored
+- [ ] Verify relationship type selector appears when connecting compatible nodes
+- [ ] Test graph layout with mixed relationship types
