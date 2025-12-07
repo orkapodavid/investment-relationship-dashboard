@@ -51,6 +51,7 @@ class RelationshipState(rx.State):
     editing_relationship_type: str = ""
     is_loading: bool = False
     zoom_level: float = 1.0
+    show_historic: bool = False
 
     @rx.event
     async def load_data(self):
@@ -532,12 +533,103 @@ class RelationshipState(rx.State):
                         new_score=new_score,
                         changed_at=datetime.now(),
                         note="Manual update via graph",
+                        action="score_change",
                     )
                     session.add(log_entry)
                     session.commit()
                 self.load_data()
         except Exception as e:
             logging.exception(f"Error updating score: {e}")
+
+    @rx.event
+    def create_relationship_with_term(
+        self,
+        session,
+        source_type: str,
+        source_id: int,
+        target_type: str,
+        target_id: int,
+        term: RelationshipTerm,
+        rel_type: RelationshipType,
+    ):
+        """Helper to create a relationship with defaults based on term."""
+        defaults = TERM_DEFAULTS.get(term, {"is_directed": False, "default_score": 0})
+        new_rel = Relationship(
+            score=defaults["default_score"],
+            relationship_type=rel_type,
+            term=term,
+            is_directed=defaults["is_directed"],
+            is_active=True,
+            source_type=source_type,
+            source_id=source_id,
+            target_type=target_type,
+            target_id=target_id,
+        )
+        session.add(new_rel)
+        return new_rel
+
+    @rx.event
+    def soft_delete_relationship(self, rel_id: int):
+        """Soft delete a relationship."""
+        try:
+            with rx.session() as session:
+                relationship = session.get(Relationship, rel_id)
+                if relationship:
+                    relationship.is_active = False
+                    relationship.last_updated = datetime.now()
+                    session.add(relationship)
+                    log_entry = RelationshipLog(
+                        relationship_id=relationship.id,
+                        previous_score=relationship.score,
+                        new_score=0,
+                        action="soft_delete",
+                        changed_at=datetime.now(),
+                        note="Relationship soft deleted",
+                    )
+                    session.add(log_entry)
+                    session.commit()
+            self.load_data()
+            self.close_panel()
+            return rx.toast("Relationship deleted", duration=3000)
+        except Exception as e:
+            logging.exception(f"Error deleting relationship: {e}")
+            return rx.toast("Failed to delete relationship", duration=3000)
+
+    @rx.event
+    def update_relationship_term(self, rel_id: int, new_term: str):
+        """Update the relationship term and apply defaults."""
+        try:
+            term_enum = RelationshipTerm(new_term)
+            defaults = TERM_DEFAULTS.get(
+                term_enum, {"is_directed": False, "default_score": 0}
+            )
+            with rx.session() as session:
+                relationship = session.get(Relationship, rel_id)
+                if relationship:
+                    previous_term = relationship.term
+                    previous_score = relationship.score
+                    relationship.term = term_enum
+                    relationship.is_directed = defaults["is_directed"]
+                    relationship.score = defaults["default_score"]
+                    relationship.last_updated = datetime.now()
+                    session.add(relationship)
+                    log_entry = RelationshipLog(
+                        relationship_id=relationship.id,
+                        previous_score=previous_score,
+                        new_score=relationship.score,
+                        previous_term=previous_term,
+                        new_term=new_term,
+                        action="term_change",
+                        changed_at=datetime.now(),
+                        note=f"Term changed to {new_term}",
+                    )
+                    session.add(log_entry)
+                    session.commit()
+            self.load_data()
+            return rx.toast(f"Updated relationship to {new_term}", duration=3000)
+        except Exception as e:
+            logging.exception(f"Error updating term: {e}")
+            return rx.toast("Failed to update term", duration=3000)
 
     @rx.event
     def on_connect(self, connection: dict):
@@ -558,14 +650,20 @@ class RelationshipState(rx.State):
             if src_type == tgt_type and src_id == tgt_id:
                 return rx.toast("Cannot connect a node to itself", duration=3000)
             rel_type = RelationshipType.SOCIAL
+            default_term = RelationshipTerm.FRIEND
             if src_type == "company" and tgt_type == "company":
                 rel_type = RelationshipType.BUSINESS
+                default_term = RelationshipTerm.COMPETITOR
             elif (
                 src_type == "person"
                 and tgt_type == "company"
                 or (src_type == "company" and tgt_type == "person")
             ):
                 rel_type = RelationshipType.EMPLOYMENT
+                default_term = RelationshipTerm.WORKS_FOR
+            elif src_type == "person" and tgt_type == "person":
+                rel_type = RelationshipType.SOCIAL
+                default_term = RelationshipTerm.FRIEND
             with rx.session() as session:
                 existing = session.exec(
                     sqlmodel.select(Relationship).where(
@@ -576,16 +674,19 @@ class RelationshipState(rx.State):
                     )
                 ).first()
                 if existing:
+                    if not existing.is_active:
+                        existing.is_active = True
+                        existing.last_updated = datetime.now()
+                        session.add(existing)
+                        session.commit()
+                        self.load_data()
+                        return rx.toast(
+                            "Reactivated existing relationship", duration=3000
+                        )
                     return rx.toast("Relationship already exists", duration=3000)
-                new_rel = Relationship(
-                    score=0,
-                    relationship_type=rel_type,
-                    source_type=src_type,
-                    source_id=src_id,
-                    target_type=tgt_type,
-                    target_id=tgt_id,
+                self.create_relationship_with_term(
+                    session, src_type, src_id, tgt_type, tgt_id, default_term, rel_type
                 )
-                session.add(new_rel)
                 session.commit()
             self.load_data()
             return rx.toast(f"Created new {rel_type.value} relationship", duration=3000)
