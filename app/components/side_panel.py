@@ -87,81 +87,78 @@ def side_panel() -> rx.Component:
                             ),
                             class_name="bg-gray-50 rounded-lg p-6 border border-gray-100 mb-6",
                         ),
-                    ),
-                    rx.cond(
-                        RelationshipState.editing_relationship_type != "employment",
                         rx.el.div(
-                            rx.el.div(
-                                rx.el.label(
-                                    "Nature of Relationship",
-                                    class_name="text-sm font-medium text-gray-500 mb-2 block",
+                            rx.el.label(
+                                "Nature of Relationship",
+                                class_name="text-sm font-medium text-gray-500 mb-2 block",
+                            ),
+                            rx.el.select(
+                                rx.foreach(
+                                    RelationshipState.relationship_terms,
+                                    lambda t: rx.el.option(t, value=t),
                                 ),
-                                rx.el.select(
-                                    rx.foreach(
-                                        RelationshipState.relationship_terms,
-                                        lambda t: rx.el.option(t, value=t),
-                                    ),
-                                    value=RelationshipState.editing_term,
-                                    on_change=RelationshipState.handle_term_change,
-                                    class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white",
-                                ),
+                                value=RelationshipState.editing_term,
+                                on_change=RelationshipState.handle_term_change,
+                                class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white",
+                            ),
+                            rx.el.label(
+                                "Relationship Score",
+                                class_name="text-sm font-medium text-gray-500 mb-4 block",
                             ),
                             rx.el.div(
-                                rx.el.label(
-                                    "Relationship Score",
-                                    class_name="text-sm font-medium text-gray-500 mb-4 block",
+                                rx.el.span(
+                                    "-100 (Enemy)",
+                                    class_name="text-xs font-bold text-red-500",
                                 ),
-                                rx.el.div(
-                                    rx.el.span(
-                                        "-100 (Enemy)",
-                                        class_name="text-xs font-bold text-red-500",
-                                    ),
-                                    rx.el.span(
-                                        "0 (Neutral)",
-                                        class_name="text-xs font-bold text-gray-500",
-                                    ),
-                                    rx.el.span(
-                                        "+100 (Ally)",
-                                        class_name="text-xs font-bold text-green-500",
-                                    ),
-                                    class_name="flex justify-between w-full mb-2 px-1",
+                                rx.el.span(
+                                    "0 (Neutral)",
+                                    class_name="text-xs font-bold text-gray-500",
                                 ),
-                                rx.el.input(
-                                    type="range",
-                                    min="-100",
-                                    max="100",
-                                    default_value=RelationshipState.editing_score.to_string(),
-                                    key=RelationshipState.selected_edge_id,
-                                    on_change=lambda value: RelationshipState.set_editing_score(
-                                        value.to(int)
-                                    ).throttle(100),
-                                    class_name="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4 accent-indigo-600",
+                                rx.el.span(
+                                    "+100 (Ally)",
+                                    class_name="text-xs font-bold text-green-500",
                                 ),
-                                rx.el.div(
-                                    "Current Score: ",
-                                    rx.el.span(
-                                        RelationshipState.editing_score,
-                                        class_name="font-mono font-bold ml-1",
-                                    ),
-                                    class_name="text-center text-sm text-gray-600 mb-8",
+                                class_name="flex justify-between w-full mb-2 px-1",
+                            ),
+                            rx.el.input(
+                                type="range",
+                                min="-100",
+                                max="100",
+                                default_value=RelationshipState.editing_score.to_string(),
+                                key=RelationshipState.selected_edge_id,
+                                on_change=lambda value: RelationshipState.set_editing_score(
+                                    value.to(int)
+                                ).throttle(100),
+                                class_name="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4 accent-indigo-600",
+                            ),
+                            rx.el.div(
+                                "Current Score: ",
+                                rx.el.span(
+                                    RelationshipState.editing_score,
+                                    class_name="font-mono font-bold ml-1",
                                 ),
+                                class_name="text-center text-sm text-gray-600 mb-8",
                             ),
                             rx.el.button(
                                 "Save Changes",
                                 on_click=RelationshipState.save_relationship_update,
-                                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mb-3",
+                                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mb-6",
                             ),
+                            class_name="flex flex-col",
                         ),
                     ),
-                    rx.el.button(
-                        rx.icon("trash", class_name="w-4 h-4 mr-2"),
-                        "Delete Relationship",
-                        on_click=lambda: RelationshipState.soft_delete_relationship(
-                            RelationshipState.selected_edge_id.split("-")[1].to(int)
+                    rx.el.div(
+                        rx.el.button(
+                            rx.icon("trash", class_name="w-4 h-4 mr-2"),
+                            "Delete Relationship",
+                            on_click=lambda: RelationshipState.soft_delete_relationship(
+                                RelationshipState.selected_edge_id.split("-")[1].to(int)
+                            ),
+                            class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors",
                         ),
-                        class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors mt-auto",
+                        class_name="mt-auto pt-4 border-t",
                     ),
-                    class_name="flex-1 overflow-y-auto flex flex-col pb-6",
+                    class_name="flex-1 overflow-y-auto flex flex-col",
                 ),
                 class_name="p-6 h-full flex flex-col",
             ),
