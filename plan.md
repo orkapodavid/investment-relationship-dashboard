@@ -48,17 +48,18 @@
 - [x] Implement edge styling logic: Employment = grey/black solid line, Social/Business = color gradient based on score
 - [x] Add edge labels to show relationship type (Employment, Social, Business)
 
-## Phase 7: Interactive Multi-Type Relationship Creation
-- [ ] Update on_connect handler to detect node types and determine valid relationship type
-- [ ] Create relationship type selector modal when connecting nodes (if multiple types valid)
-- [ ] Implement Person→Person social relationship creation
-- [ ] Implement Company→Company business relationship creation
-- [ ] Add validation to prevent invalid relationship types (e.g., Employment between two companies without a person)
-- [ ] Update side panel to show relationship type when editing edges
+## Phase 7: Interactive Multi-Type Relationship Creation ✅
+- [x] Update on_connect handler to detect node types and determine valid relationship type
+- [x] Implement Person→Person social relationship creation
+- [x] Implement Company→Company business relationship creation
+- [x] Add validation to prevent invalid relationship types and self-loops
+- [x] Update side panel to show relationship type when editing edges
+- [x] Add Employment relationship handling (neutral/structural, non-scored)
+- [x] Implement toast notifications for user feedback
 
 ## Phase 8: UI Verification for Multi-Type Network
 - [ ] Test Person→Person social relationships with score editing
 - [ ] Test Company→Company business relationships with score editing
-- [ ] Test Employment relationships remain neutral colored
-- [ ] Verify relationship type selector appears when connecting compatible nodes
-- [ ] Test graph layout with mixed relationship types
+- [ ] Test Employment relationships display correctly with neutral styling
+- [ ] Verify graph layout with mixed relationship types
+- [ ] Test interactive node connection and relationship creation flow

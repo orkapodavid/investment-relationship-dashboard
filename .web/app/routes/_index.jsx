@@ -3,7 +3,7 @@ import {Background,Controls,ReactFlow} from "@xyflow/react"
 import {EventLoopContext,StateContexts} from "$/utils/context"
 import {ReflexEvent,isTrue} from "$/utils/state"
 import "@xyflow/react/dist/style.css"
-import {X as LucideX} from "lucide-react"
+import {Briefcase as LucideBriefcase,X as LucideX} from "lucide-react"
 import {jsx} from "@emotion/react"
 
 
@@ -67,6 +67,17 @@ function Fragment_8e0e65409173c416667cc679e0f7b40b () {
 }
 
 
+function Span_a75135667ce8f5f11b2403f552f90a1e () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("span",{className:"px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200"},reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_.toUpperCase())
+  )
+}
+
+
 function Input_3b48229c5335a4e3f18dacb0f3dca177 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
@@ -101,24 +112,35 @@ const on_click_8bba1865c705f793b46feff123127746 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_132a5c4ddc0d64b5d6baa5649974bc4b () {
+function Fragment_5ce484f91abf902373570f8c928be7b2 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Relationship"),jsx("div",{className:"flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-4 block"},"Relationship Score"),jsx("div",{className:"flex justify-between w-full mb-2 px-1"},jsx("span",{className:"text-xs font-bold text-red-500"},"-100 (Enemy)"),jsx("span",{className:"text-xs font-bold text-gray-500"},"0 (Neutral)"),jsx("span",{className:"text-xs font-bold text-green-500"},"+100 (Ally)")),jsx(Input_3b48229c5335a4e3f18dacb0f3dca177,{},),jsx("div",{className:"text-center text-sm text-gray-600 mb-8"},"Current Score: ",jsx(Span_b05afbf33bb1f3f0340d12de6ffb8667,{},)),jsx(Button_421d2a246942f54eae651c112a4f7572,{},))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_relationship_type_rx_state_?.valueOf?.() === "employment"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"bg-gray-50 rounded-lg p-6 border border-gray-100"},jsx(LucideBriefcase,{className:"w-12 h-12 text-gray-300 mx-auto mb-3"},),jsx("p",{className:"text-center text-gray-600 font-medium mb-1"},"Employment relationships are structural links."),jsx("p",{className:"text-center text-gray-400 text-sm"},"They do not carry a sentiment score.")))):(jsx(Fragment,{},jsx("div",{className:"flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-4 block"},"Relationship Score"),jsx("div",{className:"flex justify-between w-full mb-2 px-1"},jsx("span",{className:"text-xs font-bold text-red-500"},"-100 (Enemy)"),jsx("span",{className:"text-xs font-bold text-gray-500"},"0 (Neutral)"),jsx("span",{className:"text-xs font-bold text-green-500"},"+100 (Ally)")),jsx(Input_3b48229c5335a4e3f18dacb0f3dca177,{},),jsx("div",{className:"text-center text-sm text-gray-600 mb-8"},"Current Score: ",jsx(Span_b05afbf33bb1f3f0340d12de6ffb8667,{},)),jsx(Button_421d2a246942f54eae651c112a4f7572,{},))))))
   )
 }
 
 
-function Div_ada1a49c8d48675b0a21983d23bbd781 () {
+function Fragment_c101a3a64cf795544c79e2897d826ce5 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_8e0e65409173c416667cc679e0f7b40b,{},),jsx(Fragment_132a5c4ddc0d64b5d6baa5649974bc4b,{},))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Relationship"),jsx("div",{className:"flex flex-col"},jsx("div",{className:"mb-6 flex items-center"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},)),jsx(Fragment_5ce484f91abf902373570f8c928be7b2,{},))))):(jsx(Fragment,{},))))
+  )
+}
+
+
+function Div_f79bbd0062697729fbcdb8d9a8ae64d5 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_8e0e65409173c416667cc679e0f7b40b,{},),jsx(Fragment_c101a3a64cf795544c79e2897d826ce5,{},))
   )
 }
 
@@ -130,6 +152,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx(Reactflow_e74aef831170b9f3edfb4cdb1ba6b795,{},)),jsx(Div_ada1a49c8d48675b0a21983d23bbd781,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx(Reactflow_e74aef831170b9f3edfb4cdb1ba6b795,{},)),jsx(Div_f79bbd0062697729fbcdb8d9a8ae64d5,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
