@@ -23,6 +23,11 @@
 - [x] Add notes/comments capability for relationship changes
 - [x] Polish UI with responsive design and smooth interactions
 
+## Backend Error Fix ✅
+- [x] Fixed database initialization - tables now created on app startup via lifespan_task
+- [x] Fixed update_score event handler to properly flush Relationship before creating RelationshipLog
+- [x] Verified all database operations work correctly (create, update, history tracking)
+
 ## UI Testing and Validation
 - [ ] Test default view with account selection and empty state handling
 - [ ] Verify contact card display with different relationship scores (Hostile, Indifferent, Friendly)
