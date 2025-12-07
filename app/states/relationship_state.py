@@ -105,6 +105,26 @@ class RelationshipState(rx.State):
         yield RelationshipState.load_data
 
     @rx.event
+    def set_new_node_type(self, value: str):
+        self.new_node_type = value
+
+    @rx.event
+    def set_new_node_name(self, value: str):
+        self.new_node_name = value
+
+    @rx.event
+    def set_new_node_last_name(self, value: str):
+        self.new_node_last_name = value
+
+    @rx.event
+    def set_new_node_title_or_ticker(self, value: str):
+        self.new_node_title_or_ticker = value
+
+    @rx.event
+    def set_editing_node_data(self, updates: dict):
+        self.editing_node_data = {**self.editing_node_data, **updates}
+
+    @rx.event
     def handle_term_change(self, new_term: str):
         """Handle term change from UI dropdown."""
         try:
