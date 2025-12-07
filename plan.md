@@ -78,51 +78,34 @@
 
 # ADVANCED RELATIONSHIP PROPERTIES & AUDIT LOGGING REFACTOR
 
-## Phase 11: Data Model Refactor - Advanced Relationship Properties
-- [ ] Create RelationshipTerm enum with specific terms and default properties:
-  - "works_for" (Directed, Score: 0)
-  - "invested_in" (Directed, Score: +50)
-  - "competitor" (Non-Directed, Score: -50)
-  - "colleague" (Non-Directed, Score: +20)
-  - "friend" (Non-Directed, Score: +80)
-  - "enemy" (Non-Directed, Score: -100)
-- [ ] Add new fields to Relationship model:
-  - is_active: Boolean (default True) for soft delete
-  - is_directed: Boolean (default True) for edge directionality
-  - term: RelationshipTerm enum representing the specific nature of the link
-- [ ] Update RelationshipLog to track term changes and soft delete actions
-- [ ] Create migration/seed logic to set default terms for existing relationships
+## Phase 11: Data Model Refactor - Advanced Relationship Properties ✅
+- [x] Create RelationshipTerm enum with specific terms and default properties
+- [x] Add new fields to Relationship model (is_active, is_directed, term)
+- [x] Update RelationshipLog to track term changes and soft delete actions
+- [x] Create migration/seed logic to set default terms for existing relationships
 
 ## Phase 12: Backend State Management - Lifecycle & Audit Logic
-- [ ] Implement create_relationship_with_term() method:
-  - Accept term parameter and automatically set is_directed and default score based on term
-  - Allow manual score override after term selection
-  - Log the creation in RelationshipLog
-- [ ] Update update_relationship_score() to create RelationshipLog entry before committing any change (score, term, status)
-- [ ] Implement soft_delete_relationship() method:
-  - Set is_active = False instead of deleting row
-  - Create log entry with note="Relationship deleted" and new_score=0
+- [ ] Implement create_relationship_with_term() method that accepts term parameter and sets defaults
+- [ ] Update update_relationship_score() to create RelationshipLog entry before any change
+- [ ] Implement soft_delete_relationship() method that sets is_active=False with logging
 - [ ] Update on_connect handler to use term-based relationship creation
-- [ ] Add toggle state variable: show_historic (default False) to control historic/deleted edge visibility
+- [ ] Add show_historic state variable (default False) to control deleted edge visibility
+- [ ] Add update_relationship_term() method to change relationship term with logging
 
 ## Phase 13: Graph Visualization - Directionality & Historic View
-- [ ] Update graph_data computed var to:
-  - Filter out is_active=False edges by default (unless show_historic is True)
-  - Conditionally render arrowheads: if is_directed=False, use edge type without arrows
-  - Render deleted edges as dotted lines when show_historic=True
-- [ ] Add edge styling logic for directed vs non-directed edges
-- [ ] Implement visual distinction for historic/deleted relationships (dotted, faded color)
+- [ ] Update graph_data computed var to filter is_active=False edges by default
+- [ ] Add logic to show deleted edges as dotted lines when show_historic=True
+- [ ] Implement edge type logic: directed edges with arrows, non-directed without arrows
+- [ ] Add edge styling for historic/deleted relationships (dotted, faded color)
 - [ ] Update get_most_connected_nodes and search_and_build_subgraph to respect is_active filter
 
 ## Phase 14: UI Components - Term Selection & History Toggle
-- [ ] Add toggle switch in search bar: "Show Historic/Deleted" relationships
-- [ ] Update side_panel.py edge editor:
-  - Replace generic input with dropdown for RelationshipTerm selection
-  - Show read-only badge indicating "Directed" or "Mutual" based on selected term
-  - Auto-populate score when term changes (but allow manual override)
+- [ ] Add toggle switch in search bar for "Show Historic/Deleted" relationships
+- [ ] Update side_panel edge editor with dropdown for RelationshipTerm selection
+- [ ] Add read-only badge showing "Directed" or "Mutual" based on selected term
 - [ ] Add "Delete Relationship" button in edge editor (triggers soft delete)
-- [ ] Update edge editor to show term field and allow term changes (with logging)
-- [ ] Add visual feedback for when viewing a deleted/historic relationship
+- [ ] Implement auto-population of score when term changes (with manual override)
+- [ ] Add visual feedback for deleted/historic relationships
 
 ## Phase 15: UI Verification - Advanced Features Testing
 - [ ] Test relationship creation with different terms (works_for, friend, competitor, etc.)
