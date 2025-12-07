@@ -92,20 +92,20 @@
 - [x] Add show_historic state variable (default False) to control deleted edge visibility
 - [x] Add update_relationship_term() method to change relationship term with logging
 
-## Phase 13: Graph Visualization - Directionality & Historic View
-- [ ] Update graph_data computed var to filter is_active=False edges by default
-- [ ] Add logic to show deleted edges as dotted lines when show_historic=True
-- [ ] Implement edge type logic: directed edges with arrows, non-directed without arrows
-- [ ] Add edge styling for historic/deleted relationships (dotted, faded color)
-- [ ] Update get_most_connected_nodes and search_and_build_subgraph to respect is_active filter
+## Phase 13: Graph Visualization - Directionality & Historic View ✅
+- [x] Update graph_data computed var to filter is_active=False edges by default
+- [x] Add logic to show deleted edges as dotted lines when show_historic=True
+- [x] Implement edge type logic: directed edges with arrows, non-directed without arrows
+- [x] Add edge styling for historic/deleted relationships (dotted, faded color)
+- [x] Update get_most_connected_nodes and search_and_build_subgraph to respect is_active filter
 
-## Phase 14: UI Components - Term Selection & History Toggle
-- [ ] Add toggle switch in search bar for "Show Historic/Deleted" relationships
-- [ ] Update side_panel edge editor with dropdown for RelationshipTerm selection
-- [ ] Add read-only badge showing "Directed" or "Mutual" based on selected term
-- [ ] Add "Delete Relationship" button in edge editor (triggers soft delete)
-- [ ] Implement auto-population of score when term changes (with manual override)
-- [ ] Add visual feedback for deleted/historic relationships
+## Phase 14: UI Components - Term Selection & History Toggle ✅
+- [x] Add toggle switch in search bar for "Show Historic/Deleted" relationships
+- [x] Update side_panel edge editor with dropdown for RelationshipTerm selection
+- [x] Add read-only badge showing "Directed" or "Mutual" based on selected term
+- [x] Add "Delete Relationship" button in edge editor (triggers soft delete)
+- [x] Implement auto-population of score when term changes (with manual override)
+- [x] Add visual feedback for deleted/historic relationships
 
 ## Phase 15: UI Verification - Advanced Features Testing
 - [ ] Test relationship creation with different terms (works_for, friend, competitor, etc.)
@@ -114,4 +114,3 @@
 - [ ] Toggle "Show Historic" and verify deleted edges appear as dotted lines
 - [ ] Test term dropdown in edge editor and verify auto-populated score
 - [ ] Verify all changes create proper RelationshipLog entries
-- [ ] Test non-directed relationships (colleague, competitor) render without arrows
