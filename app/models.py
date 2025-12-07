@@ -2,10 +2,17 @@ import reflex as rx
 from typing import Optional
 from datetime import datetime
 import sqlmodel
+import enum
+
+
+class RelationshipType(str, enum.Enum):
+    EMPLOYMENT = "employment"
+    SOCIAL = "social"
+    BUSINESS = "business"
 
 
 class Account(sqlmodel.SQLModel, table=True):
-    """Represents an investment account or company."""
+    """Represents a company or organization node."""
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     name: str
@@ -15,28 +22,30 @@ class Account(sqlmodel.SQLModel, table=True):
 
 
 class Contact(sqlmodel.SQLModel, table=True):
-    """Represents a person at an account."""
+    """Represents a person node."""
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     first_name: str
     last_name: str
     job_title: str
     dynamics_contact_id: str = ""
-    account_id: int = sqlmodel.Field(foreign_key="account.id")
+    account_id: Optional[int] = sqlmodel.Field(default=None, foreign_key="account.id")
     account: Optional[Account] = sqlmodel.Relationship(back_populates="contacts")
-    relationship: Optional["Relationship"] = sqlmodel.Relationship(
-        sa_relationship_kwargs={"uselist": False}, back_populates="contact"
-    )
 
 
 class Relationship(sqlmodel.SQLModel, table=True):
-    """Tracks the current relationship status with a contact."""
+    """Tracks relationships between entities (Person-Person, Company-Company, Person-Company)."""
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     score: int = 0
     last_updated: datetime = sqlmodel.Field(default_factory=datetime.now)
-    contact_id: int = sqlmodel.Field(foreign_key="contact.id")
-    contact: Optional[Contact] = sqlmodel.Relationship(back_populates="relationship")
+    relationship_type: RelationshipType = sqlmodel.Field(
+        default=RelationshipType.EMPLOYMENT
+    )
+    source_type: str = "person"
+    source_id: int
+    target_type: str = "company"
+    target_id: int
     logs: list["RelationshipLog"] = sqlmodel.Relationship(back_populates="relationship")
 
 
