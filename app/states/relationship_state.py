@@ -55,6 +55,18 @@ class RelationshipState(rx.State):
     show_side_panel: bool = False
     edit_mode: str = "none"
     selected_node_data: dict = {}
+    is_editing: bool = False
+    is_creating_relationship: bool = False
+    node_create_mode: bool = False
+    editing_node_id: int = 0
+    editing_node_type: str = ""
+    editing_node_data: dict = {}
+    relationship_target_search: str = ""
+    filtered_target_nodes: list[dict] = []
+    new_node_type: str = "person"
+    new_node_name: str = ""
+    new_node_last_name: str = ""
+    new_node_title_or_ticker: str = ""
     editing_score: int = 0
     editing_relationship_type: str = ""
     editing_term: str = ""
@@ -1042,3 +1054,214 @@ class RelationshipState(rx.State):
         except Exception as e:
             logging.exception(f"Error fetching node relationships: {e}")
             return []
+
+    @rx.event
+    def get_all_nodes_for_search(self) -> list[dict]:
+        """Fetch all nodes formatted for search selection."""
+        nodes = []
+        try:
+            with rx.session() as session:
+                accounts = session.exec(select(Account)).all()
+                for acc in accounts:
+                    nodes.append(
+                        {
+                            "id": acc.id,
+                            "type": "company",
+                            "name": acc.name,
+                            "subtitle": acc.ticker,
+                            "full_id": f"acc-{acc.id}",
+                        }
+                    )
+                contacts = session.exec(select(Contact)).all()
+                for con in contacts:
+                    nodes.append(
+                        {
+                            "id": con.id,
+                            "type": "person",
+                            "name": f"{con.first_name} {con.last_name}",
+                            "subtitle": con.job_title,
+                            "full_id": f"con-{con.id}",
+                        }
+                    )
+        except Exception as e:
+            logging.exception(f"Error fetching nodes for search: {e}")
+        return nodes
+
+    @rx.event
+    def filter_target_nodes(self, query: str):
+        """Filter nodes for relationship creation target selection."""
+        self.relationship_target_search = query
+        all_nodes = self.get_all_nodes_for_search()
+        current_node_full_id = self.selected_node_id
+        filtered = []
+        query = query.lower()
+        for node in all_nodes:
+            if node["full_id"] == current_node_full_id:
+                continue
+            if query in node["name"].lower() or query in node["subtitle"].lower():
+                filtered.append(node)
+        self.filtered_target_nodes = filtered[:10]
+
+    @rx.event
+    def prepare_node_edit(self):
+        """Prepare state for editing the currently selected node."""
+        if not self.selected_node_id:
+            return
+        try:
+            parts = self.selected_node_id.split("-")
+            if len(parts) < 2:
+                return
+            prefix, id_str = (parts[0], parts[1])
+            node_id = int(id_str)
+            node_type = "company" if prefix == "acc" else "person"
+            self.is_editing = True
+            self.editing_node_id = node_id
+            self.editing_node_type = node_type
+            with rx.session() as session:
+                if node_type == "company":
+                    acc = session.get(Account, node_id)
+                    if acc:
+                        self.editing_node_data = {
+                            "name": acc.name,
+                            "ticker": acc.ticker,
+                        }
+                else:
+                    con = session.get(Contact, node_id)
+                    if con:
+                        self.editing_node_data = {
+                            "first_name": con.first_name,
+                            "last_name": con.last_name,
+                            "job_title": con.job_title,
+                        }
+        except Exception as e:
+            logging.exception(f"Error preparing node edit: {e}")
+            rx.toast("Error preparing edit mode", duration=3000)
+
+    @rx.event
+    def cancel_edit(self):
+        """Cancel edit mode and reset temporary state."""
+        self.is_editing = False
+        self.is_creating_relationship = False
+        self.editing_node_data = {}
+        self.relationship_target_search = ""
+        self.filtered_target_nodes = []
+
+    @rx.event
+    def start_relationship_creation(self):
+        """Enter relationship creation mode."""
+        self.is_creating_relationship = True
+        self.relationship_target_search = ""
+        self.filter_target_nodes("")
+
+    @rx.event
+    def create_relationship_from_panel(
+        self, target_node_id: int, target_node_type: str, term: str, score: int
+    ):
+        """Create a relationship from the side panel UI."""
+        if not self.selected_node_id:
+            return rx.toast("No source node selected", duration=3000)
+        try:
+            parts = self.selected_node_id.split("-")
+            src_prefix, src_id_str = (parts[0], parts[1])
+            source_id = int(src_id_str)
+            source_type = "company" if src_prefix == "acc" else "person"
+            term_enum = RelationshipTerm(term)
+            rel_type = TERM_TO_TYPE.get(term_enum, RelationshipType.SOCIAL)
+            with rx.session() as session:
+                existing = session.exec(
+                    select(Relationship).where(
+                        Relationship.source_type == source_type,
+                        Relationship.source_id == source_id,
+                        Relationship.target_type == target_node_type,
+                        Relationship.target_id == target_node_id,
+                    )
+                ).first()
+                if existing:
+                    if not existing.is_active:
+                        existing.is_active = True
+                        existing.term = term_enum
+                        existing.relationship_type = rel_type
+                        existing.score = score
+                        existing.last_updated = datetime.now()
+                        session.add(existing)
+                        log_entry = RelationshipLog(
+                            relationship_id=existing.id,
+                            previous_score=existing.score,
+                            new_score=score,
+                            action="reactivate_panel",
+                            changed_at=datetime.now(),
+                            note="Reactivated via side panel",
+                        )
+                        session.add(log_entry)
+                        session.commit()
+                        rx.toast("Reactivated existing relationship", duration=3000)
+                    else:
+                        return rx.toast("Relationship already exists", duration=3000)
+                else:
+                    defaults = TERM_DEFAULTS.get(
+                        term_enum, {"is_directed": False, "default_score": 0}
+                    )
+                    new_rel = Relationship(
+                        score=score,
+                        relationship_type=rel_type,
+                        term=term_enum,
+                        is_directed=defaults["is_directed"],
+                        is_active=True,
+                        source_type=source_type,
+                        source_id=source_id,
+                        target_type=target_node_type,
+                        target_id=target_node_id,
+                    )
+                    session.add(new_rel)
+                    session.commit()
+                    rx.toast("Relationship created", duration=3000)
+            self.is_creating_relationship = False
+            self.load_data()
+        except Exception as e:
+            logging.exception(f"Error creating relationship from panel: {e}")
+            rx.toast("Failed to create relationship", duration=3000)
+
+    @rx.event
+    def start_node_creation(self):
+        """Enter node creation mode."""
+        self.node_create_mode = True
+        self.new_node_type = "person"
+        self.new_node_name = ""
+        self.new_node_last_name = ""
+        self.new_node_title_or_ticker = ""
+        self.show_side_panel = False
+        self.edit_mode = "none"
+
+    @rx.event
+    def cancel_node_creation(self):
+        """Exit node creation mode."""
+        self.node_create_mode = False
+        self.new_node_name = ""
+        self.new_node_last_name = ""
+        self.new_node_title_or_ticker = ""
+
+    @rx.event
+    def submit_node_creation(self):
+        """Submit new node creation."""
+        if self.new_node_type == "person":
+            if not self.new_node_name.strip():
+                return rx.toast("First name is required", duration=3000)
+            full_name = f"{self.new_node_name} {self.new_node_last_name}".strip()
+            self.add_node(
+                node_type="person",
+                name=full_name,
+                title_or_ticker=self.new_node_title_or_ticker,
+                additional_data={
+                    "first_name": self.new_node_name,
+                    "last_name": self.new_node_last_name,
+                },
+            )
+        else:
+            if not self.new_node_name.strip():
+                return rx.toast("Company name is required", duration=3000)
+            self.add_node(
+                node_type="company",
+                name=self.new_node_name,
+                title_or_ticker=self.new_node_title_or_ticker,
+            )
+        self.node_create_mode = False
