@@ -7,19 +7,19 @@
 - [x] Implement searchable accounts list with filter functionality
 - [x] Add main content area that displays when an account is selected
 
-## Phase 2: Relationship Editor with Dynamic Scoring
-- [ ] Build contacts grid for selected account
-- [ ] Implement relationship score slider (-100 to 100 range) with on_change_end event
-- [ ] Create color gradient helper function (red/gray/green based on score)
-- [ ] Apply dynamic color styling to contact cards and sliders based on score
-- [ ] Implement CRUD operations: create/update relationships and log history
-- [ ] Add visual feedback for sentiment levels (Hostile/Indifferent/Friendly)
+## Phase 2: Relationship Editor with Dynamic Scoring ✅
+- [x] Build contacts grid for selected account
+- [x] Implement relationship score slider (-100 to 100 range) with on_change event (throttled)
+- [x] Create color gradient helper function (red/gray/green based on score)
+- [x] Apply dynamic color styling to contact cards and sliders based on score
+- [x] Implement CRUD operations: create/update relationships and log history
+- [x] Add visual feedback for sentiment levels (Hostile/Indifferent/Friendly)
 
 ## Phase 3: History Tracking and Contact Management
 - [ ] Build history view section showing relationship log entries
 - [ ] Display previous score, new score, timestamp, and notes for each log entry
 - [ ] Add ability to create new contacts linked to accounts
-- [ ] Implement score change tracking with automatic RelationshipLog creation
+- [ ] Implement score change tracking with automatic RelationshipLog creation (already working from Phase 2)
 - [ ] Add notes/comments capability for relationship changes
 - [ ] Polish UI with responsive design and smooth interactions
 

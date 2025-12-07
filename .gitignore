@@ -1,41 +1,4 @@
-# Python
+.web/
+.states/
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-
-# Distribution / packaging
-build/
-dist/
-eggs/
-.eggs/
-lib/
-lib64/
-sdist/
-var/
-wheels/
-*.egg-info/
-*.egg
-
-# Virtual environments
-.venv
-venv/
-ENV/
-env/
-
-# Environment variables (CRITICAL - DO NOT PUSH SECRETS)
-.env
-*.env
-.env.local
-.env.*.local
-
-# Node modules
-node_modules/
-
-# Reflex
-.reflex/
-
-# Databases
-*.db
-*.db-journal
+/app/__pycache__/
