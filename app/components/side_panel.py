@@ -373,7 +373,7 @@ def node_details_view() -> rx.Component:
             rx.el.h2("Details", class_name="text-xl font-bold text-gray-900"),
             rx.el.span(
                 rx.cond(
-                    RelationshipState.selected_node_id.contains("acc-"),
+                    RelationshipState.selected_node_data["type"] == "company",
                     "Company",
                     "Person",
                 ),
@@ -388,7 +388,7 @@ def node_details_view() -> rx.Component:
                     class_name="text-xs font-bold text-gray-400 uppercase mb-1 block",
                 ),
                 rx.el.p(
-                    RelationshipState.selected_node_data["label"],
+                    RelationshipState.selected_node_data["display_name"],
                     class_name="text-lg font-semibold text-gray-900 mb-4 whitespace-pre-wrap",
                 ),
                 rx.el.label(

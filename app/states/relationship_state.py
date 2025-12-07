@@ -380,6 +380,7 @@ class RelationshipState(rx.State):
         for idx, acc in enumerate(current_accounts):
             acc_id = get_id(acc)
             acc_name = get_attr(acc, "name")
+            acc_ticker = get_attr(acc, "ticker")
             x = center_x + 300 * math.cos(
                 2 * math.pi * idx / (len(current_accounts) or 1)
             )
@@ -393,7 +394,11 @@ class RelationshipState(rx.State):
                     "group": "company",
                     "data": {
                         "label": acc_name if show_labels else "",
+                        "name": acc_name,
+                        "display_name": acc_name,
+                        "ticker": acc_ticker,
                         "job": "Company",
+                        "type": "company",
                     },
                     "position": {"x": x, "y": y},
                     "style": {
@@ -429,7 +434,12 @@ class RelationshipState(rx.State):
                     "group": "person",
                     "data": {
                         "label": f"{con_first} {con_last}" if show_labels else "",
+                        "first_name": con_first,
+                        "last_name": con_last,
+                        "display_name": f"{con_first} {con_last}",
                         "job": con_job,
+                        "job_title": con_job,
+                        "type": "person",
                     },
                     "position": {"x": offset_x, "y": offset_y},
                     "style": {
@@ -1168,6 +1178,9 @@ class RelationshipState(rx.State):
                         self.editing_node_data = {
                             "name": acc.name,
                             "ticker": acc.ticker,
+                            "first_name": "",
+                            "last_name": "",
+                            "job_title": "",
                         }
                 else:
                     con = session.get(Contact, node_id)
@@ -1176,6 +1189,8 @@ class RelationshipState(rx.State):
                             "first_name": con.first_name,
                             "last_name": con.last_name,
                             "job_title": con.job_title,
+                            "name": f"{con.first_name} {con.last_name}",
+                            "ticker": "",
                         }
         except Exception as e:
             logging.exception(f"Error preparing node edit: {e}")
