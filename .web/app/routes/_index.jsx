@@ -1,12 +1,91 @@
 import {Fragment,useCallback,useContext,useEffect} from "react"
-import {Background,Controls,ReactFlow} from "@xyflow/react"
+import {Briefcase as LucideBriefcase,Search as LucideSearch,X as LucideX} from "lucide-react"
 import {EventLoopContext,StateContexts} from "$/utils/context"
 import {ReflexEvent,isTrue} from "$/utils/state"
+import {Background,Controls,ReactFlow} from "@xyflow/react"
 import "@xyflow/react/dist/style.css"
-import {Briefcase as LucideBriefcase,X as LucideX} from "lucide-react"
 import {jsx} from "@emotion/react"
 
 
+
+
+function Input_452760df470a3d53315c1ad7e191e6cc () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_05bcce9446d718e7a4abb4b080c17322 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.handle_search", ({ ["query"] : _e?.["target"]?.["value"] }), ({ ["debounce"] : 300 })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"pl-10 pr-4 py-2 w-64 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_,onChange:on_change_05bcce9446d718e7a4abb4b080c17322,placeholder:"Search people or companies..."},)
+  )
+}
+
+
+function Span_aa012b7705b5ca487d3155213cb2d562 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("span",{className:"text-xs font-bold text-indigo-600 ml-1"},reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)
+  )
+}
+
+
+function Input_8033b78229431018e592b9906a28309b () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_843e7777a1f87d02b46b132ae024a522 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_node_limit", ({ ["limit"] : (Number(_e?.["target"]?.["value"])) }), ({ ["throttle"] : 100 })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-32 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600",defaultValue:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),key:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),max:"500",min:"50",onChange:on_change_843e7777a1f87d02b46b132ae024a522,step:"50",type:"range"},)
+  )
+}
+
+
+function Span_57919b037ee25ae10597836caec379e5 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("span",{className:"font-bold text-indigo-600"},(reflex___state____state__app___states___relationship_state____relationship_state.filtered_accounts_rx_state_.length + reflex___state____state__app___states___relationship_state____relationship_state.filtered_contacts_rx_state_.length))
+  )
+}
+
+
+function Fragment_b3f9bd9690269352241f5f82277e781a () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_?(jsx(Fragment,{},jsx("div",{className:"animate-spin rounded-full h-4 w-4 border-2 border-indigo-600 border-t-transparent ml-2"},))):(jsx(Fragment,{},))))
+  )
+}
+
+
+function Button_1da96e2afebc5b22c0038e4786ab5886 () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_6e4a29164a2099368f62d55bc1d3507c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.clear_search", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"flex items-center px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium",onClick:on_click_6e4a29164a2099368f62d55bc1d3507c},jsx(LucideX,{className:"w-4 h-4 mr-1"},),"Clear")
+  )
+}
+
+
+function Fragment_2942491bb2a9346893e0fd022acf9526 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(!((reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(jsx(Fragment,{},jsx(Button_1da96e2afebc5b22c0038e4786ab5886,{},))):(jsx(Fragment,{},))))
+  )
+}
 
 
 function Reactflow_e74aef831170b9f3edfb4cdb1ba6b795 () {
@@ -152,6 +231,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx(Reactflow_e74aef831170b9f3edfb4cdb1ba6b795,{},)),jsx(Div_f79bbd0062697729fbcdb8d9a8ae64d5,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},)),jsx(Reactflow_e74aef831170b9f3edfb4cdb1ba6b795,{},)),jsx(Div_f79bbd0062697729fbcdb8d9a8ae64d5,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
