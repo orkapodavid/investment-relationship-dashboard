@@ -10,8 +10,7 @@ class Account(sqlmodel.SQLModel, table=True):
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     name: str
     ticker: str
-    sector: str
-    description: str = ""
+    dynamics_account_id: str = ""
     contacts: list["Contact"] = sqlmodel.Relationship(back_populates="account")
 
 
@@ -19,10 +18,10 @@ class Contact(sqlmodel.SQLModel, table=True):
     """Represents a person at an account."""
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
-    name: str
-    email: str
-    phone: str = ""
-    position: str
+    first_name: str
+    last_name: str
+    job_title: str
+    dynamics_contact_id: str = ""
     account_id: int = sqlmodel.Field(foreign_key="account.id")
     account: Optional[Account] = sqlmodel.Relationship(back_populates="contacts")
     relationship: Optional["Relationship"] = sqlmodel.Relationship(
@@ -35,20 +34,19 @@ class Relationship(sqlmodel.SQLModel, table=True):
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     score: int = 0
-    sentiment: str = "Indifferent"
-    last_interaction: datetime = sqlmodel.Field(default_factory=datetime.now)
+    last_updated: datetime = sqlmodel.Field(default_factory=datetime.now)
     contact_id: int = sqlmodel.Field(foreign_key="contact.id")
     contact: Optional[Contact] = sqlmodel.Relationship(back_populates="relationship")
     logs: list["RelationshipLog"] = sqlmodel.Relationship(back_populates="relationship")
 
 
 class RelationshipLog(sqlmodel.SQLModel, table=True):
-    """History of score changes."""
+    """Tracks history of relationship score changes."""
 
     id: Optional[int] = sqlmodel.Field(default=None, primary_key=True)
     previous_score: int
     new_score: int
-    note: str
-    timestamp: datetime = sqlmodel.Field(default_factory=datetime.now)
+    changed_at: datetime = sqlmodel.Field(default_factory=datetime.now)
+    note: Optional[str] = None
     relationship_id: int = sqlmodel.Field(foreign_key="relationship.id")
     relationship: Optional[Relationship] = sqlmodel.Relationship(back_populates="logs")
