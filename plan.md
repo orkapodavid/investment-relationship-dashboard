@@ -7,13 +7,13 @@
 - [x] Design node structure: Account nodes (squares) vs Contact nodes (circles) with distinct visual properties
 - [x] Design edge structure: Relationship edges with dynamic colors based on score (-100=red, 0=gray, +100=green)
 
-## Phase 2: Replace UI with Graph Canvas
-- [ ] Remove sidebar.py and account_view.py components
-- [ ] Create new graph_view.py component using reflex-enterprise react-flow
-- [ ] Configure graph canvas with zooming and panning capabilities
-- [ ] Implement node rendering with visual distinction (Accounts as squares, Contacts as circles)
-- [ ] Implement edge rendering with dynamic color gradient based on relationship score
-- [ ] Set up proper graph layout and initial positioning
+## Phase 2: Replace UI with Graph Canvas ✅
+- [x] Remove sidebar.py and account_view.py components
+- [x] Create new graph_view.py component using reflex-enterprise react-flow
+- [x] Configure graph canvas with zooming and panning capabilities
+- [x] Implement node rendering with visual distinction (Accounts as squares, Contacts as circles)
+- [x] Implement edge rendering with dynamic color gradient based on relationship score
+- [x] Set up proper graph layout and initial positioning
 
 ## Phase 3: Interactive Features and Editing
 - [ ] Implement node click handler to show details panel (Name, Title, Type)
