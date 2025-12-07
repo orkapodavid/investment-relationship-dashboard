@@ -32,14 +32,14 @@ function Span_aa012b7705b5ca487d3155213cb2d562 () {
 }
 
 
-function Input_8033b78229431018e592b9906a28309b () {
+function Input_f663b27571d3b8f5d99f87a8a7199bbd () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_change_843e7777a1f87d02b46b132ae024a522 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_node_limit", ({ ["limit"] : (Number(_e?.["target"]?.["value"])) }), ({ ["throttle"] : 100 })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-32 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600",defaultValue:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),key:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),max:"500",min:"50",onChange:on_change_843e7777a1f87d02b46b132ae024a522,step:"50",type:"range"},)
+    jsx("input",{className:"w-24 h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600",defaultValue:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),key:(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_limit_rx_state_)),max:"500",min:"50",onChange:on_change_843e7777a1f87d02b46b132ae024a522,step:"50",type:"range"},)
   )
 }
 
@@ -55,13 +55,13 @@ function Span_57919b037ee25ae10597836caec379e5 () {
 }
 
 
-function Fragment_b3f9bd9690269352241f5f82277e781a () {
+function Fragment_7e9f83555c06479747385d5466defb99 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_?(jsx(Fragment,{},jsx("div",{className:"animate-spin rounded-full h-4 w-4 border-2 border-indigo-600 border-t-transparent ml-2"},))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_loading_rx_state_?(jsx(Fragment,{},jsx("div",{className:"animate-spin rounded-full h-3 w-3 border-2 border-indigo-600 border-t-transparent ml-2"},))):(jsx(Fragment,{},))))
   )
 }
 
@@ -78,35 +78,35 @@ const on_change_dbb875a17bd75c23b5e5195c35e9af66 = useCallback(((_e) => (addEven
 }
 
 
-function Button_1da96e2afebc5b22c0038e4786ab5886 () {
+function Button_d3c5e832a0dee53b6cb23c876c82d726 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_6e4a29164a2099368f62d55bc1d3507c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.clear_search", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"flex items-center px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium",onClick:on_click_6e4a29164a2099368f62d55bc1d3507c},jsx(LucideX,{className:"w-4 h-4 mr-1"},),"Clear")
+    jsx("button",{className:"flex items-center px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium flex-shrink-0",onClick:on_click_6e4a29164a2099368f62d55bc1d3507c},jsx(LucideX,{className:"w-4 h-4 mr-1"},),"Clear")
   )
 }
 
 
-function Fragment_2942491bb2a9346893e0fd022acf9526 () {
+function Fragment_a5cc6ec4b835a06850307041a02814a4 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(!((reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(jsx(Fragment,{},jsx(Button_1da96e2afebc5b22c0038e4786ab5886,{},))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(!((reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(jsx(Fragment,{},jsx(Button_d3c5e832a0dee53b6cb23c876c82d726,{},))):(jsx(Fragment,{},))))
   )
 }
 
 
-function Button_3be64328db9c5cae577b21ee720153df () {
+function Button_c62b08845cf09fde991bc30038ae20ed () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"flex items-center px-3 py-1.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors font-medium shadow-sm ml-2",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-4 h-4 mr-1.5"},),"New Entity")
+    jsx("button",{className:"flex items-center px-3 py-1.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors font-medium shadow-sm flex-shrink-0",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-4 h-4 mr-1.5"},),"New Entity")
   )
 }
 
@@ -691,6 +691,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},),jsx(Button_3be64328db9c5cae577b21ee720153df,{},)),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_815745bbf9062b0b39bb3dca5ac64d96,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500 max-w-[95vw]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex items-center gap-4"},jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_f663b27571d3b8f5d99f87a8a7199bbd,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[80px] justify-center h-full"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("div",{className:"border-l pl-4 border-gray-200 flex items-center"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700 select-none"},"Historic")))),jsx("div",{className:"flex items-center gap-2 border-l pl-4 border-gray-200"},jsx(Fragment_a5cc6ec4b835a06850307041a02814a4,{},),jsx(Button_c62b08845cf09fde991bc30038ae20ed,{},))),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_815745bbf9062b0b39bb3dca5ac64d96,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
