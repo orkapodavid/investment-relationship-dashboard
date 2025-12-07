@@ -35,6 +35,12 @@ class RelationshipState(rx.State):
     editing_score: int = 0
     editing_relationship_type: str = ""
     is_loading: bool = False
+    zoom_level: float = 1.0
+
+    @rx.event
+    def set_zoom_level(self, zoom: float):
+        """Update the current zoom level for LOD calculations."""
+        self.zoom_level = zoom
 
     @rx.event
     async def load_data(self):
@@ -258,6 +264,13 @@ class RelationshipState(rx.State):
         current_accounts = self.filtered_accounts
         current_contacts = self.filtered_contacts
         current_relationships = self.filtered_relationships
+        show_labels = self.zoom_level >= 0.6
+        small_nodes = self.zoom_level < 0.4
+        simplify_edges = self.zoom_level < 0.5
+        total_nodes = len(current_accounts) + len(current_contacts)
+        should_animate_particles = total_nodes <= 100
+        comp_size = "50px" if small_nodes else "100px"
+        pers_size = "30px" if small_nodes else "60px"
         for idx, acc in enumerate(current_accounts):
             x = center_x + 300 * math.cos(
                 2 * math.pi * idx / (len(current_accounts) or 1)
@@ -270,11 +283,14 @@ class RelationshipState(rx.State):
                     "id": f"acc-{acc.id}",
                     "type": "account",
                     "group": "company",
-                    "data": {"label": acc.name, "job": "Company"},
+                    "data": {
+                        "label": acc.name if show_labels else "",
+                        "job": "Company",
+                    },
                     "position": {"x": x, "y": y},
                     "style": {
-                        "width": "100px",
-                        "height": "100px",
+                        "width": comp_size,
+                        "height": comp_size,
                         "background": "#1e1b4b",
                         "color": "white",
                         "borderRadius": "8px",
@@ -299,13 +315,15 @@ class RelationshipState(rx.State):
                     "type": "contact",
                     "group": "person",
                     "data": {
-                        "label": f"{con.first_name} {con.last_name}",
+                        "label": f"{con.first_name} {con.last_name}"
+                        if show_labels
+                        else "",
                         "job": con.job_title,
                     },
                     "position": {"x": offset_x, "y": offset_y},
                     "style": {
-                        "width": "60px",
-                        "height": "60px",
+                        "width": pers_size,
+                        "height": pers_size,
                         "background": "#bae6fd",
                         "color": "#0f172a",
                         "borderRadius": "50%",
@@ -361,31 +379,43 @@ class RelationshipState(rx.State):
                 )
             else:
                 edge_color = self.get_edge_color(rel.score)
-                edge_dict.update(
-                    {
-                        "label": f"{rel.relationship_type.value.title()} ({rel.score})",
-                        "animated": True,
-                        "style": {
-                            "stroke": edge_color,
-                            "strokeWidth": 3,
-                            "strokeDasharray": "0",
-                        },
-                        "labelStyle": {
-                            "fill": edge_color,
-                            "fontWeight": 700,
-                            "fontSize": 11,
-                        },
-                        "labelShowBg": True,
-                        "labelBgStyle": {
-                            "fill": "#ffffff",
-                            "fillOpacity": 0.95,
-                            "stroke": edge_color,
-                            "strokeWidth": 1,
-                        },
-                        "labelBgPadding": [8, 4],
-                        "labelBgBorderRadius": 6,
-                    }
-                )
+                if simplify_edges:
+                    edge_dict.update(
+                        {
+                            "animated": should_animate_particles,
+                            "style": {
+                                "stroke": edge_color,
+                                "strokeWidth": 1,
+                                "strokeDasharray": "0",
+                            },
+                        }
+                    )
+                else:
+                    edge_dict.update(
+                        {
+                            "label": f"{rel.relationship_type.value.title()} ({rel.score})",
+                            "animated": should_animate_particles,
+                            "style": {
+                                "stroke": edge_color,
+                                "strokeWidth": 3,
+                                "strokeDasharray": "0",
+                            },
+                            "labelStyle": {
+                                "fill": edge_color,
+                                "fontWeight": 700,
+                                "fontSize": 11,
+                            },
+                            "labelShowBg": True,
+                            "labelBgStyle": {
+                                "fill": "#ffffff",
+                                "fillOpacity": 0.95,
+                                "stroke": edge_color,
+                                "strokeWidth": 1,
+                            },
+                            "labelBgPadding": [8, 4],
+                            "labelBgBorderRadius": 6,
+                        }
+                    )
             edges.append(edge_dict)
         return {"nodes": nodes, "edges": edges}
 
