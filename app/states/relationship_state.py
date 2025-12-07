@@ -628,6 +628,7 @@ class RelationshipState(rx.State):
                         obj = session.get(Account, node_id)
                         if obj:
                             self.selected_node_data = {
+                                "id": str(node_id),
                                 "display_name": obj.name,
                                 "job": "Company",
                                 "type": "company",
@@ -641,6 +642,7 @@ class RelationshipState(rx.State):
                         obj = session.get(Contact, node_id)
                         if obj:
                             self.selected_node_data = {
+                                "id": str(node_id),
                                 "display_name": f"{obj.first_name} {obj.last_name}",
                                 "job": obj.job_title,
                                 "type": "person",

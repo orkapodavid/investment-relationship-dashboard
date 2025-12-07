@@ -76,32 +76,36 @@ def search_bar() -> rx.Component:
             class_name="relative inline-flex items-center cursor-pointer h-9",
         ),
         rx.el.div(class_name="w-px h-8 bg-gray-300 mx-1"),
-        rx.el.button(
-            rx.icon("plus", class_name="w-4 h-4 sm:mr-2"),
-            rx.el.span("Node", class_name="hidden sm:inline"),
-            on_click=RelationshipState.start_node_creation,
-            class_name="flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",
-            title="Create New Entity",
-        ),
-        rx.el.button(
-            rx.icon("link", class_name="w-4 h-4 sm:mr-1.5"),
-            rx.el.span("Link", class_name="hidden sm:inline"),
-            disabled=RelationshipState.selected_node_id == "",
-            on_click=RelationshipState.start_relationship_creation,
-            class_name=rx.cond(
-                RelationshipState.selected_node_id == "",
-                "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0",
-                "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0",
+        rx.el.div(
+            rx.el.button(
+                rx.icon("plus", class_name="w-4 h-4 mr-2"),
+                rx.el.span("Node"),
+                on_click=RelationshipState.start_node_creation,
+                class_name="flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",
+                title="Create New Entity",
             ),
-            title=rx.cond(
-                RelationshipState.selected_node_id == "",
-                "Select a node to add a link",
-                "Add connection",
+            rx.el.button(
+                rx.icon("link", class_name="w-4 h-4 mr-1.5"),
+                rx.el.span("Link"),
+                disabled=RelationshipState.selected_node_id == "",
+                on_click=RelationshipState.start_relationship_creation,
+                class_name=rx.cond(
+                    RelationshipState.selected_node_id == "",
+                    "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0",
+                    "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0",
+                ),
+                title=rx.cond(
+                    RelationshipState.selected_node_id == "",
+                    "Select a node to add a link",
+                    "Add connection",
+                ),
             ),
+            class_name="flex items-center gap-2",
         ),
         rx.cond(
             RelationshipState.show_side_panel,
             rx.el.div(
+                rx.el.div(class_name="w-px h-6 bg-gray-300 mx-1"),
                 rx.el.button(
                     rx.icon("pencil", class_name="w-4 h-4"),
                     on_click=RelationshipState.prepare_node_edit,
@@ -121,5 +125,5 @@ def search_bar() -> rx.Component:
                 class_name="flex gap-2 items-center",
             ),
         ),
-        class_name="absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)]",
+        class_name="absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-full",
     )
