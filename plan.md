@@ -84,13 +84,13 @@
 - [x] Update RelationshipLog to track term changes and soft delete actions
 - [x] Create migration/seed logic to set default terms for existing relationships
 
-## Phase 12: Backend State Management - Lifecycle & Audit Logic
-- [ ] Implement create_relationship_with_term() method that accepts term parameter and sets defaults
-- [ ] Update update_relationship_score() to create RelationshipLog entry before any change
-- [ ] Implement soft_delete_relationship() method that sets is_active=False with logging
-- [ ] Update on_connect handler to use term-based relationship creation
-- [ ] Add show_historic state variable (default False) to control deleted edge visibility
-- [ ] Add update_relationship_term() method to change relationship term with logging
+## Phase 12: Backend State Management - Lifecycle & Audit Logic ✅
+- [x] Implement create_relationship_with_term() method that accepts term parameter and sets defaults
+- [x] Update update_relationship_score() to create RelationshipLog entry before any change
+- [x] Implement soft_delete_relationship() method that sets is_active=False with logging
+- [x] Update on_connect handler to use term-based relationship creation
+- [x] Add show_historic state variable (default False) to control deleted edge visibility
+- [x] Add update_relationship_term() method to change relationship term with logging
 
 ## Phase 13: Graph Visualization - Directionality & Historic View
 - [ ] Update graph_data computed var to filter is_active=False edges by default
