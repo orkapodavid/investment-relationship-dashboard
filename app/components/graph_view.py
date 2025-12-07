@@ -28,6 +28,12 @@ def graph_view() -> rx.Component:
             on_connect=RelationshipState.on_connect,
             class_name="bg-gray-50 w-full h-full",
         ),
+        rx.el.button(
+            rx.icon("plus", class_name="w-5 h-5 mr-2"),
+            "New Entity",
+            on_click=RelationshipState.start_node_creation,
+            class_name="absolute top-4 right-16 z-50 flex items-center px-4 py-2.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors font-semibold shadow-md hover:shadow-lg whitespace-nowrap",
+        ),
         search_bar(),
         class_name="w-full h-full relative",
     )
