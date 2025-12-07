@@ -117,4 +117,61 @@
 
 ---
 
-# 🎉 PROJECT COMPLETE - All Features Implemented and Tested ✅
+# FULL CRUD OPERATIONS FOR NODES & RELATIONSHIPS
+
+## Phase 16: Backend CRUD - Node Management
+- [ ] Add `add_node(node_type, name, title_or_ticker)` method to create new Account or Contact
+- [ ] Add `update_node(node_id, node_type, updated_data)` method to update node fields
+- [ ] Add `delete_node(node_id, node_type)` method with cascade delete for connected relationships
+- [ ] Add `get_node_relationships(node_id, node_type)` method to fetch all connections for a node
+- [ ] Add validation logic to prevent duplicate nodes and invalid data
+
+## Phase 17: Backend CRUD - Relationship Management
+- [ ] Add `add_relationship(source_type, source_id, target_type, target_id, term, score)` method
+- [ ] Add `get_all_nodes_for_search()` method that returns searchable list of all nodes
+- [ ] Add state variables: `is_editing` (bool), `is_creating_relationship` (bool), `node_create_mode` (bool)
+- [ ] Add `editing_node_id`, `editing_node_type`, `editing_node_data` state variables
+- [ ] Add `relationship_target_search` and `filtered_target_nodes` state variables
+
+## Phase 18: Side Panel UI - View Mode Enhancements
+- [ ] Add "Relationships" section that lists all connected nodes with score badges
+- [ ] Add trash icon next to each relationship for quick delete
+- [ ] Add "Edit Details" button that switches to edit mode
+- [ ] Add "Add Relationship" button that shows target node search
+- [ ] Display node type badge (Person/Company) in view mode
+
+## Phase 19: Side Panel UI - Edit Mode
+- [ ] Convert name, title/ticker displays to rx.input fields in edit mode
+- [ ] Add "Save Changes" button that calls update_node()
+- [ ] Add "Cancel" button that reverts to view mode
+- [ ] Add "Delete Node" button (red, with confirmation) at bottom of panel
+- [ ] Show validation feedback for required fields
+
+## Phase 20: Side Panel UI - Relationship Creation
+- [ ] Add target node search input with real-time filtering
+- [ ] Display filtered node list (max 10 results) with node type badges
+- [ ] Add term dropdown (Friend, Competitor, Works For, etc.)
+- [ ] Add score slider (-100 to 100) with color preview
+- [ ] Add "Create Relationship" confirm button that calls add_relationship()
+- [ ] Add "Cancel" button to close relationship creation mode
+
+## Phase 21: Top Bar - New Entity Button
+- [ ] Add "New Entity" button to search_bar.py with plus icon
+- [ ] Clicking button opens side panel in node_create_mode
+- [ ] Show radio buttons to select node type (Person/Company)
+- [ ] Show input fields based on type (first_name/last_name for Person, name/ticker for Company)
+- [ ] Add "Create" button that calls add_node() and refreshes graph
+- [ ] Add "Cancel" button to close creation panel
+
+## Phase 22: UI Verification - CRUD Operations Testing
+- [ ] Test creating new Person node and verify it appears in graph
+- [ ] Test creating new Company node and verify it appears in graph
+- [ ] Test editing node details (name, title) and verify updates persist
+- [ ] Test deleting node and verify connected relationships are removed
+- [ ] Test creating relationship via side panel search and verify edge appears
+- [ ] Test relationships list shows all connections with delete icons
+- [ ] Test deleting relationship via trash icon in relationships list
+
+---
+
+# 🎯 PROJECT STATUS: IMPLEMENTING FULL CRUD CAPABILITIES
