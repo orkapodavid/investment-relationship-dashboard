@@ -38,9 +38,9 @@ class RelationshipState(rx.State):
     zoom_level: float = 1.0
 
     @rx.event
-    def set_zoom_level(self, zoom: float):
+    def set_zoom_level(self, viewport: dict):
         """Update the current zoom level for LOD calculations."""
-        self.zoom_level = zoom
+        self.zoom_level = viewport["zoom"]
 
     @rx.event
     async def load_data(self):

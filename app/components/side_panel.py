@@ -97,7 +97,7 @@ def side_panel() -> rx.Component:
                                 type="range",
                                 min="-100",
                                 max="100",
-                                default_value=RelationshipState.editing_score,
+                                default_value=RelationshipState.editing_score.to_string(),
                                 key=RelationshipState.selected_edge_id,
                                 on_change=lambda value: RelationshipState.set_editing_score(
                                     value.to(int)

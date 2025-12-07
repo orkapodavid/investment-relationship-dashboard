@@ -24,9 +24,6 @@ def graph_view() -> rx.Component:
             zoom_on_scroll=True,
             pan_on_scroll=False,
             zoom_on_double_click=False,
-            on_move=lambda viewport: RelationshipState.set_zoom_level(
-                viewport["zoom"]
-            ).throttle(150),
             on_node_click=lambda e, node: RelationshipState.on_node_click(node),
             on_edge_click=lambda e, edge: RelationshipState.on_edge_click(edge),
             on_connect=lambda connection: RelationshipState.on_connect(connection),
