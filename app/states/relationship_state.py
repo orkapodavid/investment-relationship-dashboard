@@ -550,24 +550,39 @@ class RelationshipState(rx.State):
     @rx.event
     def on_node_click(self, node: dict):
         """Handle node click to show details."""
-        self.selected_node_id = node["id"]
-        self.selected_node_data = node["data"]
+        if isinstance(node, dict):
+            self.selected_node_id = node.get("id", "")
+            self.selected_node_data = node.get("data", {}) or {}
+        else:
+            self.selected_node_id = getattr(node, "id", "")
+            self.selected_node_data = getattr(node, "data", None) or {}
         self.edit_mode = "node"
         self.show_side_panel = True
 
     @rx.event
     def on_edge_click(self, edge: dict):
         """Handle edge click to show score editor."""
-        self.selected_edge_id = edge["id"]
-        data = edge.get("data", {})
-        self.editing_score = int(data.get("score", 0))
-        self.editing_relationship_type = str(data.get("type", "employment"))
-        self.editing_term = str(data.get("term", "works_for"))
-        self.editing_is_directed = bool(data.get("is_directed", True))
-        if edge["id"].startswith("rel-"):
+        if isinstance(edge, dict):
+            edge_id = edge.get("id", "")
+            data = edge.get("data", {}) or {}
+        else:
+            edge_id = getattr(edge, "id", "")
+            data = getattr(edge, "data", None) or {}
+        self.selected_edge_id = edge_id
+        if isinstance(data, dict):
+            self.editing_score = int(data.get("score", 0))
+            self.editing_relationship_type = str(data.get("type", "employment"))
+            self.editing_term = str(data.get("term", "works_for"))
+            self.editing_is_directed = bool(data.get("is_directed", True))
+        else:
+            self.editing_score = int(getattr(data, "score", 0))
+            self.editing_relationship_type = str(getattr(data, "type", "employment"))
+            self.editing_term = str(getattr(data, "term", "works_for"))
+            self.editing_is_directed = bool(getattr(data, "is_directed", True))
+        if edge_id.startswith("rel-"):
             self.edit_mode = "edge"
             self.show_side_panel = True
-        elif edge["id"].startswith("emp-"):
+        elif edge_id.startswith("emp-"):
             self.edit_mode = "edge"
             self.editing_relationship_type = "employment"
             self.editing_term = "works_for"
@@ -722,8 +737,12 @@ class RelationshipState(rx.State):
     @rx.event
     def on_connect(self, connection: dict):
         """Handle creating new relationships by dragging between nodes."""
-        source = connection["source"]
-        target = connection["target"]
+        if isinstance(connection, dict):
+            source = connection.get("source", "")
+            target = connection.get("target", "")
+        else:
+            source = getattr(connection, "source", "")
+            target = getattr(connection, "target", "")
         try:
             src_parts = source.split("-")
             tgt_parts = target.split("-")
