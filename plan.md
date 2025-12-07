@@ -1,35 +1,32 @@
-# Investment Manager Relationship Dashboard - Implementation Plan
+# Relationship Network Visualization - Implementation Plan
 
-## Phase 1: Database Models and Basic Layout ✅
-- [x] Set up SQLModel database models (Account, Contact, Relationship, RelationshipLog)
-- [x] Configure SQLite database connection and table creation
-- [x] Create base layout with left sidebar for accounts list
-- [x] Implement searchable accounts list with filter functionality
-- [x] Add main content area that displays when an account is selected
+## Phase 1: Graph Component Setup and Data Transformation
+- [ ] Install reflex-enterprise for react-flow support
+- [ ] Create data transformation logic in relationship_state.py to convert SQL models to graph format (nodes and edges)
+- [ ] Implement graph_data computed var that returns {'nodes': [...], 'edges': [...]} format
+- [ ] Design node structure: Account nodes (squares) vs Contact nodes (circles) with distinct visual properties
+- [ ] Design edge structure: Relationship edges with dynamic colors based on score (-100=red, 0=gray, +100=green)
 
-## Phase 2: Relationship Editor with Dynamic Scoring ✅
-- [x] Build contacts grid for selected account
-- [x] Implement relationship score slider (-100 to 100 range) with on_change event (throttled)
-- [x] Create color gradient helper function (red/gray/green based on score)
-- [x] Apply dynamic color styling to contact cards and sliders based on score
-- [x] Implement CRUD operations: create/update relationships and log history
-- [x] Add visual feedback for sentiment levels (Hostile/Indifferent/Friendly)
+## Phase 2: Replace UI with Graph Canvas
+- [ ] Remove sidebar.py and account_view.py components
+- [ ] Create new graph_view.py component using reflex-enterprise react-flow
+- [ ] Configure graph canvas with zooming and panning capabilities
+- [ ] Implement node rendering with visual distinction (Accounts as squares, Contacts as circles)
+- [ ] Implement edge rendering with dynamic color gradient based on relationship score
+- [ ] Set up proper graph layout and initial positioning
 
-## Phase 3: History Tracking and Contact Management ✅
-- [x] Build history view section showing relationship log entries
-- [x] Display previous score, new score, timestamp, and notes for each log entry
-- [x] Add ability to create new contacts linked to accounts
-- [x] Implement score change tracking with automatic RelationshipLog creation (already working from Phase 2)
-- [x] Add notes/comments capability for relationship changes
-- [x] Polish UI with responsive design and smooth interactions
+## Phase 3: Interactive Features and Editing
+- [ ] Implement node click handler to show details panel (Name, Title, Type)
+- [ ] Implement edge click handler to show relationship editor panel
+- [ ] Create relationship score editor with slider (-100 to 100) in side panel
+- [ ] Add ability to create new relationships by selecting two nodes
+- [ ] Implement save functionality to persist score changes to database
+- [ ] Add history tracking for relationship changes via edge editing
 
-## Backend Error Fix ✅
-- [x] Fixed database initialization - tables now created on app startup via lifespan_task
-- [x] Fixed update_score event handler to properly flush Relationship before creating RelationshipLog
-- [x] Verified all database operations work correctly (create, update, history tracking)
-
-## UI Testing and Validation
-- [ ] Test default view with account selection and empty state handling
-- [ ] Verify contact card display with different relationship scores (Hostile, Indifferent, Friendly)
-- [ ] Test add contact modal functionality and form interactions
-- [ ] Validate history expansion and timeline display for contacts with score changes
+## Phase 4: UI Testing and Validation
+- [ ] Test graph rendering with sample data (multiple accounts and contacts)
+- [ ] Verify node visual distinction (squares vs circles, colors)
+- [ ] Test edge color gradient based on relationship scores (red/gray/green)
+- [ ] Validate click interactions (node details, edge editing)
+- [ ] Test zoom and pan functionality
+- [ ] Verify relationship score updates persist to database
