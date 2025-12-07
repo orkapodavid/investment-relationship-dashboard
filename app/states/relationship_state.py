@@ -14,6 +14,70 @@ class RelationshipState(rx.State):
     selected_account: Optional[Account] = None
     search_query: str = ""
     current_contacts: list[Contact] = []
+    show_add_contact_modal: bool = False
+    new_contact_first_name: str = ""
+    new_contact_last_name: str = ""
+    new_contact_job_title: str = ""
+    expanded_contact_ids: list[int] = []
+    contact_notes: dict[int, str] = {}
+
+    @rx.event
+    def toggle_add_contact_modal(self):
+        self.show_add_contact_modal = not self.show_add_contact_modal
+
+    @rx.event
+    def set_new_contact_first_name(self, value: str):
+        self.new_contact_first_name = value
+
+    @rx.event
+    def set_new_contact_last_name(self, value: str):
+        self.new_contact_last_name = value
+
+    @rx.event
+    def set_new_contact_job_title(self, value: str):
+        self.new_contact_job_title = value
+
+    @rx.event
+    def toggle_contact_history(self, contact_id: int):
+        if contact_id in self.expanded_contact_ids:
+            self.expanded_contact_ids.remove(contact_id)
+        else:
+            self.expanded_contact_ids.append(contact_id)
+
+    @rx.event
+    def set_contact_note(self, contact_id: int, note: str):
+        self.contact_notes[contact_id] = note
+
+    @rx.event
+    def add_contact(self):
+        """Add a new contact to the selected account."""
+        if not self.selected_account:
+            return
+        try:
+            with rx.session() as session:
+                contact = Contact(
+                    first_name=self.new_contact_first_name,
+                    last_name=self.new_contact_last_name,
+                    job_title=self.new_contact_job_title,
+                    account_id=self.selected_account.id,
+                    dynamics_contact_id=f"NEW-{datetime.now().strftime('%M%S')}",
+                )
+                session.add(contact)
+                session.flush()
+                rel = Relationship(score=0, contact_id=contact.id)
+                session.add(rel)
+                session.commit()
+                self.new_contact_first_name = ""
+                self.new_contact_last_name = ""
+                self.new_contact_job_title = ""
+                self.show_add_contact_modal = False
+                self.load_data()
+                for acc in self.accounts:
+                    if acc.id == self.selected_account.id:
+                        self.select_account(acc)
+                        break
+        except Exception as e:
+            logging.exception(f"Error adding contact: {e}")
 
     @rx.event
     def load_data(self):
@@ -21,7 +85,9 @@ class RelationshipState(rx.State):
         try:
             with rx.session() as session:
                 statement = sqlmodel.select(Account).options(
-                    selectinload(Account.contacts).selectinload(Contact.relationship)
+                    selectinload(Account.contacts)
+                    .selectinload(Contact.relationship)
+                    .selectinload(Relationship.logs)
                 )
                 accounts = session.exec(statement).all()
                 if not accounts:
@@ -159,12 +225,15 @@ class RelationshipState(rx.State):
                     relationship.score = new_score
                     relationship.last_updated = datetime.now()
                     session.add(relationship)
+                note = self.contact_notes.get(contact_id, "Manual update via dashboard")
+                if not note:
+                    note = "Manual update via dashboard"
                 log_entry = RelationshipLog(
                     relationship_id=relationship.id if relationship.id else 0,
                     previous_score=previous_score,
                     new_score=new_score,
                     changed_at=datetime.now(),
-                    note="Manual update via dashboard",
+                    note=note,
                 )
                 if not relationship.id:
                     session.flush()
