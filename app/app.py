@@ -1,40 +1,27 @@
 import reflex as rx
+from app.states.relationship_state import RelationshipState
+from app.components.sidebar import sidebar
+from app.components.account_view import account_view
 
 
 def index() -> rx.Component:
-    return rx.el.main(
-        rx.el.div(
-            rx.el.h1(
-                "Environment is ready...",
-                class_name="text-3xl font-semibold text-gray-800 mb-4",
-            ),
-            rx.el.p(
-                "Keep prompting to build your app!", class_name="text-gray-600 mb-12"
-            ),
-            rx.el.a(
-                rx.el.button(
-                    "View Documentation",
-                    rx.icon("arrow-right", class_name="ml-2", size=16),
-                    class_name="bg-violet-500 text-white px-6 py-3 rounded-lg hover:bg-violet-600 transition-colors flex items-center font-medium",
-                ),
-                href="https://reflex.dev/docs/ai-builder/overview/best-practices/",
-                target="_blank",
-            ),
-            class_name="flex flex-col items-center justify-center text-center min-h-screen",
+    """The main page layout."""
+    return rx.el.div(
+        sidebar(),
+        rx.el.main(
+            account_view(), class_name="flex-1 h-screen overflow-y-auto bg-gray-50/30"
         ),
-        class_name="font-['Inter'] bg-white",
+        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter']",
     )
 
 
 app = rx.App(
     theme=rx.theme(appearance="light"),
     head_components=[
-        rx.el.link(rel="preconnect", href="https://fonts.googleapis.com"),
-        rx.el.link(rel="preconnect", href="https://fonts.gstatic.com", cross_origin=""),
         rx.el.link(
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap",
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap",
             rel="stylesheet",
-        ),
+        )
     ],
 )
-app.add_page(index, route="/")
+app.add_page(index, route="/", on_load=RelationshipState.load_data)
