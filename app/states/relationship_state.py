@@ -617,6 +617,7 @@ class RelationshipState(rx.State):
             self.selected_node_id = getattr(node, "id", "")
             self.selected_node_data = getattr(node, "data", None) or {}
         self.edit_mode = "node"
+        self.node_create_mode = False
         self.show_side_panel = True
         yield RelationshipState.load_active_node_relationships
 
@@ -640,6 +641,7 @@ class RelationshipState(rx.State):
             self.editing_relationship_type = str(getattr(data, "type", "employment"))
             self.editing_term = str(getattr(data, "term", "works_for"))
             self.editing_is_directed = bool(getattr(data, "is_directed", True))
+        self.node_create_mode = False
         if edge_id.startswith("rel-"):
             self.edit_mode = "edge"
             self.show_side_panel = True
@@ -658,6 +660,7 @@ class RelationshipState(rx.State):
         """Close the side panel."""
         self.show_side_panel = False
         self.edit_mode = "none"
+        self.node_create_mode = False
 
     @rx.event
     def set_editing_score(self, value: int):

@@ -600,7 +600,7 @@ def side_panel() -> rx.Component:
         ),
         class_name=rx.cond(
             RelationshipState.show_side_panel,
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l",
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l flex flex-col",
         ),
     )
