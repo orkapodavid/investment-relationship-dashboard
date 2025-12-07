@@ -21,14 +21,11 @@ def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
         rx.el.div(graph_view(), class_name="absolute inset-0 z-0 w-full h-full"),
-        rx.el.div(
-            rx.el.button(
-                rx.icon("plus", class_name="w-8 h-8"),
-                on_click=RelationshipState.start_node_creation,
-                class_name="p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto transition-all cursor-pointer",
-                aria_label="Create New Entity",
-            ),
-            class_name="absolute bottom-8 right-8 z-50 flex flex-col gap-4 pointer-events-none [&>*]:pointer-events-auto",
+        rx.el.button(
+            rx.icon("plus", class_name="w-5 h-5 mr-2"),
+            "New Entity",
+            on_click=RelationshipState.start_node_creation,
+            class_name="fixed top-4 right-16 z-[9999] flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 font-semibold cursor-pointer",
         ),
         side_panel(),
         class_name="relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden",
