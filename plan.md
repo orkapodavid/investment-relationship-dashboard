@@ -155,7 +155,7 @@
 - [ ] Display filtered node list (max 10 results) with node type badges
 - [ ] Add term dropdown (Friend, Competitor, Works For, etc.)
 - [ ] Add score slider (-100 to 100) with color preview
-- [ ] Add "Create Relationship" confirm button that calls add_relationship()
+- [ ] Add "Create Relationship" confirm button that calls create_relationship_from_panel()
 - [ ] Add "Cancel" button to close relationship creation mode
 
 ## Phase 21: Top Bar - New Entity Button
@@ -177,4 +177,4 @@
 
 ---
 
-# 🎯 PROJECT STATUS: STARTING PHASES 18-21 - IMPLEMENTING FULL CRUD UI
+# 🎯 PROJECT STATUS: IMPLEMENTING PHASES 18-21 - FULL CRUD UI
