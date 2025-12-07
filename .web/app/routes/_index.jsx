@@ -229,73 +229,73 @@ const on_click_3f40e4c127332733e83ea2042c15a08a = useCallback(((_e) => (addEvent
 }
 
 
-function Input_832df5d0d3e2f464867d0883d8ff117d () {
+function Input_78e3812f89ef3433bafcd54bf4171e3a () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_change_673b0bc87c4adde2c7cac7b0e9eba3f3 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["value"] : ({ ["first_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const on_change_12e1e069f879fbf6ba4890c6a8c23572 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["first_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["first_name"],onChange:on_change_673b0bc87c4adde2c7cac7b0e9eba3f3},)
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["first_name"],onChange:on_change_12e1e069f879fbf6ba4890c6a8c23572},)
   )
 }
 
 
-function Input_dc3023da5032e84876f618a2d81fbdf2 () {
+function Input_1d21a0d6f9a0919dc7473e3bb0af8707 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_change_9d41ea498f27bbf341daa5499bf869c8 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["value"] : ({ ["last_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const on_change_3dc67a16acd2fbf95ad5a4f0faf3234d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["last_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["last_name"],onChange:on_change_9d41ea498f27bbf341daa5499bf869c8},)
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["last_name"],onChange:on_change_3dc67a16acd2fbf95ad5a4f0faf3234d},)
   )
 }
 
 
-function Input_b3d59b58034cd19fbdead1a83f02c5b8 () {
+function Input_f7baa2195977bee39e823bc61f20cde0 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_change_de930faf6ec428d86cbbac2f09a755ee = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["value"] : ({ ["job_title"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const on_change_8ed6c454a6c8d6a2ec72bc18cd124d20 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["job_title"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["job_title"],onChange:on_change_de930faf6ec428d86cbbac2f09a755ee},)
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["job_title"],onChange:on_change_8ed6c454a6c8d6a2ec72bc18cd124d20},)
   )
 }
 
 
-function Input_9a21634eecb396ac4eeffb10395d2653 () {
+function Input_7e3cea86e318e0e629f04fd92c8555ee () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_change_3a578af536a042a39e6ed080e50ddc18 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["value"] : ({ ["name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const on_change_395f4ed292a2542d2f88e218c46b025d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["name"],onChange:on_change_3a578af536a042a39e6ed080e50ddc18},)
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["name"],onChange:on_change_395f4ed292a2542d2f88e218c46b025d},)
   )
 }
 
 
-function Input_45ce312556e06269fe2da1da86f58d84 () {
+function Input_3d8dcb99b891bae0912b37a175afbc1c () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
-const on_change_0816f37e94f227b7f58a4766f4ccc272 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["value"] : ({ ["ticker"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+const on_change_f536bce36fa9feceaa300d26d689c564 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["ticker"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["ticker"],onChange:on_change_0816f37e94f227b7f58a4766f4ccc272},)
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["ticker"],onChange:on_change_f536bce36fa9feceaa300d26d689c564},)
   )
 }
 
 
-function Fragment_f4c2d356353d35c11a135e37c44d10e5 () {
+function Fragment_ef33331c4ea73149a8831c04708f9fbf () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_?.valueOf?.() === "person"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"First Name"),jsx(Input_832df5d0d3e2f464867d0883d8ff117d,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Last Name"),jsx(Input_dc3023da5032e84876f618a2d81fbdf2,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Job Title"),jsx(Input_b3d59b58034cd19fbdead1a83f02c5b8,{},)))):(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Company Name"),jsx(Input_9a21634eecb396ac4eeffb10395d2653,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Ticker"),jsx(Input_45ce312556e06269fe2da1da86f58d84,{},))))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_?.valueOf?.() === "person"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"First Name"),jsx(Input_78e3812f89ef3433bafcd54bf4171e3a,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Last Name"),jsx(Input_1d21a0d6f9a0919dc7473e3bb0af8707,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Job Title"),jsx(Input_f7baa2195977bee39e823bc61f20cde0,{},)))):(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Company Name"),jsx(Input_7e3cea86e318e0e629f04fd92c8555ee,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Ticker"),jsx(Input_3d8dcb99b891bae0912b37a175afbc1c,{},))))))
   )
 }
 
@@ -538,13 +538,13 @@ function Fragment_7b1f89afd0fd70ea940013d0f243f146 () {
 }
 
 
-function Fragment_fe1bdabf617cc0e75d4cda92f24a1179 () {
+function Fragment_fa8e5fb71cbeaa4991259544914ddb98 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_f4c2d356353d35c11a135e37c44d10e5,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment_7b1f89afd0fd70ea940013d0f243f146,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment_7b1f89afd0fd70ea940013d0f243f146,{},))))
   )
 }
 
@@ -651,35 +651,35 @@ function Fragment_9c25f277a41efae06943d88856b15bbb () {
 }
 
 
-function Fragment_9714d8bf321a23cc2acfcd3b7c1fec32 () {
+function Fragment_d9e858aac14b10e116519b7447598894 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_fe1bdabf617cc0e75d4cda92f24a1179,{},)):(jsx(Fragment_9c25f277a41efae06943d88856b15bbb,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_fa8e5fb71cbeaa4991259544914ddb98,{},)):(jsx(Fragment_9c25f277a41efae06943d88856b15bbb,{},))))
   )
 }
 
 
-function Fragment_946c670156fe958c5123074af2345f82 () {
+function Fragment_6fc71bf339e1c24bf2396c13dfd570b4 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_9714d8bf321a23cc2acfcd3b7c1fec32,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_d9e858aac14b10e116519b7447598894,{},))))
   )
 }
 
 
-function Div_4fe9dc9da8f15286ff604801a0fd5941 () {
+function Div_3d620acfa247f5b6d601ae932293c641 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_946c670156fe958c5123074af2345f82,{},))
+    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_6fc71bf339e1c24bf2396c13dfd570b4,{},))
   )
 }
 
@@ -691,6 +691,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},),jsx(Button_3be64328db9c5cae577b21ee720153df,{},)),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_4fe9dc9da8f15286ff604801a0fd5941,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},),jsx(Button_3be64328db9c5cae577b21ee720153df,{},)),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_3d620acfa247f5b6d601ae932293c641,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }

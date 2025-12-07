@@ -695,7 +695,7 @@ class RelationshipState(rx.State):
                     )
                     session.add(log_entry)
                     session.commit()
-                self.load_data()
+            yield RelationshipState.load_data
         except Exception as e:
             logging.exception(f"Error updating score: {e}")
 
@@ -746,8 +746,8 @@ class RelationshipState(rx.State):
                     )
                     session.add(log_entry)
                     session.commit()
-            self.load_data()
             self.close_panel()
+            yield RelationshipState.load_data
             return rx.toast("Relationship deleted", duration=3000)
         except Exception as e:
             logging.exception(f"Error deleting relationship: {e}")
@@ -789,7 +789,7 @@ class RelationshipState(rx.State):
                     self.editing_term = new_term
                     self.editing_is_directed = defaults["is_directed"]
                     self.editing_score = defaults["default_score"]
-            self.load_data()
+            yield RelationshipState.load_data
             return rx.toast(f"Updated relationship to {new_term}", duration=3000)
         except Exception as e:
             logging.exception(f"Error updating term: {e}")
@@ -832,6 +832,13 @@ class RelationshipState(rx.State):
             elif src_type == "person" and tgt_type == "person":
                 rel_type = RelationshipType.SOCIAL
                 default_term = RelationshipTerm.FRIEND
+            new_rel_id = None
+            new_rel_score = 0
+            new_rel_type_val = ""
+            new_rel_term_val = ""
+            new_rel_is_directed = False
+            operation_success = False
+            success_message = ""
             with rx.session() as session:
                 existing = session.exec(
                     sqlmodel.select(Relationship).where(
@@ -841,7 +848,6 @@ class RelationshipState(rx.State):
                         Relationship.target_id == tgt_id,
                     )
                 ).first()
-                rel_to_edit = None
                 if existing:
                     if not existing.is_active:
                         existing.is_active = True
@@ -857,12 +863,18 @@ class RelationshipState(rx.State):
                         )
                         session.add(log_entry)
                         session.commit()
-                        rel_to_edit = existing
-                        rx.toast("Reactivated existing relationship", duration=3000)
+                        session.refresh(existing)
+                        new_rel_id = existing.id
+                        new_rel_score = existing.score
+                        new_rel_type_val = existing.relationship_type.value
+                        new_rel_term_val = existing.term.value
+                        new_rel_is_directed = existing.is_directed
+                        operation_success = True
+                        success_message = "Reactivated existing relationship"
                     else:
                         return rx.toast("Relationship already exists", duration=3000)
                 else:
-                    rel_to_edit = self.create_relationship_with_term(
+                    new_rel = self.create_relationship_with_term(
                         session,
                         src_type,
                         src_id,
@@ -872,18 +884,24 @@ class RelationshipState(rx.State):
                         rel_type,
                     )
                     session.commit()
-                    rx.toast(
-                        f"Created new {rel_type.value} relationship", duration=3000
-                    )
-            self.load_data()
-            if rel_to_edit:
-                self.selected_edge_id = f"rel-{rel_to_edit.id}"
-                self.editing_score = rel_to_edit.score
-                self.editing_relationship_type = rel_to_edit.relationship_type.value
-                self.editing_term = rel_to_edit.term.value
-                self.editing_is_directed = rel_to_edit.is_directed
+                    session.refresh(new_rel)
+                    new_rel_id = new_rel.id
+                    new_rel_score = new_rel.score
+                    new_rel_type_val = new_rel.relationship_type.value
+                    new_rel_term_val = new_rel.term.value
+                    new_rel_is_directed = new_rel.is_directed
+                    operation_success = True
+                    success_message = f"Created new {rel_type.value} relationship"
+            if operation_success:
+                rx.toast(success_message, duration=3000)
+                self.selected_edge_id = f"rel-{new_rel_id}"
+                self.editing_score = new_rel_score
+                self.editing_relationship_type = new_rel_type_val
+                self.editing_term = new_rel_term_val
+                self.editing_is_directed = new_rel_is_directed
                 self.edit_mode = "edge"
                 self.show_side_panel = True
+                yield RelationshipState.load_data
         except Exception as e:
             logging.exception(f"Failed to link nodes: {e}")
             return rx.toast("Failed to create relationship", duration=3000)
@@ -965,7 +983,7 @@ class RelationshipState(rx.State):
                     node_id = new_contact.id
                 else:
                     return rx.toast("Invalid node type", duration=3000)
-            self.load_data()
+            yield RelationshipState.load_data
             return rx.toast(f"Created {node_type} successfully", duration=3000)
         except Exception as e:
             logging.exception(f"Error adding node: {e}")
@@ -997,7 +1015,7 @@ class RelationshipState(rx.State):
                         contact.job_title = updated_data["job_title"]
                     session.add(contact)
                 session.commit()
-            self.load_data()
+            yield RelationshipState.load_data
             return rx.toast("Node updated successfully", duration=3000)
         except Exception as e:
             logging.exception(f"Error updating node: {e}")
@@ -1045,7 +1063,7 @@ class RelationshipState(rx.State):
                         session.delete(contact)
                 session.commit()
             self.close_panel()
-            self.load_data()
+            yield RelationshipState.load_data
             return rx.toast(
                 f"Deleted node and {deleted_count} relationships", duration=3000
             )
