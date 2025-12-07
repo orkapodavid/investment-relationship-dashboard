@@ -569,31 +569,30 @@ def edge_edit_view() -> rx.Component:
 
 def side_panel() -> rx.Component:
     return rx.el.aside(
+        rx.cond(RelationshipState.node_create_mode, node_creation_view()),
         rx.cond(
-            RelationshipState.node_create_mode,
-            node_creation_view(),
+            RelationshipState.is_creating_relationship
+            & ~RelationshipState.node_create_mode,
+            relationship_creation_view(),
+        ),
+        rx.cond(
+            (RelationshipState.edit_mode == "node")
+            & ~RelationshipState.node_create_mode
+            & ~RelationshipState.is_creating_relationship,
             rx.cond(
-                RelationshipState.is_creating_relationship,
-                relationship_creation_view(),
-                rx.cond(
-                    RelationshipState.edit_mode == "node",
-                    rx.cond(
-                        RelationshipState.is_editing,
-                        node_edit_view(),
-                        node_details_view(),
-                    ),
-                    rx.cond(
-                        RelationshipState.edit_mode == "edge",
-                        edge_edit_view(),
-                        rx.el.div(),
-                    ),
-                ),
+                RelationshipState.is_editing, node_edit_view(), node_details_view()
             ),
+        ),
+        rx.cond(
+            (RelationshipState.edit_mode == "edge")
+            & ~RelationshipState.node_create_mode
+            & ~RelationshipState.is_creating_relationship,
+            edge_edit_view(),
         ),
         class_name=rx.cond(
             RelationshipState.show_side_panel,
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col",
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col",
         ),
         custom_attrs={"aria-label": "Side Panel"},
     )

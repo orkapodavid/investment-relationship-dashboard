@@ -2,7 +2,6 @@ import reflex as rx
 import reflex_enterprise as rxe
 from app.states.relationship_state import RelationshipState
 from app.components.search_bar import search_bar
-from app.components.side_panel import side_panel
 
 
 def graph_view() -> rx.Component:
@@ -29,13 +28,6 @@ def graph_view() -> rx.Component:
             on_connect=RelationshipState.on_connect,
             class_name="bg-gray-50 w-full h-full",
         ),
-        rx.el.button(
-            rx.icon("plus", class_name="w-6 h-6"),
-            on_click=RelationshipState.start_node_creation,
-            class_name="absolute bottom-8 right-8 z-50 p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center",
-            aria_label="Create New Entity",
-        ),
         search_bar(),
-        side_panel(),
         class_name="w-full h-full relative",
     )
