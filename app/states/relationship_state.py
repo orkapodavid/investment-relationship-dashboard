@@ -1,9 +1,11 @@
 import reflex as rx
 import sqlmodel
+from sqlmodel import select, or_, col
 import math
 from typing import Optional
 from datetime import datetime
 import logging
+from collections import Counter, defaultdict
 from sqlalchemy.orm import selectinload
 from app.models import Account, Contact, Relationship, RelationshipLog, RelationshipType
 
@@ -14,8 +16,12 @@ class RelationshipState(rx.State):
     accounts: list[Account] = []
     contacts: list[Contact] = []
     relationships: list[Relationship] = []
+    filtered_accounts: list[Account] = []
+    filtered_contacts: list[Contact] = []
+    filtered_relationships: list[Relationship] = []
     selected_account: Optional[Account] = None
     search_query: str = ""
+    node_limit: int = 100
     show_add_contact_modal: bool = False
     new_contact_first_name: str = ""
     new_contact_last_name: str = ""
@@ -31,22 +37,127 @@ class RelationshipState(rx.State):
 
     @rx.event
     def load_data(self):
-        """Load all entities and relationships from the database."""
+        """Load data based on search/filter state."""
         try:
             with rx.session() as session:
                 sqlmodel.SQLModel.metadata.create_all(session.get_bind())
-                self.accounts = session.exec(sqlmodel.select(Account)).all()
-                self.contacts = session.exec(sqlmodel.select(Contact)).all()
-                self.relationships = session.exec(sqlmodel.select(Relationship)).all()
-                if not self.accounts and (not self.contacts):
+                if not session.exec(select(Account)).first() and (
+                    not session.exec(select(Contact)).first()
+                ):
                     self.seed_database()
-                    self.accounts = session.exec(sqlmodel.select(Account)).all()
-                    self.contacts = session.exec(sqlmodel.select(Contact)).all()
-                    self.relationships = session.exec(
-                        sqlmodel.select(Relationship)
-                    ).all()
+            if self.search_query.strip():
+                self.search_and_build_subgraph(self.search_query)
+            else:
+                self.get_most_connected_nodes(self.node_limit)
         except Exception as e:
             logging.exception(f"Database error in load_data: {e}")
+
+    @rx.event
+    def get_most_connected_nodes(self, limit: int):
+        """Fetch the top N most connected nodes and their immediate relationships."""
+        with rx.session() as session:
+            rels = session.exec(select(Relationship)).all()
+            counter = Counter()
+            for r in rels:
+                counter[r.source_type, r.source_id] += 1
+                counter[r.target_type, r.target_id] += 1
+            top_nodes = [node for node, count in counter.most_common(limit)]
+            top_node_set = set(top_nodes)
+            acc_ids = {nid for ntype, nid in top_node_set if ntype == "company"}
+            con_ids = {nid for ntype, nid in top_node_set if ntype == "person"}
+            self.filtered_accounts = []
+            self.filtered_contacts = []
+            if acc_ids:
+                self.filtered_accounts = session.exec(
+                    select(Account).where(Account.id.in_(acc_ids))
+                ).all()
+            if con_ids:
+                self.filtered_contacts = session.exec(
+                    select(Contact).where(Contact.id.in_(con_ids))
+                ).all()
+            self.filtered_relationships = [
+                r
+                for r in rels
+                if (r.source_type, r.source_id) in top_node_set
+                and (r.target_type, r.target_id) in top_node_set
+            ]
+
+    @rx.event
+    def search_and_build_subgraph(self, query: str):
+        """Search for nodes and build a 2-degree subgraph around matches."""
+        with rx.session() as session:
+            acc_matches = session.exec(
+                select(Account).where(col(Account.name).ilike(f"%{query}%"))
+            ).all()
+            con_matches = session.exec(
+                select(Contact).where(
+                    or_(
+                        col(Contact.first_name).ilike(f"%{query}%"),
+                        col(Contact.last_name).ilike(f"%{query}%"),
+                    )
+                )
+            ).all()
+            if not acc_matches and (not con_matches):
+                self.filtered_accounts = []
+                self.filtered_contacts = []
+                self.filtered_relationships = []
+                return
+            frontier = set()
+            for a in acc_matches:
+                frontier.add(("company", a.id))
+            for c in con_matches:
+                frontier.add(("person", c.id))
+            visited = set(frontier)
+            all_rels = session.exec(select(Relationship)).all()
+            adj = defaultdict(list)
+            for r in all_rels:
+                src = (r.source_type, r.source_id)
+                tgt = (r.target_type, r.target_id)
+                adj[src].append(tgt)
+                adj[tgt].append(src)
+            current_level_nodes = frontier
+            for _ in range(2):
+                next_level_nodes = set()
+                for node in current_level_nodes:
+                    for neighbor in adj[node]:
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            next_level_nodes.add(neighbor)
+                if len(visited) >= self.node_limit:
+                    break
+                current_level_nodes = next_level_nodes
+            if len(visited) > self.node_limit:
+                visited = set(list(visited)[: self.node_limit])
+            final_acc_ids = {nid for ntype, nid in visited if ntype == "company"}
+            final_con_ids = {nid for ntype, nid in visited if ntype == "person"}
+            self.filtered_accounts = []
+            if final_acc_ids:
+                self.filtered_accounts = session.exec(
+                    select(Account).where(Account.id.in_(final_acc_ids))
+                ).all()
+            self.filtered_contacts = []
+            if final_con_ids:
+                self.filtered_contacts = session.exec(
+                    select(Contact).where(Contact.id.in_(final_con_ids))
+                ).all()
+            self.filtered_relationships = [
+                r
+                for r in all_rels
+                if (r.source_type, r.source_id) in visited
+                and (r.target_type, r.target_id) in visited
+            ]
+
+    @rx.event
+    def handle_search(self, query: str):
+        """Update search query and reload data."""
+        self.search_query = query
+        self.load_data()
+
+    @rx.event
+    def set_node_limit(self, limit: int):
+        """Update node limit and reload data."""
+        self.node_limit = limit
+        self.load_data()
 
     @rx.event
     def seed_database(self):
@@ -129,13 +240,20 @@ class RelationshipState(rx.State):
 
     @rx.var
     def graph_data(self) -> dict:
-        """Transform generic entities and relationships into graph nodes and edges."""
+        """Transform filtered entities and relationships into graph nodes and edges."""
         nodes = []
         edges = []
         center_x, center_y = (0, 0)
-        for idx, acc in enumerate(self.accounts):
-            x = center_x + 300 * math.cos(2 * math.pi * idx / (len(self.accounts) or 1))
-            y = center_y + 300 * math.sin(2 * math.pi * idx / (len(self.accounts) or 1))
+        current_accounts = self.filtered_accounts
+        current_contacts = self.filtered_contacts
+        current_relationships = self.filtered_relationships
+        for idx, acc in enumerate(current_accounts):
+            x = center_x + 300 * math.cos(
+                2 * math.pi * idx / (len(current_accounts) or 1)
+            )
+            y = center_y + 300 * math.sin(
+                2 * math.pi * idx / (len(current_accounts) or 1)
+            )
             nodes.append(
                 {
                     "id": f"acc-{acc.id}",
@@ -157,12 +275,12 @@ class RelationshipState(rx.State):
                     },
                 }
             )
-        for idx, con in enumerate(self.contacts):
+        for idx, con in enumerate(current_contacts):
             offset_x = 400 + 100 * math.cos(
-                2 * math.pi * idx / (len(self.contacts) or 1)
+                2 * math.pi * idx / (len(current_contacts) or 1)
             )
             offset_y = 400 + 100 * math.sin(
-                2 * math.pi * idx / (len(self.contacts) or 1)
+                2 * math.pi * idx / (len(current_contacts) or 1)
             )
             nodes.append(
                 {
@@ -189,7 +307,8 @@ class RelationshipState(rx.State):
                     },
                 }
             )
-            if con.account_id:
+            acc_ids = {a.id for a in current_accounts}
+            if con.account_id and con.account_id in acc_ids:
                 edges.append(
                     {
                         "id": f"emp-{con.id}-{con.account_id}",
@@ -205,7 +324,7 @@ class RelationshipState(rx.State):
                         "data": {"type": "employment", "score": 0},
                     }
                 )
-        for rel in self.relationships:
+        for rel in current_relationships:
             src_prefix = "acc-" if rel.source_type == "company" else "con-"
             tgt_prefix = "acc-" if rel.target_type == "company" else "con-"
             src_id = f"{src_prefix}{rel.source_id}"
