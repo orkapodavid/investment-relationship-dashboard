@@ -33,13 +33,13 @@
 
 # NEW REQUIREMENTS: Multi-Type Relationship Network
 
-## Phase 5: Database Schema Refactor for Complex Relationships
-- [ ] Refactor models.py to support three relationship types: Employment, Social, Business
-- [ ] Add `relationship_type` enum field to Relationship model (Employment/Social/Business)
-- [ ] Update Relationship model to support flexible source/target (Person→Person, Company→Company, Person→Company)
-- [ ] Add polymorphic foreign keys or use a generic approach for source_id/target_id with source_type/target_type
-- [ ] Create migration logic to preserve existing data (existing Account→Contact relationships become "Employment" type)
-- [ ] Update RelationshipLog to track relationship type changes
+## Phase 5: Database Schema Refactor for Complex Relationships ✅
+- [x] Refactor models.py to support three relationship types: Employment, Social, Business
+- [x] Add `relationship_type` enum field to Relationship model (Employment/Social/Business)
+- [x] Update Relationship model to support flexible source/target (Person→Person, Company→Company, Person→Company)
+- [x] Add polymorphic foreign keys or use a generic approach for source_id/target_id with source_type/target_type
+- [x] Create migration logic to preserve existing data (existing Account→Contact relationships become "Employment" type)
+- [x] Update RelationshipLog to track relationship type changes
 
 ## Phase 6: Graph Data Transformation for Multi-Type Network
 - [ ] Update graph_data computed var to fetch and merge all three relationship types
