@@ -1,6 +1,6 @@
 import reflex as rx
 import sqlmodel
-from sqlmodel import select, or_, col
+from sqlmodel import select, or_, col, delete
 import math
 from typing import Optional
 from datetime import datetime
@@ -826,3 +826,219 @@ class RelationshipState(rx.State):
         except Exception as e:
             logging.exception(f"Failed to link nodes: {e}")
             return rx.toast("Failed to create relationship", duration=3000)
+
+    @rx.event
+    def validate_node_data(self, node_type: str, data: dict) -> tuple[bool, str]:
+        """Validate node data before creation or update."""
+        if node_type == "company":
+            name = data.get("name", "")
+            if not name or not str(name).strip():
+                return (False, "Company name is required")
+        elif node_type == "person":
+            if "name" in data:
+                name = data.get("name", "")
+                if not name or not str(name).strip():
+                    return (False, "Name is required")
+            if "first_name" in data:
+                if not data.get("first_name", "").strip():
+                    return (False, "First name is required")
+        return (True, "")
+
+    @rx.event
+    def add_node(
+        self,
+        node_type: str,
+        name: str,
+        title_or_ticker: str,
+        additional_data: dict = None,
+    ):
+        """Create new Account or Contact."""
+        if additional_data is None:
+            additional_data = {}
+        is_valid, error_msg = self.validate_node_data(
+            node_type, {"name": name, "title_or_ticker": title_or_ticker}
+        )
+        if not is_valid:
+            return rx.toast(error_msg, duration=3000)
+        try:
+            with rx.session() as session:
+                if node_type == "company":
+                    existing = session.exec(
+                        select(Account).where(col(Account.name).ilike(name))
+                    ).first()
+                    if existing:
+                        return rx.toast(
+                            f"Company '{name}' already exists", duration=3000
+                        )
+                    new_account = Account(
+                        name=name, ticker=title_or_ticker, **additional_data
+                    )
+                    session.add(new_account)
+                    session.commit()
+                    session.refresh(new_account)
+                    node_id = new_account.id
+                elif node_type == "person":
+                    parts = name.strip().split(" ", 1)
+                    first_name = parts[0]
+                    last_name = parts[1] if len(parts) > 1 else ""
+                    existing = session.exec(
+                        select(Contact).where(
+                            col(Contact.first_name).ilike(first_name),
+                            col(Contact.last_name).ilike(last_name),
+                        )
+                    ).first()
+                    if existing:
+                        return rx.toast(
+                            f"Contact '{first_name} {last_name}' already exists",
+                            duration=3000,
+                        )
+                    new_contact = Contact(
+                        first_name=first_name,
+                        last_name=last_name,
+                        job_title=title_or_ticker,
+                        **additional_data,
+                    )
+                    session.add(new_contact)
+                    session.commit()
+                    session.refresh(new_contact)
+                    node_id = new_contact.id
+                else:
+                    return rx.toast("Invalid node type", duration=3000)
+            self.load_data()
+            return rx.toast(f"Created {node_type} successfully", duration=3000)
+        except Exception as e:
+            logging.exception(f"Error adding node: {e}")
+            return rx.toast("Failed to add node", duration=3000)
+
+    @rx.event
+    def update_node(self, node_id: int, node_type: str, updated_data: dict):
+        """Update existing node data."""
+        try:
+            with rx.session() as session:
+                if node_type == "company":
+                    account = session.get(Account, node_id)
+                    if not account:
+                        return rx.toast("Account not found", duration=3000)
+                    if "name" in updated_data and updated_data["name"]:
+                        account.name = updated_data["name"]
+                    if "ticker" in updated_data:
+                        account.ticker = updated_data["ticker"]
+                    session.add(account)
+                elif node_type == "person":
+                    contact = session.get(Contact, node_id)
+                    if not contact:
+                        return rx.toast("Contact not found", duration=3000)
+                    if "first_name" in updated_data and updated_data["first_name"]:
+                        contact.first_name = updated_data["first_name"]
+                    if "last_name" in updated_data:
+                        contact.last_name = updated_data["last_name"]
+                    if "job_title" in updated_data:
+                        contact.job_title = updated_data["job_title"]
+                    session.add(contact)
+                session.commit()
+            self.load_data()
+            return rx.toast("Node updated successfully", duration=3000)
+        except Exception as e:
+            logging.exception(f"Error updating node: {e}")
+            return rx.toast("Failed to update node", duration=3000)
+
+    @rx.event
+    def delete_node(self, node_id: int, node_type: str):
+        """Hard delete node and cascade delete relationships."""
+        try:
+            with rx.session() as session:
+                rels_to_delete = session.exec(
+                    select(Relationship).where(
+                        or_(
+                            (Relationship.source_type == node_type)
+                            & (Relationship.source_id == node_id),
+                            (Relationship.target_type == node_type)
+                            & (Relationship.target_id == node_id),
+                        )
+                    )
+                ).all()
+                deleted_count = len(rels_to_delete)
+                for rel in rels_to_delete:
+                    logging.info(
+                        f"Deleting relationship {rel.id} due to node {node_id} deletion"
+                    )
+                    session.exec(
+                        delete(RelationshipLog).where(
+                            RelationshipLog.relationship_id == rel.id
+                        )
+                    )
+                    session.delete(rel)
+                if node_type == "company":
+                    account = session.get(Account, node_id)
+                    if account:
+                        linked_contacts = session.exec(
+                            select(Contact).where(Contact.account_id == node_id)
+                        ).all()
+                        for c in linked_contacts:
+                            c.account_id = None
+                            session.add(c)
+                        session.delete(account)
+                elif node_type == "person":
+                    contact = session.get(Contact, node_id)
+                    if contact:
+                        session.delete(contact)
+                session.commit()
+            self.close_panel()
+            self.load_data()
+            return rx.toast(
+                f"Deleted node and {deleted_count} relationships", duration=3000
+            )
+        except Exception as e:
+            logging.exception(f"Error deleting node: {e}")
+            return rx.toast("Failed to delete node", duration=3000)
+
+    @rx.event
+    def get_node_relationships(self, node_id: int, node_type: str) -> list[dict]:
+        """Fetch active relationships for a node."""
+        try:
+            relationships_data = []
+            with rx.session() as session:
+                rels = session.exec(
+                    select(Relationship)
+                    .where(
+                        (Relationship.is_active == True)
+                        & or_(
+                            (Relationship.source_type == node_type)
+                            & (Relationship.source_id == node_id),
+                            (Relationship.target_type == node_type)
+                            & (Relationship.target_id == node_id),
+                        )
+                    )
+                    .order_by(col(Relationship.score).desc())
+                ).all()
+                for rel in rels:
+                    is_source = (
+                        rel.source_type == node_type and rel.source_id == node_id
+                    )
+                    conn_type = rel.target_type if is_source else rel.source_type
+                    conn_id = rel.target_id if is_source else rel.source_id
+                    conn_name = "Unknown"
+                    if conn_type == "company":
+                        acc = session.get(Account, conn_id)
+                        if acc:
+                            conn_name = acc.name
+                    elif conn_type == "person":
+                        cont = session.get(Contact, conn_id)
+                        if cont:
+                            conn_name = f"{cont.first_name} {cont.last_name}"
+                    relationships_data.append(
+                        {
+                            "relationship_id": rel.id,
+                            "score": rel.score,
+                            "term": rel.term,
+                            "is_directed": rel.is_directed,
+                            "connected_node_id": conn_id,
+                            "connected_node_type": conn_type,
+                            "connected_node_name": conn_name,
+                            "type": rel.relationship_type,
+                        }
+                    )
+            return relationships_data
+        except Exception as e:
+            logging.exception(f"Error fetching node relationships: {e}")
+            return []
