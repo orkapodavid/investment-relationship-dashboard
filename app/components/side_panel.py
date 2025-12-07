@@ -569,49 +569,31 @@ def edge_edit_view() -> rx.Component:
 
 def side_panel() -> rx.Component:
     return rx.el.aside(
-        rx.el.button(
-            rx.icon("x", class_name="w-6 h-6"),
-            on_click=RelationshipState.close_panel,
-            class_name="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors z-[60] text-gray-500",
-        ),
-        rx.el.div(
+        rx.cond(
+            RelationshipState.node_create_mode,
+            node_creation_view(),
             rx.cond(
-                RelationshipState.node_create_mode,
-                node_creation_view(),
+                RelationshipState.is_creating_relationship,
+                relationship_creation_view(),
                 rx.cond(
                     RelationshipState.edit_mode == "node",
                     rx.cond(
                         RelationshipState.is_editing,
                         node_edit_view(),
-                        rx.cond(
-                            RelationshipState.is_creating_relationship,
-                            relationship_creation_view(),
-                            node_details_view(),
-                        ),
+                        node_details_view(),
                     ),
                     rx.cond(
                         RelationshipState.edit_mode == "edge",
                         edge_edit_view(),
-                        rx.el.div(
-                            rx.icon(
-                                "mouse-pointer-2",
-                                class_name="w-12 h-12 text-gray-300 mb-4",
-                            ),
-                            rx.el.p(
-                                "Select an item to view details",
-                                class_name="text-gray-500 font-medium",
-                            ),
-                            class_name="flex flex-col items-center justify-center h-full p-6 text-center opacity-75",
-                        ),
+                        rx.el.div(),
                     ),
                 ),
             ),
-            class_name="flex-1 w-full h-full flex flex-col bg-white relative z-50 overflow-hidden",
         ),
         class_name=rx.cond(
             RelationshipState.show_side_panel,
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col",
-            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col",
         ),
         custom_attrs={"aria-label": "Side Panel"},
     )
