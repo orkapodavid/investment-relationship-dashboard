@@ -30,12 +30,17 @@ def graph_view() -> rx.Component:
             class_name="bg-gray-50 w-full h-full",
         ),
         search_bar(),
-        rx.el.button(
-            rx.icon("plus", class_name="w-6 h-6 mr-2"),
-            "NEW ENTITY",
-            on_click=RelationshipState.start_node_creation,
-            class_name="absolute top-4 right-4 z-[50] bg-yellow-400 text-black font-bold py-3 px-6 rounded-xl border-4 border-black hover:bg-yellow-500 hover:scale-105 transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex items-center text-lg",
-        ),
         side_panel(),
+        rx.el.button(
+            "DEBUG: NEW ENTITY",
+            on_click=RelationshipState.start_node_creation,
+            class_name="absolute bottom-8 right-8 z-[9999] bg-red-600 text-white font-bold p-6 text-xl border-4 border-black rounded-lg shadow-2xl hover:bg-red-700",
+            style={
+                "position": "absolute",
+                "bottom": "50px",
+                "right": "50px",
+                "zIndex": "9999",
+            },
+        ),
         class_name="w-full h-full relative",
     )
