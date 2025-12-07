@@ -14,7 +14,7 @@ def side_panel() -> rx.Component:
             rx.el.div(
                 rx.el.h2(
                     "Details",
-                    class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2",
+                    class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0",
                 ),
                 rx.el.div(
                     rx.el.label(
@@ -33,7 +33,7 @@ def side_panel() -> rx.Component:
                         RelationshipState.selected_node_data["job"],
                         class_name="text-base text-gray-700",
                     ),
-                    class_name="space-y-4",
+                    class_name="space-y-4 overflow-y-auto flex-1",
                 ),
                 class_name="p-6 h-full flex flex-col",
             ),
@@ -43,7 +43,7 @@ def side_panel() -> rx.Component:
             rx.el.div(
                 rx.el.h2(
                     "Edit Relationship",
-                    class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2",
+                    class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0",
                 ),
                 rx.el.div(
                     rx.el.div(
@@ -52,7 +52,7 @@ def side_panel() -> rx.Component:
                         ),
                         rx.el.span(
                             RelationshipState.editing_relationship_type.upper(),
-                            class_name="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200 mr-2",
+                            class_name="px-2 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-800 border border-gray-200",
                         ),
                         rx.cond(
                             RelationshipState.editing_is_directed,
@@ -65,7 +65,7 @@ def side_panel() -> rx.Component:
                                 class_name="px-2 py-1 rounded-full text-xs font-bold bg-purple-50 text-purple-700 border border-purple-100",
                             ),
                         ),
-                        class_name="mb-6 flex items-center flex-wrap gap-2",
+                        class_name="mb-6 flex items-center flex-wrap gap-2 shrink-0",
                     ),
                     rx.cond(
                         RelationshipState.editing_relationship_type == "employment",
@@ -138,32 +138,35 @@ def side_panel() -> rx.Component:
                                 ),
                                 class_name="text-center text-sm text-gray-600 mb-8",
                             ),
-                            rx.el.button(
-                                "Save Changes",
-                                on_click=RelationshipState.save_relationship_update,
-                                class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm mb-4",
-                            ),
-                            rx.el.button(
-                                rx.icon("trash", class_name="w-4 h-4 mr-2"),
-                                "Delete Relationship",
-                                on_click=lambda: RelationshipState.soft_delete_relationship(
-                                    RelationshipState.selected_edge_id.split("-")[1].to(
-                                        int
-                                    )
+                            rx.el.div(
+                                rx.el.button(
+                                    "Save Changes",
+                                    on_click=RelationshipState.save_relationship_update,
+                                    class_name="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors shadow-sm",
                                 ),
-                                class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors",
+                                rx.el.button(
+                                    rx.icon("trash", class_name="w-4 h-4 mr-2"),
+                                    "Delete Relationship",
+                                    on_click=lambda: RelationshipState.soft_delete_relationship(
+                                        RelationshipState.selected_edge_id.split("-")[
+                                            1
+                                        ].to(int)
+                                    ),
+                                    class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors",
+                                ),
+                                class_name="flex flex-col gap-3 mt-auto pb-4",
                             ),
-                            class_name="flex flex-col",
+                            class_name="flex flex-col flex-1",
                         ),
                     ),
-                    class_name="flex flex-col",
+                    class_name="flex flex-col flex-1 overflow-y-auto pr-1",
                 ),
                 class_name="p-6 h-full flex flex-col",
             ),
         ),
         class_name=rx.cond(
             RelationshipState.show_side_panel,
-            "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l",
-            "fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l",
+            "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l",
         ),
     )
