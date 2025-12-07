@@ -15,8 +15,6 @@ def new_entity_fab() -> rx.Component:
 
 def graph_view() -> rx.Component:
     return rx.el.div(
-        search_bar(),
-        new_entity_fab(),
         rxe.flow(
             rxe.flow.background(variant="dots", gap=12, size=1),
             rxe.flow.controls(),
@@ -39,5 +37,7 @@ def graph_view() -> rx.Component:
             on_connect=RelationshipState.on_connect,
             class_name="bg-gray-50",
         ),
+        search_bar(),
+        new_entity_fab(),
         class_name="w-full h-full absolute inset-0",
     )
