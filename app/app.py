@@ -20,7 +20,7 @@ def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
         graph_view(),
-        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] relative",
+        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter']",
     )
 
 

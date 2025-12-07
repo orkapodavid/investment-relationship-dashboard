@@ -32,7 +32,7 @@ def graph_view() -> rx.Component:
         rx.el.button(
             rx.icon("plus", class_name="w-6 h-6"),
             on_click=RelationshipState.start_node_creation,
-            class_name="absolute bottom-8 right-8 z-50 p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95",
+            class_name="absolute bottom-8 right-8 z-50 p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center",
             aria_label="Create New Entity",
         ),
         search_bar(),

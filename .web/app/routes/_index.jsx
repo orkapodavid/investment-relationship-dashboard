@@ -23,13 +23,13 @@ const on_connect_fa168d58d463c6a6acab4ad3b675129f = useCallback(((_ev_0) => (add
 }
 
 
-function Button_c11cea80825d65c51dd3722fd916bca2 () {
+function Button_6875e80cf30c39195773379159cd9ab5 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"absolute top-4 right-16 z-50 flex items-center px-4 py-2.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-lg transition-colors font-semibold shadow-md hover:shadow-lg whitespace-nowrap",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-5 h-5 mr-2"},),"New Entity")
+    jsx("button",{"aria-label":"Create New Entity",className:"absolute bottom-8 right-8 z-50 p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-6 h-6"},))
   )
 }
 
@@ -207,17 +207,6 @@ const on_click_3f40e4c127332733e83ea2042c15a08a = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_39c44ea825b65f870d5ac3dee8d5e4e0 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment,{},))))
-  )
-}
-
-
 function Input_9b7ce55fba002bb40e542856f5d65bdb () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
@@ -332,17 +321,6 @@ const on_click_6f05aaff6a7e17ce950405c3fec1e656 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_d860fd4c6d998f8315e22edbbca9338a () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},))))
-  )
-}
-
-
 function Input_78e3812f89ef3433bafcd54bf4171e3a () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
@@ -449,17 +427,6 @@ const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_0105e875379a4cd15f0bc44235b3bb59 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},))))
-  )
-}
-
-
 function Span_823b17d275118f0afdf798c2bbe13366 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
@@ -538,13 +505,13 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_1bf05f1da0744f8bf26f3ce7b88d8004 () {
+function Fragment_24349bb6bdc464103ce6b914671818b1 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},)))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
   )
 }
 
@@ -640,24 +607,57 @@ const on_click_36e92fe604bb92bc8ecc130d9925c652 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_fae5bd58257b0d36b4df7c913455e174 () {
+function Fragment_a807e75b9fdb22a8d0cf57e17a719db6 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.()))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},jsx("div",{},)))))
   )
 }
 
 
-function Aside_210b10aae43aeb0ed13d8b4b9a92c68e () {
+function Fragment_3493af0064e87129728656f5a888aa98 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx(Fragment_39c44ea825b65f870d5ac3dee8d5e4e0,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_0105e875379a4cd15f0bc44235b3bb59,{},),jsx(Fragment_1bf05f1da0744f8bf26f3ce7b88d8004,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_24349bb6bdc464103ce6b914671818b1,{},)):(jsx(Fragment_a807e75b9fdb22a8d0cf57e17a719db6,{},))))
+  )
+}
+
+
+function Fragment_2ccb22243ffaa02c99e454b77d6b55ae () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment_3493af0064e87129728656f5a888aa98,{},))))
+  )
+}
+
+
+function Fragment_5246ee144577fe6f1ebfe1bbfffd4788 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_2ccb22243ffaa02c99e454b77d6b55ae,{},))))
+  )
+}
+
+
+function Aside_d5598cb8733aa8c3dbe9121714de6211 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx(Fragment_5246ee144577fe6f1ebfe1bbfffd4788,{},))
   )
 }
 
@@ -669,6 +669,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx(Button_c11cea80825d65c51dd3722fd916bca2,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},)))),jsx(Aside_210b10aae43aeb0ed13d8b4b9a92c68e,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] relative"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx(Button_6875e80cf30c39195773379159cd9ab5,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},))),jsx(Aside_d5598cb8733aa8c3dbe9121714de6211,{},))),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
