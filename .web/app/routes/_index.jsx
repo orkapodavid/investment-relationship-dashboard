@@ -527,24 +527,24 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_7b1f89afd0fd70ea940013d0f243f146 () {
+function Fragment_d6ca4a0feb5470d66a92ff9bcb5e6b1d () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex flex-col h-full"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto min-h-0"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
   )
 }
 
 
-function Fragment_fa8e5fb71cbeaa4991259544914ddb98 () {
+function Fragment_566d8bea8d489ef8732ca252a6680df1 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment_7b1f89afd0fd70ea940013d0f243f146,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment_d6ca4a0feb5470d66a92ff9bcb5e6b1d,{},))))
   )
 }
 
@@ -651,35 +651,35 @@ function Fragment_9c25f277a41efae06943d88856b15bbb () {
 }
 
 
-function Fragment_d9e858aac14b10e116519b7447598894 () {
+function Fragment_87cac51b7b5e12ffc7c7b32715e122f6 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_fa8e5fb71cbeaa4991259544914ddb98,{},)):(jsx(Fragment_9c25f277a41efae06943d88856b15bbb,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_566d8bea8d489ef8732ca252a6680df1,{},)):(jsx(Fragment_9c25f277a41efae06943d88856b15bbb,{},))))
   )
 }
 
 
-function Fragment_6fc71bf339e1c24bf2396c13dfd570b4 () {
+function Fragment_5607fc54213ee5106e2d791a2dcdc25e () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_d9e858aac14b10e116519b7447598894,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_87cac51b7b5e12ffc7c7b32715e122f6,{},))))
   )
 }
 
 
-function Div_3d620acfa247f5b6d601ae932293c641 () {
+function Div_815745bbf9062b0b39bb3dca5ac64d96 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_6fc71bf339e1c24bf2396c13dfd570b4,{},))
+    jsx("div",{className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-0 border-l" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 translate-x-full border-l")},jsx(Button_2a72190b7b7499e0a3d0b8e22523a14e,{},),jsx(Fragment_5607fc54213ee5106e2d791a2dcdc25e,{},))
   )
 }
 
@@ -691,6 +691,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},),jsx(Button_3be64328db9c5cae577b21ee720153df,{},)),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_3d620acfa247f5b6d601ae932293c641,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full absolute inset-0"},jsx("div",{className:"absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500"},jsx("div",{className:"relative"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_452760df470a3d53315c1ad7e191e6cc,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("div",{className:"mb-1"},jsx("span",{className:"text-xs font-semibold text-gray-500 uppercase tracking-wider"},"Limit: "),jsx(Span_aa012b7705b5ca487d3155213cb2d562,{},)),jsx(Input_8033b78229431018e592b9906a28309b,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100 min-w-[100px] justify-center"},jsx("div",{className:"text-sm whitespace-nowrap"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-gray-500 ml-1"}," nodes")),jsx(Fragment_b3f9bd9690269352241f5f82277e781a,{},)),jsx("div",{className:"border-l pl-4 border-gray-200"},jsx("label",{className:"relative inline-flex items-center cursor-pointer"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-sm font-medium text-gray-700"},"Show Historic"))),jsx(Fragment_2942491bb2a9346893e0fd022acf9526,{},),jsx(Button_3be64328db9c5cae577b21ee720153df,{},)),jsx(Reactflow_40ca1fb0c81b2d559ef62fc21da62f86,{},)),jsx(Div_815745bbf9062b0b39bb3dca5ac64d96,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
