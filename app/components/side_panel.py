@@ -147,7 +147,7 @@ def node_creation_view() -> rx.Component:
             ),
             class_name="flex-1 overflow-y-auto",
         ),
-        class_name="p-6 h-full flex flex-col",
+        class_name="p-6 h-full flex flex-col bg-white border-4 border-red-500",
     )
 
 

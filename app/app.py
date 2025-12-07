@@ -22,13 +22,19 @@ def index() -> rx.Component:
     return rx.el.div(
         graph_view(),
         rx.el.button(
-            rx.icon("plus", class_name="w-6 h-6"),
+            rx.icon("plus", class_name="w-8 h-8"),
             on_click=RelationshipState.start_node_creation,
-            class_name="fixed top-4 right-16 z-[9999] p-4 text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center justify-center",
-            aria_label="Create New Entity",
+            class_name="fixed top-20 right-8 z-[99999] p-4 text-white bg-red-600 hover:bg-red-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto",
+            aria_label="DEBUG: Create New Entity (Top)",
+        ),
+        rx.el.button(
+            rx.icon("plus", class_name="w-8 h-8"),
+            on_click=RelationshipState.start_node_creation,
+            class_name="fixed bottom-8 right-8 z-[99999] p-4 text-white bg-blue-600 hover:bg-blue-700 rounded-full shadow-2xl hover:scale-110 active:scale-95 flex items-center justify-center border-4 border-white pointer-events-auto",
+            aria_label="DEBUG: Create New Entity (Bottom)",
         ),
         side_panel(),
-        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter']",
+        class_name="flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-visible relative",
     )
 
 
