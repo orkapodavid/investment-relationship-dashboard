@@ -1,5 +1,6 @@
 import reflex as rx
 import sqlmodel
+import math
 from typing import Optional
 from datetime import datetime
 import logging
@@ -265,3 +266,146 @@ class RelationshipState(rx.State):
             for acc in self.accounts
             if query in acc.name.lower() or query in acc.ticker.lower()
         ]
+
+    @rx.var
+    def graph_data(self) -> dict:
+        """Transform SQL models into graph nodes and edges."""
+        nodes = []
+        edges = []
+        center_x, center_y = (0, 0)
+        account_radius = 400
+        contact_radius = 150
+        if not self.accounts:
+            return {"nodes": [], "edges": []}
+        for idx, account in enumerate(self.accounts):
+            acc_pos = self.get_node_position(
+                idx, len(self.accounts), "account", center_x, center_y, account_radius
+            )
+            nodes.append(
+                {
+                    "id": f"acc-{account.id}",
+                    "type": "account",
+                    "data": {
+                        "label": account.name,
+                        "contactsCount": len(account.contacts),
+                    },
+                    "position": acc_pos,
+                    "style": {
+                        "width": "120px",
+                        "height": "120px",
+                        "background": self.get_account_color(len(account.contacts)),
+                        "color": "white",
+                        "border": "2px solid #1e1b4b",
+                        "borderRadius": "4px",
+                        "display": "flex",
+                        "justifyContent": "center",
+                        "alignItems": "center",
+                        "textAlign": "center",
+                        "fontWeight": "bold",
+                        "boxShadow": "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                    },
+                    "draggable": True,
+                }
+            )
+            for c_idx, contact in enumerate(account.contacts):
+                con_pos = self.get_node_position(
+                    c_idx,
+                    len(account.contacts),
+                    "contact",
+                    acc_pos["x"],
+                    acc_pos["y"],
+                    contact_radius,
+                )
+                nodes.append(
+                    {
+                        "id": f"con-{contact.id}",
+                        "type": "contact",
+                        "data": {
+                            "label": f"{contact.first_name}\n{contact.last_name}",
+                            "job": contact.job_title,
+                        },
+                        "position": con_pos,
+                        "style": {
+                            "width": "60px",
+                            "height": "60px",
+                            "background": "#bae6fd",
+                            "color": "#0f172a",
+                            "border": "1px solid #0284c7",
+                            "borderRadius": "50%",
+                            "display": "flex",
+                            "justifyContent": "center",
+                            "alignItems": "center",
+                            "textAlign": "center",
+                            "fontSize": "10px",
+                            "boxShadow": "0 2px 4px -1px rgb(0 0 0 / 0.06)",
+                        },
+                        "draggable": True,
+                    }
+                )
+                score = contact.relationship.score if contact.relationship else 0
+                edge_color = self.get_edge_color(score)
+                edges.append(
+                    {
+                        "id": f"edge-{account.id}-{contact.id}",
+                        "source": f"acc-{account.id}",
+                        "target": f"con-{contact.id}",
+                        "label": f"{score}",
+                        "animated": True,
+                        "style": {"stroke": edge_color, "strokeWidth": 2},
+                        "labelStyle": {"fill": edge_color, "fontWeight": 700},
+                        "data": {"score": score},
+                    }
+                )
+        return {"nodes": nodes, "edges": edges}
+
+    @rx.event
+    def get_node_position(
+        self,
+        index: int,
+        total: int,
+        node_type: str,
+        center_x: float = 0,
+        center_y: float = 0,
+        radius: float = 100,
+    ) -> dict:
+        """Calculate position based on circular layout."""
+        if total == 0:
+            return {"x": center_x, "y": center_y}
+        angle = 2 * math.pi * index / total
+        x = center_x + radius * math.cos(angle)
+        y = center_y + radius * math.sin(angle)
+        return {"x": x, "y": y}
+
+    @rx.event
+    def get_account_color(self, contact_count: int) -> str:
+        """Return color shade based on number of contacts."""
+        if contact_count == 0:
+            return "#a5b4fc"
+        elif contact_count < 3:
+            return "#6366f1"
+        elif contact_count < 6:
+            return "#4338ca"
+        else:
+            return "#312e81"
+
+    @rx.event
+    def get_edge_color(self, score: int) -> str:
+        """Return gradient color based on relationship score."""
+
+        @rx.event
+        def interpolate(start_rgb, end_rgb, factor):
+            r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * factor)
+            g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * factor)
+            b = int(start_rgb[2] + (end_rgb[2] - start_rgb[2]) * factor)
+            return f"#{r:02x}{g:02x}{b:02x}"
+
+        score = max(-100, min(100, score))
+        red_rgb = (239, 68, 68)
+        gray_rgb = (156, 163, 175)
+        green_rgb = (16, 185, 129)
+        if score < 0:
+            factor = (score + 100) / 100.0
+            return interpolate(red_rgb, gray_rgb, factor)
+        else:
+            factor = score / 100.0
+            return interpolate(gray_rgb, green_rgb, factor)
