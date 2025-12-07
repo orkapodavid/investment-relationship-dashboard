@@ -34,10 +34,13 @@ class RelationshipState(rx.State):
     selected_node_data: dict = {}
     editing_score: int = 0
     editing_relationship_type: str = ""
+    is_loading: bool = False
 
     @rx.event
-    def load_data(self):
+    async def load_data(self):
         """Load data based on search/filter state."""
+        self.is_loading = True
+        yield
         try:
             with rx.session() as session:
                 sqlmodel.SQLModel.metadata.create_all(session.get_bind())
@@ -51,6 +54,14 @@ class RelationshipState(rx.State):
                 self.get_most_connected_nodes(self.node_limit)
         except Exception as e:
             logging.exception(f"Database error in load_data: {e}")
+        finally:
+            self.is_loading = False
+
+    @rx.event
+    def clear_search(self):
+        """Clear the search query and reset view."""
+        self.search_query = ""
+        yield RelationshipState.load_data
 
     @rx.event
     def get_most_connected_nodes(self, limit: int):
@@ -151,13 +162,13 @@ class RelationshipState(rx.State):
     def handle_search(self, query: str):
         """Update search query and reload data."""
         self.search_query = query
-        self.load_data()
+        yield RelationshipState.load_data
 
     @rx.event
     def set_node_limit(self, limit: int):
         """Update node limit and reload data."""
         self.node_limit = limit
-        self.load_data()
+        yield RelationshipState.load_data
 
     @rx.event
     def seed_database(self):
