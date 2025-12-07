@@ -22,6 +22,12 @@ def index() -> rx.Component:
     return rx.el.div(
         rx.el.div(graph_view(), class_name="absolute inset-0 z-0 w-full h-full"),
         side_panel(),
+        rx.el.button(
+            rx.icon("plus", class_name="w-5 h-5 mr-2"),
+            "New Entity",
+            on_click=RelationshipState.start_node_creation,
+            class_name="fixed top-4 right-16 z-[9999] flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 font-semibold",
+        ),
         class_name="relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden",
     )
 

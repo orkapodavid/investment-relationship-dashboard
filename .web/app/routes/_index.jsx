@@ -3,7 +3,7 @@ import {Background,Controls,ReactFlow} from "@xyflow/react"
 import {EventLoopContext,StateContexts} from "$/utils/context"
 import {ReflexEvent,isNotNullOrUndefined,isTrue} from "$/utils/state"
 import "@xyflow/react/dist/style.css"
-import {Briefcase as LucideBriefcase,Pencil as LucidePencil,Plus as LucidePlus,Search as LucideSearch,Trash as LucideTrash,Trash2 as LucideTrash2,Users as LucideUsers,X as LucideX} from "lucide-react"
+import {Briefcase as LucideBriefcase,Link as LucideLink,Pencil as LucidePencil,Plus as LucidePlus,Search as LucideSearch,Trash as LucideTrash,Trash2 as LucideTrash2,Users as LucideUsers,X as LucideX} from "lucide-react"
 import {jsx} from "@emotion/react"
 
 
@@ -23,14 +23,14 @@ const on_connect_fa168d58d463c6a6acab4ad3b675129f = useCallback(((_ev_0) => (add
 }
 
 
-function Input_4267a0151717131e71909859204ed98d () {
+function Input_05204f13040495a8826d5b646adf59ce () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_change_05bcce9446d718e7a4abb4b080c17322 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.handle_search", ({ ["query"] : _e?.["target"]?.["value"] }), ({ ["debounce"] : 300 })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("input",{className:"pl-10 pr-4 py-2.5 w-full sm:w-64 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all bg-gray-50 focus:bg-white",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_,onChange:on_change_05bcce9446d718e7a4abb4b080c17322,placeholder:"Search..."},)
+    jsx("input",{className:"pl-10 pr-4 py-2.5 w-full sm:w-56 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm transition-all bg-gray-50 focus:bg-white",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_,onChange:on_change_05bcce9446d718e7a4abb4b080c17322,placeholder:"Search..."},)
   )
 }
 
@@ -81,35 +81,81 @@ const on_change_dbb875a17bd75c23b5e5195c35e9af66 = useCallback(((_e) => (addEven
 }
 
 
-function Button_d3686bddc49ddd41e05cbfab3442a634 () {
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_click_6e4a29164a2099368f62d55bc1d3507c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.clear_search", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("button",{className:"flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium border border-transparent hover:border-red-100 mr-2",onClick:on_click_6e4a29164a2099368f62d55bc1d3507c},jsx(LucideX,{className:"w-4 h-4 mr-1"},),"Clear")
-  )
-}
-
-
-function Fragment_49f47727d12f3a30aa38dcd6781ef743 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},(!((reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(jsx(Fragment,{},jsx(Button_d3686bddc49ddd41e05cbfab3442a634,{},))):(jsx(Fragment,{},))))
-  )
-}
-
-
-function Button_6e441b89f5c0f92c8a208568d7486046 () {
+function Button_016c72b2f3f68f62a9ea8b849a763d75 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-lg hover:bg-indigo-700 font-semibold cursor-pointer pointer-events-auto",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-5 h-5 mr-2"},),"New Entity")
+    jsx("button",{className:"flex items-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},jsx(LucidePlus,{className:"w-4 h-4 mr-1.5"},),"Node")
+  )
+}
+
+
+function Button_b52590fe9bc3e98c1064629b8b9c1501 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_6852d3b8a60347257df2d18475c600f7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_relationship_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "flex items-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed" : "flex items-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm"),disabled:(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()),onClick:on_click_6852d3b8a60347257df2d18475c600f7,title:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "Select a node to add a link" : "Add connection")},jsx(LucideLink,{className:"w-4 h-4 mr-1.5"},),"Link")
+  )
+}
+
+
+function Button_4c7c5e8ff0ff651cfdfba951bb323d1d () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_16e3973365718bfead50c84ac563d0d6 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.prepare_node_edit", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.()) ? "p-2 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 rounded-lg transition-colors shadow-sm" : "hidden"),onClick:on_click_16e3973365718bfead50c84ac563d0d6,title:"Edit Selected"},jsx(LucidePencil,{className:"w-4 h-4"},))
+  )
+}
+
+
+function Button_17a2cf8f664fb61ebb0d99772186559c () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_c0c083496e50484c684d9813588ecf4d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.delete_current_selection", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"p-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 rounded-lg transition-colors shadow-sm",onClick:on_click_c0c083496e50484c684d9813588ecf4d,title:"Delete Selected"},jsx(LucideTrash2,{className:"w-4 h-4"},))
+  )
+}
+
+
+function Fragment_427e6b8e6efd4ccbb0aac6761950fda5 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_?(jsx(Fragment,{},jsx("div",{className:"flex gap-2 ml-1 items-center"},jsx(Button_4c7c5e8ff0ff651cfdfba951bb323d1d,{},),jsx(Button_17a2cf8f664fb61ebb0d99772186559c,{},)))):(jsx(Fragment,{},))))
+  )
+}
+
+
+function Button_8c87285135dc7166e286c154ffa5ea36 () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_6e4a29164a2099368f62d55bc1d3507c = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.clear_search", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"flex items-center p-2 text-sm text-gray-500 hover:bg-gray-100 rounded-lg transition-colors ml-1",onClick:on_click_6e4a29164a2099368f62d55bc1d3507c,title:"Clear Search"},jsx(LucideX,{className:"w-4 h-4"},))
+  )
+}
+
+
+function Fragment_04b0fef9e0a9fd5150383eaf2a7bb355 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},(!((reflex___state____state__app___states___relationship_state____relationship_state.search_query_rx_state_?.valueOf?.() === ""?.valueOf?.()))?(jsx(Fragment,{},jsx(Button_8c87285135dc7166e286c154ffa5ea36,{},))):(jsx(Fragment,{},))))
   )
 }
 
@@ -332,13 +378,13 @@ const on_click_6f05aaff6a7e17ce950405c3fec1e656 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_40ebdd3ed8cf4492dcc206300bc721e1 () {
+function Fragment_d860fd4c6d998f8315e22edbbca9338a () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_ && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},))))
   )
 }
 
@@ -449,6 +495,17 @@ const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvent
 }
 
 
+function Fragment_0105e875379a4cd15f0bc44235b3bb59 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_)?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},))))
+  )
+}
+
+
 function Span_823b17d275118f0afdf798c2bbe13366 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
@@ -527,24 +584,13 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_24349bb6bdc464103ce6b914671818b1 () {
+function Fragment_1bf05f1da0744f8bf26f3ce7b88d8004 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
-  )
-}
-
-
-function Fragment_ff06bcd6477dc13c3adce7ff9c6e7aff () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},((((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.()) && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_))?(jsx(Fragment_24349bb6bdc464103ce6b914671818b1,{},)):(jsx(Fragment,{},))))
+    jsx(Fragment,{},((((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},)))))):(jsx(Fragment,{},))))
   )
 }
 
@@ -640,24 +686,24 @@ const on_click_36e92fe604bb92bc8ecc130d9925c652 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_d86191ae5182d7cb715995c52280bc32 () {
+function Fragment_fae5bd58257b0d36b4df7c913455e174 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.()) && !(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(((!(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_) && !(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_)) && (reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.()))?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},))))
   )
 }
 
 
-function Aside_acf7cc614dc6c1a42d0da3521443621b () {
+function Aside_37bd7956b0298fbfa5a5b4fcba3a166a () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative"},jsx(Fragment_8949fedd3503e80d38d7f3810d2c6700,{},),jsx(Fragment_40ebdd3ed8cf4492dcc206300bc721e1,{},),jsx(Fragment_ff06bcd6477dc13c3adce7ff9c6e7aff,{},),jsx(Fragment_d86191ae5182d7cb715995c52280bc32,{},)))
+    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[10000] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx("div",{className:"flex-1 w-full h-full bg-white relative"},jsx(Fragment_8949fedd3503e80d38d7f3810d2c6700,{},),jsx(Fragment_d860fd4c6d998f8315e22edbbca9338a,{},),jsx(Fragment_0105e875379a4cd15f0bc44235b3bb59,{},),jsx(Fragment_1bf05f1da0744f8bf26f3ce7b88d8004,{},),jsx(Fragment_fae5bd58257b0d36b4df7c913455e174,{},)))
   )
 }
 
@@ -669,6 +715,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},))))),jsx("div",{className:"absolute top-4 right-16 z-50 pointer-events-none"},jsx(Button_6e441b89f5c0f92c8a208568d7486046,{},)),jsx(Aside_acf7cc614dc6c1a42d0da3521443621b,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_05204f13040495a8826d5b646adf59ce,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"w-px h-8 bg-gray-200 mx-1 hidden md:block"},),jsx("div",{className:"flex items-center gap-2"},jsx(Button_016c72b2f3f68f62a9ea8b849a763d75,{},),jsx(Button_b52590fe9bc3e98c1064629b8b9c1501,{},),jsx(Fragment_427e6b8e6efd4ccbb0aac6761950fda5,{},),jsx(Fragment_04b0fef9e0a9fd5150383eaf2a7bb355,{},))))),jsx(Aside_37bd7956b0298fbfa5a5b4fcba3a166a,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }

@@ -76,12 +76,6 @@ def search_bar() -> rx.Component:
         rx.el.div(class_name="w-px h-8 bg-gray-200 mx-1 hidden md:block"),
         rx.el.div(
             rx.el.button(
-                rx.icon("plus", class_name="w-4 h-4 mr-1.5"),
-                "Node",
-                on_click=RelationshipState.start_node_creation,
-                class_name="flex items-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm",
-            ),
-            rx.el.button(
                 rx.icon("link", class_name="w-4 h-4 mr-1.5"),
                 "Link",
                 disabled=RelationshipState.selected_node_id == "",
