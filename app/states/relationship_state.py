@@ -409,3 +409,68 @@ class RelationshipState(rx.State):
         else:
             factor = score / 100.0
             return interpolate(gray_rgb, green_rgb, factor)
+
+    selected_node_id: str = ""
+    selected_edge_id: str = ""
+    show_side_panel: bool = False
+    edit_mode: str = "none"
+    selected_node_data: dict = {}
+    editing_score: int = 0
+
+    @rx.event
+    def on_node_click(self, node: dict):
+        """Handle node click to show details."""
+        self.selected_node_id = node["id"]
+        self.selected_node_data = node["data"]
+        self.edit_mode = "node"
+        self.show_side_panel = True
+
+    @rx.event
+    def on_edge_click(self, edge: dict):
+        """Handle edge click to show score editor."""
+        self.selected_edge_id = edge["id"]
+        data = edge.get("data", {})
+        self.editing_score = int(data.get("score", 0))
+        self.edit_mode = "edge"
+        self.show_side_panel = True
+
+    @rx.event
+    def close_panel(self):
+        """Close the side panel."""
+        self.show_side_panel = False
+        self.edit_mode = "none"
+
+    @rx.event
+    def set_editing_score(self, value: int):
+        """Update the temporary score value while editing."""
+        self.editing_score = value
+
+    @rx.event
+    def save_relationship_update(self):
+        """Commit the score change to the database."""
+        try:
+            parts = self.selected_edge_id.split("-")
+            if len(parts) >= 3:
+                contact_id = int(parts[-1])
+                self.update_score(contact_id, self.editing_score)
+        except Exception as e:
+            logging.exception(f"Failed to save relationship: {e}")
+
+    @rx.event
+    def on_connect(self, connection: dict):
+        """Handle new connections (reparenting contacts)."""
+        source = connection["source"]
+        target = connection["target"]
+        if source.startswith("acc-") and target.startswith("con-"):
+            try:
+                acc_id = int(source.split("-")[1])
+                con_id = int(target.split("-")[1])
+                with rx.session() as session:
+                    contact = session.get(Contact, con_id)
+                    if contact:
+                        contact.account_id = acc_id
+                        session.add(contact)
+                        session.commit()
+                self.load_data()
+            except Exception as e:
+                logging.exception(f"Failed to link nodes: {e}")
