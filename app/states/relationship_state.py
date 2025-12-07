@@ -2,7 +2,7 @@ import reflex as rx
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
-from typing import Optional
+from typing import Optional, TypedDict
 from datetime import datetime
 import logging
 from collections import Counter, defaultdict
@@ -33,6 +33,18 @@ TERM_TO_TYPE = {
 }
 
 
+class RelationshipItem(TypedDict):
+    relationship_id: int
+    score: int
+    term: str
+    is_directed: bool
+    connected_node_id: int
+    connected_node_type: str
+    connected_node_name: str
+    type: str
+    badge_class: str
+
+
 class RelationshipState(rx.State):
     """State management for the Relationship Dashboard."""
 
@@ -60,6 +72,12 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
+    active_node_relationships: list[RelationshipItem] = []
+    creation_target_id: int = 0
+    creation_target_type: str = ""
+    creation_target_name: str = ""
+    creation_term: str = "friend"
+    creation_score: int = 0
     editing_node_data: dict = {}
     relationship_target_search: str = ""
     filtered_target_nodes: list[dict] = []
@@ -570,6 +588,7 @@ class RelationshipState(rx.State):
             self.selected_node_data = getattr(node, "data", None) or {}
         self.edit_mode = "node"
         self.show_side_panel = True
+        yield RelationshipState.load_active_node_relationships
 
     @rx.event
     def on_edge_click(self, edge: dict):
@@ -1005,6 +1024,31 @@ class RelationshipState(rx.State):
             return rx.toast("Failed to delete node", duration=3000)
 
     @rx.event
+    def load_active_node_relationships(self):
+        """Load relationships for the currently selected node into state."""
+        if not self.selected_node_id:
+            return
+        try:
+            parts = self.selected_node_id.split("-")
+            if len(parts) < 2:
+                return
+            prefix, id_str = (parts[0], parts[1])
+            node_id = int(id_str)
+            node_type = "company" if prefix == "acc" else "person"
+            rels = self.get_node_relationships(node_id, node_type)
+            for r in rels:
+                score = r.get("score", 0)
+                if score <= -30:
+                    r["badge_class"] = "bg-red-50 text-red-700 border-red-200"
+                elif score >= 30:
+                    r["badge_class"] = "bg-green-50 text-green-700 border-green-200"
+                else:
+                    r["badge_class"] = "bg-gray-50 text-gray-700 border-gray-200"
+            self.active_node_relationships = rels
+        except Exception as e:
+            logging.exception(f"Error loading active node relationships: {e}")
+
+    @rx.event
     def get_node_relationships(self, node_id: int, node_type: str) -> list[dict]:
         """Fetch active relationships for a node."""
         try:
@@ -1042,12 +1086,12 @@ class RelationshipState(rx.State):
                         {
                             "relationship_id": rel.id,
                             "score": rel.score,
-                            "term": rel.term,
+                            "term": rel.term.value,
                             "is_directed": rel.is_directed,
                             "connected_node_id": conn_id,
                             "connected_node_type": conn_type,
                             "connected_node_name": conn_name,
-                            "type": rel.relationship_type,
+                            "type": rel.relationship_type.value,
                         }
                     )
             return relationships_data
@@ -1151,15 +1195,54 @@ class RelationshipState(rx.State):
         """Enter relationship creation mode."""
         self.is_creating_relationship = True
         self.relationship_target_search = ""
+        self.creation_target_id = 0
+        self.creation_target_name = ""
+        self.creation_target_type = ""
+        self.creation_term = "friend"
+        self.creation_score = 0
         self.filter_target_nodes("")
 
     @rx.event
-    def create_relationship_from_panel(
-        self, target_node_id: int, target_node_type: str, term: str, score: int
-    ):
+    def set_creation_target(self, id: int, type: str, name: str):
+        """Set the target node for the new relationship."""
+        self.creation_target_id = id
+        self.creation_target_type = type
+        self.creation_target_name = name
+
+    @rx.event
+    def set_creation_term(self, term: str):
+        """Set the term for new relationship and update score defaults."""
+        self.creation_term = term
+        try:
+            term_enum = RelationshipTerm(term)
+            defaults = TERM_DEFAULTS.get(term_enum, {"default_score": 0})
+            self.creation_score = defaults["default_score"]
+        except ValueError as e:
+            logging.exception(f"Error setting creation term: {e}")
+
+    @rx.event
+    def set_creation_score(self, score: int):
+        """Set the score for new relationship."""
+        self.creation_score = score
+
+    @rx.event
+    def cancel_relationship_creation(self):
+        """Cancel relationship creation mode."""
+        self.is_creating_relationship = False
+        self.creation_target_id = 0
+        self.creation_target_name = ""
+
+    @rx.event
+    def create_relationship_from_panel(self):
         """Create a relationship from the side panel UI."""
         if not self.selected_node_id:
             return rx.toast("No source node selected", duration=3000)
+        if not self.creation_target_id:
+            return rx.toast("Please select a target node", duration=3000)
+        target_node_id = self.creation_target_id
+        target_node_type = self.creation_target_type
+        term = self.creation_term
+        score = self.creation_score
         try:
             parts = self.selected_node_id.split("-")
             src_prefix, src_id_str = (parts[0], parts[1])
@@ -1216,7 +1299,8 @@ class RelationshipState(rx.State):
                     session.commit()
                     rx.toast("Relationship created", duration=3000)
             self.is_creating_relationship = False
-            self.load_data()
+            yield RelationshipState.load_data
+            yield RelationshipState.load_active_node_relationships
         except Exception as e:
             logging.exception(f"Error creating relationship from panel: {e}")
             rx.toast("Failed to create relationship", duration=3000)
@@ -1229,7 +1313,7 @@ class RelationshipState(rx.State):
         self.new_node_name = ""
         self.new_node_last_name = ""
         self.new_node_title_or_ticker = ""
-        self.show_side_panel = False
+        self.show_side_panel = True
         self.edit_mode = "none"
 
     @rx.event

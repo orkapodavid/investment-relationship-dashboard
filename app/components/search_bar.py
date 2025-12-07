@@ -88,5 +88,11 @@ def search_bar() -> rx.Component:
                 class_name="flex items-center px-3 py-1.5 text-sm text-red-600 hover:bg-red-50 rounded-md transition-colors font-medium",
             ),
         ),
+        rx.el.button(
+            rx.icon("plus", class_name="w-4 h-4 mr-1.5"),
+            "New Entity",
+            on_click=RelationshipState.start_node_creation,
+            class_name="flex items-center px-3 py-1.5 text-sm text-white bg-indigo-600 hover:bg-indigo-700 rounded-md transition-colors font-medium shadow-sm ml-2",
+        ),
         class_name="absolute top-4 left-4 z-10 flex items-center gap-4 bg-white p-3 rounded-xl shadow-lg border border-gray-100 animate-in fade-in slide-in-from-top-4 duration-500",
     )
