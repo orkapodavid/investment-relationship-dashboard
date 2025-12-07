@@ -6,11 +6,9 @@ from app.components.search_bar import search_bar
 
 def new_entity_fab() -> rx.Component:
     return rx.el.button(
-        rx.el.span("NEW", class_name="font-black text-white mr-1 text-sm"),
-        rx.icon("plus", class_name="w-8 h-8 text-white"),
+        "TEST BUTTON",
         on_click=RelationshipState.start_node_creation,
-        class_name="absolute top-4 right-4 z-[9999] w-20 h-20 bg-red-500 hover:bg-red-600 border-4 border-white rounded-full shadow-2xl flex items-center justify-center transition-all duration-200 ease-in-out transform hover:scale-105 active:scale-95 pointer-events-auto cursor-pointer",
-        title="Create New Entity",
+        class_name="fixed top-0 right-0 z-[9999] bg-red-500 text-white p-4 font-bold border-4 border-black",
     )
 
 
