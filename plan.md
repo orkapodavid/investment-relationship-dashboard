@@ -107,10 +107,10 @@
 - [x] Implement auto-population of score when term changes (with manual override)
 - [x] Add visual feedback for deleted/historic relationships
 
-## Phase 15: UI Verification - Advanced Features Testing
-- [ ] Test relationship creation with different terms (works_for, friend, competitor, etc.)
-- [ ] Verify is_directed property controls arrowhead rendering correctly
-- [ ] Test soft delete: verify edge disappears from graph but remains in database
-- [ ] Toggle "Show Historic" and verify deleted edges appear as dotted lines
-- [ ] Test term dropdown in edge editor and verify auto-populated score
-- [ ] Verify all changes create proper RelationshipLog entries
+## Phase 15: UI Verification - Advanced Features Testing ✅
+- [x] Test relationship creation with different terms (works_for, friend, competitor, etc.)
+- [x] Verify is_directed property controls arrowhead rendering correctly
+- [x] Test soft delete: verify edge disappears from graph but remains in database
+- [x] Toggle "Show Historic" and verify deleted edges appear as dotted lines
+- [x] Test term dropdown in edge editor and verify auto-populated score
+- [x] Verify all changes create proper RelationshipLog entries
