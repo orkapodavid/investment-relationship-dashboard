@@ -64,6 +64,7 @@
 - [x] Refactor load_data to NOT load entire database by default
 - [x] Add search_query state var and node_limit state var (default 100)
 - [x] Implement get_most_connected_nodes() method to return top N nodes by relationship count
+- [x] Add node limit slider (50/100/250/500) to give user control over performance
 - [x] Implement search_and_build_subgraph() method that builds 2-degree subgraph from search results
 - [x] Update graph_data to use filtered_accounts, filtered_contacts, filtered_relationships
 
@@ -126,14 +127,14 @@
 - [x] Add `get_node_relationships(node_id, node_type)` method to fetch all connections for a node
 - [x] Add validation logic to prevent duplicate nodes and invalid data
 
-## Phase 17: Backend CRUD - Relationship Management & State Variables
-- [ ] Add state variables for edit/create modes: `is_editing`, `is_creating_relationship`, `node_create_mode`
-- [ ] Add state variables for editing: `editing_node_id`, `editing_node_type`, `editing_node_data`
-- [ ] Add state variables for relationship search: `relationship_target_search`, `filtered_target_nodes`
-- [ ] Add `get_all_nodes_for_search()` method that returns searchable list combining accounts and contacts
-- [ ] Add `filter_target_nodes(query: str)` method that filters nodes by search query for relationship creation
-- [ ] Add `prepare_node_edit()` method to populate editing state when clicking "Edit Details" button
-- [ ] Add `cancel_edit()` method to exit edit mode and return to view mode
+## Phase 17: Backend CRUD - Relationship Management & State Variables ✅
+- [x] Add state variables for edit/create modes: `is_editing`, `is_creating_relationship`, `node_create_mode`
+- [x] Add state variables for editing: `editing_node_id`, `editing_node_type`, `editing_node_data`
+- [x] Add state variables for relationship search: `relationship_target_search`, `filtered_target_nodes`
+- [x] Add `get_all_nodes_for_search()` method that returns searchable list combining accounts and contacts
+- [x] Add `filter_target_nodes(query: str)` method that filters nodes by search query for relationship creation
+- [x] Add `prepare_node_edit()` method to populate editing state when clicking "Edit Details" button
+- [x] Add `cancel_edit()` method to exit edit mode and return to view mode
 
 ## Phase 18: Side Panel UI - View Mode Enhancements
 - [ ] Add "Relationships" section that lists all connected nodes with score badges
@@ -176,4 +177,4 @@
 
 ---
 
-# 🎯 PROJECT STATUS: STARTING PHASE 17 - IMPLEMENTING STATE MANAGEMENT FOR CRUD UI
+# 🎯 PROJECT STATUS: STARTING PHASES 18-21 - IMPLEMENTING FULL CRUD UI
