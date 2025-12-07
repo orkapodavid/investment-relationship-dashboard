@@ -216,10 +216,11 @@ class RelationshipState(rx.State):
                     Relationship.contact_id == contact_id
                 )
                 relationship = session.exec(statement).first()
+                previous_score = 0
                 if not relationship:
                     relationship = Relationship(contact_id=contact_id, score=new_score)
                     session.add(relationship)
-                    previous_score = 0
+                    session.flush()
                 else:
                     previous_score = relationship.score
                     relationship.score = new_score
@@ -229,15 +230,12 @@ class RelationshipState(rx.State):
                 if not note:
                     note = "Manual update via dashboard"
                 log_entry = RelationshipLog(
-                    relationship_id=relationship.id if relationship.id else 0,
+                    relationship_id=relationship.id,
                     previous_score=previous_score,
                     new_score=new_score,
                     changed_at=datetime.now(),
                     note=note,
                 )
-                if not relationship.id:
-                    session.flush()
-                    log_entry.relationship_id = relationship.id
                 session.add(log_entry)
                 session.commit()
                 self.load_data()
