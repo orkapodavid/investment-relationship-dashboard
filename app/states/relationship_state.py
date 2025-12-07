@@ -195,7 +195,6 @@ class RelationshipState(rx.State):
                         "id": f"emp-{con.id}-{con.account_id}",
                         "source": f"acc-{con.account_id}",
                         "target": f"con-{con.id}",
-                        "label": "Employed",
                         "type": "smoothstep",
                         "animated": False,
                         "style": {
@@ -212,35 +211,52 @@ class RelationshipState(rx.State):
             src_id = f"{src_prefix}{rel.source_id}"
             tgt_id = f"{tgt_prefix}{rel.target_id}"
             is_employment = rel.relationship_type == RelationshipType.EMPLOYMENT
+            edge_dict = {
+                "id": f"rel-{rel.id}",
+                "source": src_id,
+                "target": tgt_id,
+                "type": "smoothstep",
+                "data": {"score": rel.score, "type": rel.relationship_type.value},
+            }
             if is_employment:
-                edge_color = "#334155"
-                is_animated = False
-                label = "Employed"
-                stroke_dash = "5,5"
-                stroke_width = 2
+                edge_dict.update(
+                    {
+                        "animated": False,
+                        "style": {
+                            "stroke": "#334155",
+                            "strokeWidth": 2,
+                            "strokeDasharray": "5,5",
+                        },
+                    }
+                )
             else:
                 edge_color = self.get_edge_color(rel.score)
-                is_animated = True
-                label = f"{rel.relationship_type.value.title()} ({rel.score})"
-                stroke_dash = "0"
-                stroke_width = 3
-            edges.append(
-                {
-                    "id": f"rel-{rel.id}",
-                    "source": src_id,
-                    "target": tgt_id,
-                    "label": label,
-                    "animated": is_animated,
-                    "type": "smoothstep",
-                    "style": {
-                        "stroke": edge_color,
-                        "strokeWidth": stroke_width,
-                        "strokeDasharray": stroke_dash,
-                    },
-                    "labelStyle": {"fill": edge_color, "fontWeight": 700},
-                    "data": {"score": rel.score, "type": rel.relationship_type.value},
-                }
-            )
+                edge_dict.update(
+                    {
+                        "label": f"{rel.relationship_type.value.title()} ({rel.score})",
+                        "animated": True,
+                        "style": {
+                            "stroke": edge_color,
+                            "strokeWidth": 3,
+                            "strokeDasharray": "0",
+                        },
+                        "labelStyle": {
+                            "fill": edge_color,
+                            "fontWeight": 700,
+                            "fontSize": 11,
+                        },
+                        "labelShowBg": True,
+                        "labelBgStyle": {
+                            "fill": "#ffffff",
+                            "fillOpacity": 0.95,
+                            "stroke": edge_color,
+                            "strokeWidth": 1,
+                        },
+                        "labelBgPadding": [8, 4],
+                        "labelBgBorderRadius": 6,
+                    }
+                )
+            edges.append(edge_dict)
         return {"nodes": nodes, "edges": edges}
 
     @rx.event
