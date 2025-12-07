@@ -4,18 +4,6 @@ from app.states.relationship_state import RelationshipState
 
 def search_bar() -> rx.Component:
     return rx.el.div(
-        rx.el.button(
-            "🔥🔥🔥 NEW ENTITY (DEBUG) 🔥🔥🔥",
-            on_click=RelationshipState.start_node_creation,
-            class_name="w-full bg-red-600 text-white text-xl font-bold p-4 mb-4 border-4 border-yellow-400 shadow-xl animate-pulse z-50 pointer-events-auto hover:bg-red-700",
-        ),
-        rx.el.div(
-            "Debug State: ",
-            rx.el.span("Creating: ", RelationshipState.node_create_mode.to_string()),
-            " | ",
-            rx.el.span("Panel: ", RelationshipState.show_side_panel.to_string()),
-            class_name="bg-black text-green-400 font-mono p-2 mb-4 text-xs w-full rounded",
-        ),
         rx.el.div(
             rx.icon(
                 "search",

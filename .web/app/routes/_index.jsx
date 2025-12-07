@@ -3,7 +3,7 @@ import {Background,Controls,ReactFlow} from "@xyflow/react"
 import {EventLoopContext,StateContexts} from "$/utils/context"
 import {ReflexEvent,isNotNullOrUndefined,isTrue} from "$/utils/state"
 import "@xyflow/react/dist/style.css"
-import {Briefcase as LucideBriefcase,MousePointer2 as LucideMousePointer2,Pencil as LucidePencil,Plus as LucidePlus,Search as LucideSearch,Trash as LucideTrash,Trash2 as LucideTrash2,Users as LucideUsers,X as LucideX} from "lucide-react"
+import {Briefcase as LucideBriefcase,Pencil as LucidePencil,Plus as LucidePlus,Search as LucideSearch,Trash as LucideTrash,Trash2 as LucideTrash2,Users as LucideUsers,X as LucideX} from "lucide-react"
 import {jsx} from "@emotion/react"
 
 
@@ -19,6 +19,39 @@ const on_connect_fa168d58d463c6a6acab4ad3b675129f = useCallback(((_ev_0) => (add
 
   return (
     jsx(ReactFlow,{className:"bg-gray-50 w-full h-full",edges:reflex___state____state__app___states___relationship_state____relationship_state.graph_data_rx_state_?.["edges"],edgesFocusable:true,fitView:true,fitViewOptions:({ ["padding"] : 0.2 }),maxZoom:4.0,minZoom:0.1,nodes:reflex___state____state__app___states___relationship_state____relationship_state.graph_data_rx_state_?.["nodes"],nodesConnectable:true,nodesDraggable:true,nodesFocusable:true,onConnect:on_connect_fa168d58d463c6a6acab4ad3b675129f,onEdgeClick:on_edge_click_e2f95da83301f88b1122896b4b556a07,onNodeClick:on_node_click_aaeec5d9b52d48064d35abcf023ce6ad,panOnScroll:false,snapToGrid:false,zoomOnDoubleClick:false,zoomOnScroll:true},jsx(Background,{gap:12,size:1,variant:"dots"},),jsx(Controls,{},))
+  )
+}
+
+
+function Button_b4dfde243f8388eb9e35d1befd1940ab () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"w-full bg-red-600 text-white text-xl font-bold p-4 mb-4 border-4 border-yellow-400 shadow-xl animate-pulse z-50 pointer-events-auto hover:bg-red-700",onClick:on_click_928ccc08d030188db40bb6156b3c7ece},"\ud83d\udd25\ud83d\udd25\ud83d\udd25 NEW ENTITY (DEBUG) \ud83d\udd25\ud83d\udd25\ud83d\udd25")
+  )
+}
+
+
+function Span_b1de794bcee801979bd8a14bddcebb96 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("span",{},"Creating: ",(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_)))
+  )
+}
+
+
+function Span_30e9930171cb9bb961e77ef82812cc2e () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("span",{},"Panel: ",(JSON.stringify(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_)))
   )
 }
 
@@ -114,17 +147,6 @@ const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvent
 }
 
 
-function Button_894c016ce890fa80fce9eb91385004c8 () {
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_click_480e95f021a096d625b5bcb51e7ce240 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.close_panel", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("button",{className:"absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full transition-colors z-[60] text-gray-500",onClick:on_click_480e95f021a096d625b5bcb51e7ce240},jsx(LucideX,{className:"w-6 h-6"},))
-  )
-}
-
-
 function Input_dcce46ac7977d2aaf052d56c9249799d () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
@@ -214,112 +236,6 @@ const on_click_3f40e4c127332733e83ea2042c15a08a = useCallback(((_e) => (addEvent
 
   return (
     jsx("button",{className:"w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors",onClick:on_click_3f40e4c127332733e83ea2042c15a08a},"Cancel")
-  )
-}
-
-
-function Input_78e3812f89ef3433bafcd54bf4171e3a () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_change_12e1e069f879fbf6ba4890c6a8c23572 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["first_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["first_name"],onChange:on_change_12e1e069f879fbf6ba4890c6a8c23572},)
-  )
-}
-
-
-function Input_1d21a0d6f9a0919dc7473e3bb0af8707 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_change_3dc67a16acd2fbf95ad5a4f0faf3234d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["last_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["last_name"],onChange:on_change_3dc67a16acd2fbf95ad5a4f0faf3234d},)
-  )
-}
-
-
-function Input_f7baa2195977bee39e823bc61f20cde0 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_change_8ed6c454a6c8d6a2ec72bc18cd124d20 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["job_title"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["job_title"],onChange:on_change_8ed6c454a6c8d6a2ec72bc18cd124d20},)
-  )
-}
-
-
-function Input_7e3cea86e318e0e629f04fd92c8555ee () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_change_395f4ed292a2542d2f88e218c46b025d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["name"],onChange:on_change_395f4ed292a2542d2f88e218c46b025d},)
-  )
-}
-
-
-function Input_3d8dcb99b891bae0912b37a175afbc1c () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_change_f536bce36fa9feceaa300d26d689c564 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["ticker"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["ticker"],onChange:on_change_f536bce36fa9feceaa300d26d689c564},)
-  )
-}
-
-
-function Fragment_ef33331c4ea73149a8831c04708f9fbf () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_?.valueOf?.() === "person"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"First Name"),jsx(Input_78e3812f89ef3433bafcd54bf4171e3a,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Last Name"),jsx(Input_1d21a0d6f9a0919dc7473e3bb0af8707,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Job Title"),jsx(Input_f7baa2195977bee39e823bc61f20cde0,{},)))):(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Company Name"),jsx(Input_7e3cea86e318e0e629f04fd92c8555ee,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Ticker"),jsx(Input_3d8dcb99b891bae0912b37a175afbc1c,{},))))))
-  )
-}
-
-
-function Button_e643d83e135c8145f1aed390bda6f32c () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_click_337115e787ba9918f306cfdb4e9f6c89 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.update_node", ({ ["node_id"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_id_rx_state_, ["node_type"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_, ["updated_data"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_ }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state])
-
-  return (
-    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",onClick:on_click_337115e787ba9918f306cfdb4e9f6c89},"Save Changes")
-  )
-}
-
-
-function Button_184a4a0c7590e851cd2bffeef2fb13bd () {
-  const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_click_56ad40cf7e5119e85e64a7e87b709a49 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.cancel_edit", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
-
-  return (
-    jsx("button",{className:"w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors mb-6",onClick:on_click_56ad40cf7e5119e85e64a7e87b709a49},"Cancel")
-  )
-}
-
-
-function Button_fab67df1ff43c956bd47adbfd8192e0b () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-const [addEvents, connectErrors] = useContext(EventLoopContext);
-
-const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.delete_node", ({ ["node_id"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_id_rx_state_, ["node_type"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_ }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state])
-
-  return (
-    jsx("button",{className:"w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-2.5 px-4 rounded-lg transition-colors",onClick:on_click_493fe51a04b7fac4e197ddf82e39b774},jsx(LucideTrash2,{className:"w-4 h-4 mr-2"},),"Delete Entity")
   )
 }
 
@@ -438,6 +354,112 @@ const on_click_6f05aaff6a7e17ce950405c3fec1e656 = useCallback(((_e) => (addEvent
 }
 
 
+function Input_78e3812f89ef3433bafcd54bf4171e3a () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_12e1e069f879fbf6ba4890c6a8c23572 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["first_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["first_name"],onChange:on_change_12e1e069f879fbf6ba4890c6a8c23572},)
+  )
+}
+
+
+function Input_1d21a0d6f9a0919dc7473e3bb0af8707 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_3dc67a16acd2fbf95ad5a4f0faf3234d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["last_name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["last_name"],onChange:on_change_3dc67a16acd2fbf95ad5a4f0faf3234d},)
+  )
+}
+
+
+function Input_f7baa2195977bee39e823bc61f20cde0 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_8ed6c454a6c8d6a2ec72bc18cd124d20 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["job_title"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["job_title"],onChange:on_change_8ed6c454a6c8d6a2ec72bc18cd124d20},)
+  )
+}
+
+
+function Input_7e3cea86e318e0e629f04fd92c8555ee () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_395f4ed292a2542d2f88e218c46b025d = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["name"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["name"],onChange:on_change_395f4ed292a2542d2f88e218c46b025d},)
+  )
+}
+
+
+function Input_3d8dcb99b891bae0912b37a175afbc1c () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_change_f536bce36fa9feceaa300d26d689c564 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.set_editing_node_data", ({ ["updates"] : ({ ["ticker"] : _e?.["target"]?.["value"] }) }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("input",{className:"w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 outline-none",defaultValue:reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_?.["ticker"],onChange:on_change_f536bce36fa9feceaa300d26d689c564},)
+  )
+}
+
+
+function Fragment_ef33331c4ea73149a8831c04708f9fbf () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_?.valueOf?.() === "person"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"First Name"),jsx(Input_78e3812f89ef3433bafcd54bf4171e3a,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Last Name"),jsx(Input_1d21a0d6f9a0919dc7473e3bb0af8707,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Job Title"),jsx(Input_f7baa2195977bee39e823bc61f20cde0,{},)))):(jsx(Fragment,{},jsx("div",{},jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Company Name"),jsx(Input_7e3cea86e318e0e629f04fd92c8555ee,{},),jsx("label",{className:"text-sm font-medium text-gray-500 mb-1 block"},"Ticker"),jsx(Input_3d8dcb99b891bae0912b37a175afbc1c,{},))))))
+  )
+}
+
+
+function Button_e643d83e135c8145f1aed390bda6f32c () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_337115e787ba9918f306cfdb4e9f6c89 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.update_node", ({ ["node_id"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_id_rx_state_, ["node_type"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_, ["updated_data"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_data_rx_state_ }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state])
+
+  return (
+    jsx("button",{className:"w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",onClick:on_click_337115e787ba9918f306cfdb4e9f6c89},"Save Changes")
+  )
+}
+
+
+function Button_184a4a0c7590e851cd2bffeef2fb13bd () {
+  const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_56ad40cf7e5119e85e64a7e87b709a49 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.cancel_edit", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
+
+  return (
+    jsx("button",{className:"w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors mb-6",onClick:on_click_56ad40cf7e5119e85e64a7e87b709a49},"Cancel")
+  )
+}
+
+
+function Button_fab67df1ff43c956bd47adbfd8192e0b () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+const [addEvents, connectErrors] = useContext(EventLoopContext);
+
+const on_click_493fe51a04b7fac4e197ddf82e39b774 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.delete_node", ({ ["node_id"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_id_rx_state_, ["node_type"] : reflex___state____state__app___states___relationship_state____relationship_state.editing_node_type_rx_state_ }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent, reflex___state____state__app___states___relationship_state____relationship_state, reflex___state____state__app___states___relationship_state____relationship_state])
+
+  return (
+    jsx("button",{className:"w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-2.5 px-4 rounded-lg transition-colors",onClick:on_click_493fe51a04b7fac4e197ddf82e39b774},jsx(LucideTrash2,{className:"w-4 h-4 mr-2"},),"Delete Entity")
+  )
+}
+
+
 function Span_823b17d275118f0afdf798c2bbe13366 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
@@ -516,24 +538,13 @@ function Fragment_300e8c2af4dd1372bc3477019326e05c () {
 }
 
 
-function Fragment_d6ca4a0feb5470d66a92ff9bcb5e6b1d () {
+function Fragment_24349bb6bdc464103ce6b914671818b1 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
-  )
-}
-
-
-function Fragment_566d8bea8d489ef8732ca252a6680df1 () {
-  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
-
-
-
-  return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment_d6ca4a0feb5470d66a92ff9bcb5e6b1d,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_editing_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Edit Entity"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx(Fragment_ef33331c4ea73149a8831c04708f9fbf,{},),jsx(Button_e643d83e135c8145f1aed390bda6f32c,{},),jsx(Button_184a4a0c7590e851cd2bffeef2fb13bd,{},),jsx("div",{className:"mt-auto pt-6 border-t"},jsx(Button_fab67df1ff43c956bd47adbfd8192e0b,{},)))))):(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"flex items-center justify-between mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Details"),jsx(Span_823b17d275118f0afdf798c2bbe13366,{},)),jsx("div",{className:"flex-1 flex flex-col min-h-0"},jsx("div",{className:"shrink-0"},jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Name"),jsx(P_0622292c409e6430972044ddb28956f2,{},),jsx("label",{className:"text-xs font-bold text-gray-400 uppercase mb-1 block"},"Role / Info"),jsx(P_a3cb1af0bbb273ea14e3082bda632079,{},),jsx("div",{className:"flex gap-3 mb-8"},jsx(Button_804ae62c91449f98b73138c6a7a93734,{},),jsx(Button_676978fd5038044a3c5151d3c4df6d0f,{},))),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("h3",{className:"text-sm font-bold text-gray-900 mb-3 flex items-center gap-2"},"Connections"),jsx(Fragment_300e8c2af4dd1372bc3477019326e05c,{},))))))))
   )
 }
 
@@ -629,46 +640,57 @@ const on_click_36e92fe604bb92bc8ecc130d9925c652 = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_847d49cbde418de4883669b4964853fb () {
+function Fragment_a807e75b9fdb22a8d0cf57e17a719db6 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},jsx("div",{className:"flex flex-col items-center justify-center h-full p-6 text-center opacity-75"},jsx(LucideMousePointer2,{className:"w-12 h-12 text-gray-300 mb-4"},),jsx("p",{className:"text-gray-500 font-medium"},"Select an item to view details"))))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "edge"?.valueOf?.())?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("div",{className:"mb-6 border-b pb-2 shrink-0"},jsx("h2",{className:"text-xl font-bold text-gray-900"},"Edit Relationship")),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("div",{className:"mb-6 flex items-center flex-wrap gap-2"},jsx("span",{className:"text-sm font-medium text-gray-500 mr-2"},"Type:"),jsx(Span_a75135667ce8f5f11b2403f552f90a1e,{},),jsx(Fragment_3a802aeca0e1069f2c7e2a8b65b7af4a,{},)),jsx(Fragment_88d911d463af34f7ab038870da65ebb7,{},),jsx("div",{className:"mt-auto pt-4 border-t"},jsx(Button_eadbddf5751c3fe57cd391dd3066d737,{},)))))):(jsx(Fragment,{},jsx("div",{},)))))
   )
 }
 
 
-function Fragment_23c15070c38b3d72cccec15c06391432 () {
+function Fragment_3493af0064e87129728656f5a888aa98 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_566d8bea8d489ef8732ca252a6680df1,{},)):(jsx(Fragment_847d49cbde418de4883669b4964853fb,{},))))
+    jsx(Fragment,{},((reflex___state____state__app___states___relationship_state____relationship_state.edit_mode_rx_state_?.valueOf?.() === "node"?.valueOf?.())?(jsx(Fragment_24349bb6bdc464103ce6b914671818b1,{},)):(jsx(Fragment_a807e75b9fdb22a8d0cf57e17a719db6,{},))))
   )
 }
 
 
-function Fragment_90cd8e67bbaac5b27d932430b5f92b0b () {
+function Fragment_2ccb22243ffaa02c99e454b77d6b55ae () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_23c15070c38b3d72cccec15c06391432,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.is_creating_relationship_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"Add Connection"),jsx("div",{className:"flex-1 overflow-y-auto flex flex-col"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Search Target Node"),jsx(Input_9b7ce55fba002bb40e542856f5d65bdb,{},),jsx(Fragment_a60159d68462fd3e1368b5e20ea8a335,{},),jsx(Fragment_879b971d5e70957c30ff1b0b4de49cce,{},),jsx(Button_cf5e5bfeb86941afde5ca5695f80e827,{},))))):(jsx(Fragment_3493af0064e87129728656f5a888aa98,{},))))
   )
 }
 
 
-function Aside_fe4a1277391a8c2a676d259e1ba578bd () {
+function Fragment_5246ee144577fe6f1ebfe1bbfffd4788 () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-50 transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx(Button_894c016ce890fa80fce9eb91385004c8,{},),jsx("div",{className:"flex-1 w-full h-full flex flex-col bg-white relative z-50 overflow-hidden"},jsx(Fragment_90cd8e67bbaac5b27d932430b5f92b0b,{},)))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.node_create_mode_rx_state_?(jsx(Fragment,{},jsx("div",{className:"p-6 h-full flex flex-col"},jsx("h2",{className:"text-xl font-bold mb-6 text-gray-900 border-b pb-2"},"New Entity"),jsx("div",{className:"flex-1 overflow-y-auto"},jsx("label",{className:"text-sm font-medium text-gray-500 mb-2 block"},"Type"),jsx("div",{className:"flex gap-6 mb-6"},jsx("label",{className:"flex items-center"},jsx(Input_dcce46ac7977d2aaf052d56c9249799d,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Person")),jsx("label",{className:"flex items-center"},jsx(Input_e83093342e8d2b6ad5284589533e64be,{},),jsx("span",{className:"ml-2 text-sm text-gray-700"},"Company"))),jsx(Fragment_976b9f06e2113fe4cb50b7ed1f18470f,{},),jsx(Button_1162c7ed27ce8a4ec3bfbd1296cc26b9,{},),jsx(Button_be4b037472a5380c5da3fe731f25c023,{},))))):(jsx(Fragment_2ccb22243ffaa02c99e454b77d6b55ae,{},))))
+  )
+}
+
+
+function Aside_d5598cb8733aa8c3dbe9121714de6211 () {
+  const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
+
+
+
+  return (
+    jsx("aside",{"aria-label":"Side Panel",className:(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_ ? "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-0 border-l border-gray-200 flex flex-col" : "fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[100] transform transition-transform duration-300 ease-in-out translate-x-full border-l border-gray-200 flex flex-col")},jsx(Fragment_5246ee144577fe6f1ebfe1bbfffd4788,{},))
   )
 }
 
@@ -680,6 +702,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},),jsx(Button_92963c4d644dab1df6df39569f1020c3,{},)))),jsx(Aside_fe4a1277391a8c2a676d259e1ba578bd,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"flex h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden relative"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-10 flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)] animate-in fade-in slide-in-from-top-2 duration-300"},jsx(Button_b4dfde243f8388eb9e35d1befd1940ab,{},),jsx("div",{className:"bg-black text-green-400 font-mono p-2 mb-4 text-xs w-full rounded"},"Debug State: ",jsx(Span_b1de794bcee801979bd8a14bddcebb96,{},)," | ",jsx(Span_30e9930171cb9bb961e77ef82812cc2e,{},)),jsx("div",{className:"relative flex-shrink-0 w-full sm:w-auto"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_4267a0151717131e71909859204ed98d,{},)),jsx("div",{className:"flex items-center flex-wrap gap-y-2"},jsx("div",{className:"flex items-center"},jsx("div",{className:"flex flex-col justify-center mr-4"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_a5a4a22b085ccd8ea983ba2cd54fd1e1,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-8"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},))),jsx("label",{className:"relative inline-flex items-center cursor-pointer ml-4 border-l pl-4 border-gray-200 h-8"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none"},"Historic"))),jsx("div",{className:"flex-grow hidden lg:block"},),jsx("div",{className:"flex items-center ml-auto sm:ml-0 gap-2 flex-shrink-0"},jsx(Fragment_49f47727d12f3a30aa38dcd6781ef743,{},),jsx(Button_92963c4d644dab1df6df39569f1020c3,{},)))),jsx(Aside_d5598cb8733aa8c3dbe9121714de6211,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
