@@ -75,7 +75,6 @@ def search_bar() -> rx.Component:
             ),
             class_name="relative inline-flex items-center cursor-pointer h-9",
         ),
-        rx.el.div(class_name="w-px h-8 bg-gray-300 mx-1"),
         rx.el.div(
             rx.el.button(
                 rx.icon("plus", class_name="w-4 h-4 mr-2"),
@@ -100,12 +99,11 @@ def search_bar() -> rx.Component:
                     "Add connection",
                 ),
             ),
-            class_name="flex items-center gap-2",
+            class_name="flex items-center gap-2 border-l border-gray-200 pl-4",
         ),
         rx.cond(
             RelationshipState.show_side_panel,
             rx.el.div(
-                rx.el.div(class_name="w-px h-6 bg-gray-300 mx-1"),
                 rx.el.button(
                     rx.icon("pencil", class_name="w-4 h-4"),
                     on_click=RelationshipState.prepare_node_edit,
@@ -122,8 +120,8 @@ def search_bar() -> rx.Component:
                     class_name="p-2 bg-white border border-red-200 hover:bg-red-50 text-red-600 rounded-lg transition-colors shadow-sm h-9 w-9 flex items-center justify-center",
                     title="Delete Selected",
                 ),
-                class_name="flex gap-2 items-center",
+                class_name="flex gap-2 items-center border-l border-gray-200 pl-4",
             ),
         ),
-        class_name="absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-full",
+        class_name="absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[90vw]",
     )

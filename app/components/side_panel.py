@@ -490,6 +490,15 @@ def node_details_view() -> rx.Component:
                 ),
                 class_name="shrink-0",
             ),
+            rx.el.div(
+                rx.el.button(
+                    rx.icon("trash-2", class_name="w-4 h-4 mr-2"),
+                    "Delete Entity",
+                    on_click=RelationshipState.delete_current_selection,
+                    class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-2.5 px-4 rounded-lg transition-colors",
+                ),
+                class_name="mt-auto pt-6 border-t",
+            ),
             class_name="flex-1 flex flex-col min-h-0",
         ),
         class_name="p-6 h-full flex flex-col",

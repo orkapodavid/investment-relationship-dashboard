@@ -103,25 +103,25 @@ const on_change_dbb875a17bd75c23b5e5195c35e9af66 = useCallback(((_e) => (addEven
 }
 
 
-function Button_29538862fd3a5116ebe49e3d270af884 () {
+function Button_fb0683f843e8c094fc19cb2fe1b75ee2 () {
   const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_928ccc08d030188db40bb6156b3c7ece = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_node_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:"flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",onClick:on_click_928ccc08d030188db40bb6156b3c7ece,title:"Create New Entity"},jsx(LucidePlus,{className:"w-4 h-4 sm:mr-2"},),jsx("span",{className:"hidden sm:inline"},"Node"))
+    jsx("button",{className:"flex items-center justify-center px-3 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold shadow-sm transition-colors text-sm h-9 shrink-0",onClick:on_click_928ccc08d030188db40bb6156b3c7ece,title:"Create New Entity"},jsx(LucidePlus,{className:"w-4 h-4 mr-2"},),jsx("span",{},"Node"))
   )
 }
 
 
-function Button_221847b6b34a7639946626955ea5b5c8 () {
+function Button_b2366988962a5fc89439289a79f7269b () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 const [addEvents, connectErrors] = useContext(EventLoopContext);
 
 const on_click_6852d3b8a60347257df2d18475c600f7 = useCallback(((_e) => (addEvents([(ReflexEvent("reflex___state____state.app___states___relationship_state____relationship_state.start_relationship_creation", ({  }), ({  })))], [_e], ({  })))), [addEvents, ReflexEvent])
 
   return (
-    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0" : "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0"),disabled:(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()),onClick:on_click_6852d3b8a60347257df2d18475c600f7,title:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "Select a node to add a link" : "Add connection")},jsx(LucideLink,{className:"w-4 h-4 sm:mr-1.5"},),jsx("span",{className:"hidden sm:inline"},"Link"))
+    jsx("button",{className:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "flex items-center justify-center px-3 py-2 bg-gray-100 text-gray-400 rounded-lg font-medium text-sm cursor-not-allowed h-9 shrink-0" : "flex items-center justify-center px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors text-sm shadow-sm h-9 shrink-0"),disabled:(reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()),onClick:on_click_6852d3b8a60347257df2d18475c600f7,title:((reflex___state____state__app___states___relationship_state____relationship_state.selected_node_id_rx_state_?.valueOf?.() === ""?.valueOf?.()) ? "Select a node to add a link" : "Add connection")},jsx(LucideLink,{className:"w-4 h-4 mr-1.5"},),jsx("span",{},"Link"))
   )
 }
 
@@ -149,13 +149,13 @@ const on_click_c0c083496e50484c684d9813588ecf4d = useCallback(((_e) => (addEvent
 }
 
 
-function Fragment_8994c3799f48025c3a92771051b484c0 () {
+function Fragment_ce4b975af579fbd937b414d3e4b7ce6e () {
   const reflex___state____state__app___states___relationship_state____relationship_state = useContext(StateContexts.reflex___state____state__app___states___relationship_state____relationship_state)
 
 
 
   return (
-    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_?(jsx(Fragment,{},jsx("div",{className:"flex gap-2 items-center"},jsx(Button_f41fec4278ee4fe7f565f5973c6b58ed,{},),jsx(Button_ec9228d5321e54b8591c54d677480797,{},)))):(jsx(Fragment,{},))))
+    jsx(Fragment,{},(reflex___state____state__app___states___relationship_state____relationship_state.show_side_panel_rx_state_?(jsx(Fragment,{},jsx("div",{className:"flex gap-2 items-center"},jsx("div",{className:"w-px h-6 bg-gray-300 mx-1"},),jsx(Button_f41fec4278ee4fe7f565f5973c6b58ed,{},),jsx(Button_ec9228d5321e54b8591c54d677480797,{},)))):(jsx(Fragment,{},))))
   )
 }
 
@@ -771,6 +771,6 @@ export default function Component() {
 
 
   return (
-    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-[calc(100vw-2rem)]"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"w-px h-8 bg-gray-300 mx-1"},),jsx(Button_29538862fd3a5116ebe49e3d270af884,{},),jsx(Button_221847b6b34a7639946626955ea5b5c8,{},),jsx(Fragment_8994c3799f48025c3a92771051b484c0,{},)))),jsx(Aside_b5c871f3b1be68c7373fab0dcd7af540,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
+    jsx(Fragment,{},jsx("div",{className:"relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden"},jsx("div",{className:"absolute inset-0 z-0 w-full h-full"},jsx("div",{className:"w-full h-full relative"},jsx(Reactflow_4a069fa38b67be6118fce7df5a052b66,{},),jsx("div",{className:"absolute top-4 left-4 z-[50] flex flex-wrap items-center gap-4 bg-white/95 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-gray-200/50 max-w-full"},jsx("div",{className:"relative flex-shrink-0"},jsx(LucideSearch,{className:"w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2"},),jsx(Input_1c93b2dc4949b6cf6571c26a30430a35,{},),jsx(Fragment_f97a8479340df1e212f7ed2ecc17d745,{},)),jsx("div",{className:"flex flex-col justify-center"},jsx("span",{className:"text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-0.5"},"LIMIT"),jsx(Input_8de0c224da3c5157c3c591abcbb81f71,{},)),jsx("div",{className:"flex items-center bg-gray-50 px-3 py-1 rounded border border-gray-100 min-w-[70px] justify-center h-9"},jsx(Span_57919b037ee25ae10597836caec379e5,{},),jsx("span",{className:"text-xs text-gray-500 ml-1"},"nodes"),jsx(Fragment_7e9f83555c06479747385d5466defb99,{},)),jsx("label",{className:"relative inline-flex items-center cursor-pointer h-9"},jsx(Input_f16de6022b1956b6a4f38d4de44d7698,{},),jsx("div",{className:"w-9 h-5 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"},),jsx("span",{className:"ml-2 text-xs font-semibold text-gray-600 select-none hidden sm:block"},"History")),jsx("div",{className:"w-px h-8 bg-gray-300 mx-1"},),jsx("div",{className:"flex items-center gap-2"},jsx(Button_fb0683f843e8c094fc19cb2fe1b75ee2,{},),jsx(Button_b2366988962a5fc89439289a79f7269b,{},)),jsx(Fragment_ce4b975af579fbd937b414d3e4b7ce6e,{},)))),jsx(Aside_b5c871f3b1be68c7373fab0dcd7af540,{},)),jsx("title",{},"App | Index"),jsx("meta",{content:"favicon.ico",property:"og:image"},))
   )
 }
