@@ -72,7 +72,7 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
-    active_node_relationships: list[dict] = []
+    active_node_relationships: list[ActiveRelationshipItem] = []
     creation_target_id: int = 0
     creation_target_type: str = ""
     creation_target_name: str = ""
@@ -95,8 +95,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
-    nodes: list[Any] = []
-    edges: list[Any] = []
+    nodes: list[dict] = []
+    edges: list[dict] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
