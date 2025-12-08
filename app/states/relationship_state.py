@@ -95,8 +95,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
-    nodes: list[dict] = []
-    edges: list[dict] = []
+    nodes: list[Any] = []
+    edges: list[Any] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
@@ -604,7 +604,7 @@ class RelationshipState(rx.State):
         self.edges = edges
 
     @rx.event
-    async def on_nodes_change(self, changes: list[Any]):
+    async def on_nodes_change(self, changes: list[dict]):
         updates_to_persist = {}
         for change in changes:
             if change.get("type") == "position" and "position" in change:
@@ -643,7 +643,7 @@ class RelationshipState(rx.State):
                 session.commit()
 
     @rx.event
-    def on_edges_change(self, changes: list[Any]):
+    def on_edges_change(self, changes: list[dict]):
         ids_to_delete = []
         for change in changes:
             if change.get("type") == "remove":
@@ -683,12 +683,9 @@ class RelationshipState(rx.State):
             return interpolate(gray_rgb, green_rgb, factor)
 
     @rx.event
-    def on_node_click(self, node: Any):
+    def on_node_click(self, node: dict):
         """Handle node click to show details."""
-        if isinstance(node, dict):
-            self.selected_node_id = node.get("id", "")
-        else:
-            self.selected_node_id = getattr(node, "id", "")
+        self.selected_node_id = node.get("id", "")
         try:
             parts = self.selected_node_id.split("-")
             if len(parts) >= 2:
@@ -749,14 +746,10 @@ class RelationshipState(rx.State):
         yield RelationshipState.load_active_node_relationships
 
     @rx.event
-    def on_edge_click(self, edge: Any):
+    def on_edge_click(self, edge: dict):
         """Handle edge click to show score editor."""
-        if isinstance(edge, dict):
-            edge_id = edge.get("id", "")
-            data = edge.get("data", {}) or {}
-        else:
-            edge_id = getattr(edge, "id", "")
-            data = getattr(edge, "data", None) or {}
+        edge_id = edge.get("id", "")
+        data = edge.get("data", {}) or {}
         self.selected_edge_id = edge_id
         if isinstance(data, dict):
             self.editing_score = int(data.get("score", 0))
@@ -1026,14 +1019,10 @@ class RelationshipState(rx.State):
             yield rx.toast("Failed to update term", duration=3000)
 
     @rx.event
-    def on_connect(self, connection: Any):
+    def on_connect(self, connection: dict):
         """Handle creating new relationships by dragging between nodes."""
-        if isinstance(connection, dict):
-            source = connection.get("source", "")
-            target = connection.get("target", "")
-        else:
-            source = getattr(connection, "source", "")
-            target = getattr(connection, "target", "")
+        source = connection.get("source", "")
+        target = connection.get("target", "")
         try:
             src_parts = source.split("-")
             tgt_parts = target.split("-")
@@ -1336,7 +1325,9 @@ class RelationshipState(rx.State):
             logging.exception(f"Error loading active node relationships: {e}")
 
     @rx.event
-    def get_node_relationships(self, node_id: int, node_type: str) -> list[dict]:
+    def get_node_relationships(
+        self, node_id: int, node_type: str
+    ) -> list[ActiveRelationshipItem]:
         """Fetch active relationships for a node."""
         try:
             relationships_data = []
