@@ -2,7 +2,7 @@ import reflex as rx
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
-from typing import Optional, TypedDict
+from typing import Optional, TypedDict, Any
 from datetime import datetime
 import logging
 from collections import Counter, defaultdict
@@ -95,6 +95,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
+    nodes: list[dict] = []
+    edges: list[dict] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
@@ -196,6 +198,7 @@ class RelationshipState(rx.State):
                 if (r.source_type, r.source_id) in top_node_set
                 and (r.target_type, r.target_id) in top_node_set
             ]
+            self.build_graph_data()
 
     @rx.event
     def search_and_build_subgraph(self, query: str):
@@ -264,6 +267,7 @@ class RelationshipState(rx.State):
                 if (r.source_type, r.source_id) in visited
                 and (r.target_type, r.target_id) in visited
             ]
+            self.build_graph_data()
 
     @rx.event
     def handle_search(self, query: str):
@@ -373,8 +377,8 @@ class RelationshipState(rx.State):
         except Exception as e:
             logging.exception(f"Error seeding database: {e}")
 
-    @rx.var
-    def graph_data(self) -> dict:
+    @rx.event
+    def build_graph_data(self):
         """Transform filtered entities and relationships into graph nodes and edges."""
         nodes = []
         edges = []
@@ -404,12 +408,17 @@ class RelationshipState(rx.State):
             acc_id = get_id(acc)
             acc_name = get_attr(acc, "name")
             acc_ticker = get_attr(acc, "ticker")
-            x = center_x + 300 * math.cos(
-                2 * math.pi * idx / (len(current_accounts) or 1)
-            )
-            y = center_y + 300 * math.sin(
-                2 * math.pi * idx / (len(current_accounts) or 1)
-            )
+            pos_x = get_attr(acc, "position_x", None)
+            pos_y = get_attr(acc, "position_y", None)
+            if pos_x is not None and pos_y is not None:
+                x, y = (pos_x, pos_y)
+            else:
+                x = center_x + 300 * math.cos(
+                    2 * math.pi * idx / (len(current_accounts) or 1)
+                )
+                y = center_y + 300 * math.sin(
+                    2 * math.pi * idx / (len(current_accounts) or 1)
+                )
             nodes.append(
                 {
                     "id": f"acc-{acc_id}",
@@ -444,12 +453,17 @@ class RelationshipState(rx.State):
             con_last = get_attr(con, "last_name")
             con_job = get_attr(con, "job_title")
             con_acc_id = get_attr(con, "account_id")
-            offset_x = 400 + 100 * math.cos(
-                2 * math.pi * idx / (len(current_contacts) or 1)
-            )
-            offset_y = 400 + 100 * math.sin(
-                2 * math.pi * idx / (len(current_contacts) or 1)
-            )
+            pos_x = get_attr(con, "position_x", None)
+            pos_y = get_attr(con, "position_y", None)
+            if pos_x is not None and pos_y is not None:
+                offset_x, offset_y = (pos_x, pos_y)
+            else:
+                offset_x = 400 + 100 * math.cos(
+                    2 * math.pi * idx / (len(current_contacts) or 1)
+                )
+                offset_y = 400 + 100 * math.sin(
+                    2 * math.pi * idx / (len(current_contacts) or 1)
+                )
             nodes.append(
                 {
                     "id": f"con-{con_id}",
@@ -586,7 +600,65 @@ class RelationshipState(rx.State):
                         }
                     )
             edges.append(edge_dict)
-        return {"nodes": nodes, "edges": edges}
+        self.nodes = nodes
+        self.edges = edges
+
+    @rx.event
+    async def on_nodes_change(self, changes: list[dict]):
+        updates_to_persist = {}
+        for change in changes:
+            if change.get("type") == "position" and "position" in change:
+                node_id = change["id"]
+                new_pos = change["position"]
+                for node in self.nodes:
+                    if node["id"] == node_id:
+                        node["position"] = new_pos
+                        break
+                parts = node_id.split("-")
+                if len(parts) >= 2:
+                    prefix = parts[0]
+                    try:
+                        db_id = int(parts[1])
+                        updates_to_persist[prefix, db_id] = (new_pos["x"], new_pos["y"])
+                    except ValueError as e:
+                        logging.exception(
+                            f"Invalid node ID format in on_nodes_change: {e}"
+                        )
+        self.nodes = list(self.nodes)
+        if updates_to_persist:
+            with rx.session() as session:
+                for (prefix, db_id), (x, y) in updates_to_persist.items():
+                    if prefix == "acc":
+                        obj = session.get(Account, db_id)
+                        if obj:
+                            obj.position_x = x
+                            obj.position_y = y
+                            session.add(obj)
+                    elif prefix == "con":
+                        obj = session.get(Contact, db_id)
+                        if obj:
+                            obj.position_x = x
+                            obj.position_y = y
+                            session.add(obj)
+                session.commit()
+
+    @rx.event
+    def on_edges_change(self, changes: list[dict]):
+        ids_to_delete = []
+        for change in changes:
+            if change.get("type") == "remove":
+                ids_to_delete.append(change["id"])
+        if ids_to_delete:
+            self.edges = [e for e in self.edges if e["id"] not in ids_to_delete]
+            for edge_id in ids_to_delete:
+                if edge_id.startswith("rel-"):
+                    try:
+                        rid = int(edge_id.split("-")[1])
+                        yield RelationshipState.soft_delete_relationship(rid)
+                    except Exception as e:
+                        logging.exception(
+                            f"Error processing edge deletion in on_edges_change: {e}"
+                        )
 
     @rx.event
     def get_edge_color(self, score: int) -> str:

@@ -9,8 +9,10 @@ def graph_view() -> rx.Component:
         rxe.flow(
             rxe.flow.background(variant="dots", gap=12, size=1),
             rxe.flow.controls(),
-            nodes=RelationshipState.graph_data["nodes"],
-            edges=RelationshipState.graph_data["edges"],
+            nodes=RelationshipState.nodes,
+            edges=RelationshipState.edges,
+            on_nodes_change=RelationshipState.on_nodes_change,
+            on_edges_change=RelationshipState.on_edges_change,
             fit_view=True,
             fit_view_options={"padding": 0.2},
             nodes_draggable=True,

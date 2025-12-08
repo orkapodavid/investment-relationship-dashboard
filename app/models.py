@@ -30,6 +30,8 @@ class Account(sqlmodel.SQLModel, table=True):
     created_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     updated_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     last_modified_by: str = sqlmodel.Field(default="System User")
+    position_x: Optional[float] = None
+    position_y: Optional[float] = None
     contacts: list["Contact"] = sqlmodel.Relationship(back_populates="account")
 
 
@@ -44,6 +46,8 @@ class Contact(sqlmodel.SQLModel, table=True):
     created_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     updated_at: datetime = sqlmodel.Field(default_factory=datetime.now)
     last_modified_by: str = sqlmodel.Field(default="System User")
+    position_x: Optional[float] = None
+    position_y: Optional[float] = None
     account_id: Optional[int] = sqlmodel.Field(default=None, foreign_key="account.id")
     account: Optional[Account] = sqlmodel.Relationship(back_populates="contacts")
 
