@@ -1,4 +1,7 @@
-sqlmodel
 reflex
-PyGithub
 reflex-enterprise
+PyGithub
+sqlmodel
+playwright
+pytest
+pytest-playwright

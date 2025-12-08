@@ -1,7 +1,6 @@
 import reflex as rx
 import reflex_enterprise as rxe
 from app.states.relationship_state import RelationshipState
-from app.components.search_bar import search_bar
 
 
 def graph_view() -> rx.Component:

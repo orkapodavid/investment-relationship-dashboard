@@ -2,7 +2,7 @@ import reflex as rx
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
-from typing import Optional, TypedDict, Any
+from typing import Optional, Union, Any, TypedDict
 from datetime import datetime
 import logging
 from collections import Counter, defaultdict
@@ -33,7 +33,7 @@ TERM_TO_TYPE = {
 }
 
 
-class RelationshipItem(TypedDict):
+class ActiveRelationshipItem(TypedDict):
     relationship_id: int
     score: int
     term: str
@@ -72,7 +72,7 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
-    active_node_relationships: list[RelationshipItem] = []
+    active_node_relationships: list[dict] = []
     creation_target_id: int = 0
     creation_target_type: str = ""
     creation_target_name: str = ""
@@ -95,8 +95,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
-    nodes: list[dict] = []
-    edges: list[dict] = []
+    nodes: list[Any] = []
+    edges: list[Any] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
@@ -604,7 +604,7 @@ class RelationshipState(rx.State):
         self.edges = edges
 
     @rx.event
-    async def on_nodes_change(self, changes: list[dict]):
+    async def on_nodes_change(self, changes: list[Any]):
         updates_to_persist = {}
         for change in changes:
             if change.get("type") == "position" and "position" in change:
@@ -643,7 +643,7 @@ class RelationshipState(rx.State):
                 session.commit()
 
     @rx.event
-    def on_edges_change(self, changes: list[dict]):
+    def on_edges_change(self, changes: list[Any]):
         ids_to_delete = []
         for change in changes:
             if change.get("type") == "remove":
@@ -683,7 +683,7 @@ class RelationshipState(rx.State):
             return interpolate(gray_rgb, green_rgb, factor)
 
     @rx.event
-    def on_node_click(self, node: dict):
+    def on_node_click(self, node: Any):
         """Handle node click to show details."""
         if isinstance(node, dict):
             self.selected_node_id = node.get("id", "")
@@ -749,7 +749,7 @@ class RelationshipState(rx.State):
         yield RelationshipState.load_active_node_relationships
 
     @rx.event
-    def on_edge_click(self, edge: dict):
+    def on_edge_click(self, edge: Any):
         """Handle edge click to show score editor."""
         if isinstance(edge, dict):
             edge_id = edge.get("id", "")
@@ -817,7 +817,7 @@ class RelationshipState(rx.State):
                     self.last_operation_type = "CREATE"
                     if self.new_node_type == "person":
                         if not self.new_node_name.strip():
-                            rx.toast("First name is required", duration=3000)
+                            yield rx.toast("First name is required", duration=3000)
                             return
                         existing = session.exec(
                             select(Contact).where(
@@ -826,7 +826,7 @@ class RelationshipState(rx.State):
                             )
                         ).first()
                         if existing:
-                            rx.toast(f"Contact already exists", duration=3000)
+                            yield rx.toast(f"Contact already exists", duration=3000)
                             return
                         new_node = Contact(
                             first_name=self.new_node_name,
@@ -838,10 +838,12 @@ class RelationshipState(rx.State):
                         )
                         session.add(new_node)
                         session.commit()
-                        rx.toast(f"Created Person: {self.new_node_name}", duration=3000)
+                        yield rx.toast(
+                            f"Created Person: {self.new_node_name}", duration=3000
+                        )
                     else:
                         if not self.new_node_name.strip():
-                            rx.toast("Company name is required", duration=3000)
+                            yield rx.toast("Company name is required", duration=3000)
                             return
                         existing = session.exec(
                             select(Account).where(
@@ -849,7 +851,7 @@ class RelationshipState(rx.State):
                             )
                         ).first()
                         if existing:
-                            rx.toast(f"Company already exists", duration=3000)
+                            yield rx.toast(f"Company already exists", duration=3000)
                             return
                         new_node = Account(
                             name=self.new_node_name,
@@ -860,7 +862,7 @@ class RelationshipState(rx.State):
                         )
                         session.add(new_node)
                         session.commit()
-                        rx.toast(
+                        yield rx.toast(
                             f"Created Company: {self.new_node_name}", duration=3000
                         )
                     self.node_create_mode = False
@@ -890,13 +892,13 @@ class RelationshipState(rx.State):
                             node.last_modified_by = self.current_user
                             session.add(node)
                     session.commit()
-                    rx.toast("Node updated successfully", duration=3000)
+                    yield rx.toast("Node updated successfully", duration=3000)
                     self.is_editing = False
                     yield RelationshipState.on_node_click(node)
             yield RelationshipState.load_data
         except Exception as e:
             logging.exception(f"Error in save_node: {e}")
-            rx.toast(f"Failed to save: {str(e)}", duration=3000)
+            yield rx.toast(f"Failed to save: {str(e)}", duration=3000)
         finally:
             self.is_loading = False
 
@@ -975,10 +977,10 @@ class RelationshipState(rx.State):
                     session.commit()
             self.close_panel()
             yield RelationshipState.load_data
-            return rx.toast("Relationship deleted", duration=3000)
+            yield rx.toast("Relationship deleted", duration=3000)
         except Exception as e:
             logging.exception(f"Error deleting relationship: {e}")
-            return rx.toast("Failed to delete relationship", duration=3000)
+            yield rx.toast("Failed to delete relationship", duration=3000)
 
     @rx.event
     def update_relationship_term(self, rel_id: int, new_term: str):
@@ -1018,13 +1020,13 @@ class RelationshipState(rx.State):
                     self.editing_is_directed = defaults["is_directed"]
                     self.editing_score = defaults["default_score"]
             yield RelationshipState.load_data
-            return rx.toast(f"Updated relationship to {new_term}", duration=3000)
+            yield rx.toast(f"Updated relationship to {new_term}", duration=3000)
         except Exception as e:
             logging.exception(f"Error updating term: {e}")
-            return rx.toast("Failed to update term", duration=3000)
+            yield rx.toast("Failed to update term", duration=3000)
 
     @rx.event
-    def on_connect(self, connection: dict):
+    def on_connect(self, connection: Any):
         """Handle creating new relationships by dragging between nodes."""
         if isinstance(connection, dict):
             source = connection.get("source", "")
@@ -1036,7 +1038,8 @@ class RelationshipState(rx.State):
             src_parts = source.split("-")
             tgt_parts = target.split("-")
             if len(src_parts) < 2 or len(tgt_parts) < 2:
-                return rx.toast("Invalid node identifiers", duration=3000)
+                yield rx.toast("Invalid node identifiers", duration=3000)
+                return
             src_prefix, src_id_str = (src_parts[0], src_parts[1])
             tgt_prefix, tgt_id_str = (tgt_parts[0], tgt_parts[1])
             src_id = int(src_id_str)
@@ -1044,7 +1047,8 @@ class RelationshipState(rx.State):
             src_type = "company" if src_prefix == "acc" else "person"
             tgt_type = "company" if tgt_prefix == "acc" else "person"
             if src_type == tgt_type and src_id == tgt_id:
-                return rx.toast("Cannot connect a node to itself", duration=3000)
+                yield rx.toast("Cannot connect a node to itself", duration=3000)
+                return
             rel_type = RelationshipType.SOCIAL
             default_term = RelationshipTerm.FRIEND
             if src_type == "company" and tgt_type == "company":
@@ -1100,7 +1104,8 @@ class RelationshipState(rx.State):
                         operation_success = True
                         success_message = "Reactivated existing relationship"
                     else:
-                        return rx.toast("Relationship already exists", duration=3000)
+                        yield rx.toast("Relationship already exists", duration=3000)
+                        return
                 else:
                     new_rel = self.create_relationship_with_term(
                         session,
@@ -1121,7 +1126,7 @@ class RelationshipState(rx.State):
                     operation_success = True
                     success_message = f"Created new {rel_type.value} relationship"
             if operation_success:
-                rx.toast(success_message, duration=3000)
+                yield rx.toast(success_message, duration=3000)
                 self.selected_edge_id = f"rel-{new_rel_id}"
                 self.editing_score = new_rel_score
                 self.editing_relationship_type = new_rel_type_val
@@ -1132,7 +1137,7 @@ class RelationshipState(rx.State):
                 yield RelationshipState.load_data
         except Exception as e:
             logging.exception(f"Failed to link nodes: {e}")
-            return rx.toast("Failed to create relationship", duration=3000)
+            yield rx.toast("Failed to create relationship", duration=3000)
 
     @rx.event
     def validate_node_data(self, node_type: str, data: dict) -> tuple[bool, str]:
@@ -1166,7 +1171,8 @@ class RelationshipState(rx.State):
             node_type, {"name": name, "title_or_ticker": title_or_ticker}
         )
         if not is_valid:
-            return rx.toast(error_msg, duration=3000)
+            yield rx.toast(error_msg, duration=3000)
+            return
         try:
             with rx.session() as session:
                 if node_type == "company":
@@ -1174,9 +1180,10 @@ class RelationshipState(rx.State):
                         select(Account).where(col(Account.name).ilike(name))
                     ).first()
                     if existing:
-                        return rx.toast(
+                        yield rx.toast(
                             f"Company '{name}' already exists", duration=3000
                         )
+                        return
                     new_account = Account(
                         name=name, ticker=title_or_ticker, **additional_data
                     )
@@ -1195,10 +1202,11 @@ class RelationshipState(rx.State):
                         )
                     ).first()
                     if existing:
-                        return rx.toast(
+                        yield rx.toast(
                             f"Contact '{first_name} {last_name}' already exists",
                             duration=3000,
                         )
+                        return
                     new_contact = Contact(
                         first_name=first_name,
                         last_name=last_name,
@@ -1210,12 +1218,13 @@ class RelationshipState(rx.State):
                     session.refresh(new_contact)
                     node_id = new_contact.id
                 else:
-                    return rx.toast("Invalid node type", duration=3000)
+                    yield rx.toast("Invalid node type", duration=3000)
+                    return
             yield RelationshipState.load_data
-            return rx.toast(f"Created {node_type} successfully", duration=3000)
+            yield rx.toast(f"Created {node_type} successfully", duration=3000)
         except Exception as e:
             logging.exception(f"Error adding node: {e}")
-            return rx.toast("Failed to add node", duration=3000)
+            yield rx.toast("Failed to add node", duration=3000)
 
     @rx.event
     def update_node(self, node_id: int, node_type: str, updated_data: dict):
@@ -1225,7 +1234,8 @@ class RelationshipState(rx.State):
                 if node_type == "company":
                     account = session.get(Account, node_id)
                     if not account:
-                        return rx.toast("Account not found", duration=3000)
+                        yield rx.toast("Account not found", duration=3000)
+                        return
                     if "name" in updated_data and updated_data["name"]:
                         account.name = updated_data["name"]
                     if "ticker" in updated_data:
@@ -1234,7 +1244,8 @@ class RelationshipState(rx.State):
                 elif node_type == "person":
                     contact = session.get(Contact, node_id)
                     if not contact:
-                        return rx.toast("Contact not found", duration=3000)
+                        yield rx.toast("Contact not found", duration=3000)
+                        return
                     if "first_name" in updated_data and updated_data["first_name"]:
                         contact.first_name = updated_data["first_name"]
                     if "last_name" in updated_data:
@@ -1244,10 +1255,10 @@ class RelationshipState(rx.State):
                     session.add(contact)
                 session.commit()
             yield RelationshipState.load_data
-            return rx.toast("Node updated successfully", duration=3000)
+            yield rx.toast("Node updated successfully", duration=3000)
         except Exception as e:
             logging.exception(f"Error updating node: {e}")
-            return rx.toast("Failed to update node", duration=3000)
+            yield rx.toast("Failed to update node", duration=3000)
 
     @rx.event
     def delete_node(self, node_id: int, node_type: str):
@@ -1292,12 +1303,12 @@ class RelationshipState(rx.State):
                 session.commit()
             self.close_panel()
             yield RelationshipState.load_data
-            return rx.toast(
+            yield rx.toast(
                 f"Deleted node and {deleted_count} relationships", duration=3000
             )
         except Exception as e:
             logging.exception(f"Error deleting node: {e}")
-            return rx.toast("Failed to delete node", duration=3000)
+            yield rx.toast("Failed to delete node", duration=3000)
 
     @rx.event
     def load_active_node_relationships(self):
@@ -1517,9 +1528,11 @@ class RelationshipState(rx.State):
     def create_relationship_from_panel(self):
         """Create a relationship from the side panel UI."""
         if not self.selected_node_id:
-            return rx.toast("No source node selected", duration=3000)
+            yield rx.toast("No source node selected", duration=3000)
+            return
         if not self.creation_target_id:
-            return rx.toast("Please select a target node", duration=3000)
+            yield rx.toast("Please select a target node", duration=3000)
+            return
         target_node_id = self.creation_target_id
         target_node_type = self.creation_target_type
         term = self.creation_term
@@ -1558,9 +1571,12 @@ class RelationshipState(rx.State):
                         )
                         session.add(log_entry)
                         session.commit()
-                        rx.toast("Reactivated existing relationship", duration=3000)
+                        yield rx.toast(
+                            "Reactivated existing relationship", duration=3000
+                        )
                     else:
-                        return rx.toast("Relationship already exists", duration=3000)
+                        yield rx.toast("Relationship already exists", duration=3000)
+                        return
                 else:
                     defaults = TERM_DEFAULTS.get(
                         term_enum, {"is_directed": False, "default_score": 0}
@@ -1578,13 +1594,13 @@ class RelationshipState(rx.State):
                     )
                     session.add(new_rel)
                     session.commit()
-                    rx.toast("Relationship created", duration=3000)
+                    yield rx.toast("Relationship created", duration=3000)
             self.is_creating_relationship = False
             yield RelationshipState.load_data
             yield RelationshipState.load_active_node_relationships
         except Exception as e:
             logging.exception(f"Error creating relationship from panel: {e}")
-            rx.toast("Failed to create relationship", duration=3000)
+            yield rx.toast("Failed to create relationship", duration=3000)
 
     @rx.event
     def start_node_creation(self):
@@ -1615,17 +1631,19 @@ class RelationshipState(rx.State):
                 if len(parts) >= 2:
                     prefix, id_str = (parts[0], parts[1])
                     node_type = "company" if prefix == "acc" else "person"
-                    return RelationshipState.delete_node(int(id_str), node_type)
+                    yield RelationshipState.delete_node(int(id_str), node_type)
+                    return
             except Exception as e:
                 logging.exception(f"Error parsing node deletion: {e}")
         elif self.edit_mode == "edge" and self.selected_edge_id:
             try:
                 if self.selected_edge_id.startswith("rel-"):
                     rel_id = int(self.selected_edge_id.split("-")[1])
-                    return RelationshipState.soft_delete_relationship(rel_id)
+                    yield RelationshipState.soft_delete_relationship(rel_id)
+                    return
             except Exception as e:
                 logging.exception(f"Error parsing edge deletion: {e}")
-        return rx.toast("Nothing selected to delete", duration=3000)
+        yield rx.toast("Nothing selected to delete", duration=3000)
 
     @rx.event
     def submit_node_creation(self):
