@@ -1,4 +1,4 @@
-# Relationship Dashboard - Layout Persistence & Testing Implementation
+# Relationship Dashboard - Layout Persistence, Documentation & Testing
 
 ## Phase 28: React Flow State Management + Layout Persistence ✅
 
@@ -7,21 +7,12 @@
 - [x] Add `position_y: Optional[float]` to Account model
 - [x] Add `position_x: Optional[float]` to Contact model
 - [x] Add `position_y: Optional[float]` to Contact model
-- [x] Migration will auto-apply on next startup
 
 ### RelationshipState Refactoring:
-- [x] Change `graph_data` from `@rx.var` to separate state variables:
-  - `nodes: list[dict] = []`
-  - `edges: list[dict] = []`
-- [x] Refactor `load_data` to populate `self.nodes` and `self.edges` directly
+- [x] Change `graph_data` from `@rx.var` to separate state variables
+- [x] Refactor `load_data` to populate `self.nodes` and `self.edges`
 - [x] Implement `on_nodes_change(changes: list[dict])` event handler
-  - Iterate through changes list
-  - Handle "position" type changes
-  - Update corresponding node in `self.nodes`
-  - Persist to database (Account/Contact x,y coordinates)
 - [x] Implement `on_edges_change(changes: list[dict])` event handler
-  - Handle "remove" type changes for Delete key support
-  - Call `soft_delete_relationship` for deleted edges
 
 ### Graph View Updates:
 - [x] Bind `nodes={RelationshipState.nodes}`
@@ -31,7 +22,17 @@
 
 ---
 
-## Phase 29: Professional Documentation (README.md)
+## Phase 29: Fix TypedDict Error & Verify Graph Rendering
+
+### Issues:
+- [ ] Fix TypedDict error in rxe.flow component
+- [ ] Verify seed data loads correctly on startup
+- [ ] Test node dragging and position persistence
+- [ ] Test edge deletion with Delete key
+
+---
+
+## Phase 30: Professional Documentation (README.md)
 
 ### Content Sections:
 - [ ] Project title and description
@@ -47,34 +48,28 @@
 
 ---
 
-## Phase 30: E2E Testing with Playwright
+## Phase 31: E2E Testing with Playwright
 
 ### Test Infrastructure:
+- [ ] Add playwright to requirements.txt
 - [ ] Create `tests/` directory
 - [ ] Create `tests/__init__.py`
 - [ ] Create `tests/test_app.py` with Playwright tests
-- [ ] Add playwright to requirements.txt
 
 ### Test Cases:
-- [ ] **Test 1 (Read):** Verify "Acme Corp" node is visible
-- [ ] **Test 2 (Create):** Click "Node" button, fill form, verify new node
+- [ ] **Test 1 (Read):** Verify seed data nodes are visible
+- [ ] **Test 2 (Create):** Click "+ Node" button, fill form, verify new node
 - [ ] **Test 3 (Update):** Click node, verify side panel opens with "Details"
 - [ ] **Test 4 (Delete):** Test edge deletion via Delete key
 - [ ] **Test 5 (Layout Persistence):** Drag node, refresh, verify position saved
 
-### Test Configuration:
-- [ ] Add pytest configuration
-- [ ] Add browser automation setup
-- [ ] Add test utilities for app startup
-
 ---
 
-## Phase 31: UI Validation
+## Phase 32: UI Validation
 
 ### Testing Tasks:
-- [ ] Verify node dragging persists across refreshes
-- [ ] Test Delete key on edges
-- [ ] Verify layout updates in real-time
-- [ ] Check database stores x,y coordinates
+- [ ] Verify all graph features work correctly
+- [ ] Test node dragging persists across refreshes
+- [ ] Verify CRUD operations through UI
 - [ ] Run E2E test suite
-- [ ] Document any issues found
+- [ ] Document any remaining issues
