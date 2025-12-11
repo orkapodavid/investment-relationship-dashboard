@@ -33,18 +33,6 @@ TERM_TO_TYPE = {
 }
 
 
-class ActiveRelationshipItem(TypedDict):
-    relationship_id: int
-    score: int
-    term: str
-    is_directed: bool
-    connected_node_id: int
-    connected_node_type: str
-    connected_node_name: str
-    type: str
-    badge_class: str
-
-
 class RelationshipState(rx.State):
     """State management for the Relationship Dashboard."""
 
@@ -72,7 +60,7 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
-    active_node_relationships: list[ActiveRelationshipItem] = []
+    active_node_relationships: list[dict[str, str | int | bool]] = []
     creation_target_id: int = 0
     creation_target_type: str = ""
     creation_target_name: str = ""
@@ -80,7 +68,7 @@ class RelationshipState(rx.State):
     creation_score: int = 0
     editing_node_data: dict = {}
     relationship_target_search: str = ""
-    filtered_target_nodes: list[dict] = []
+    filtered_target_nodes: list[dict[str, str | int]] = []
     new_node_type: str = "person"
     new_node_name: str = ""
     new_node_last_name: str = ""
@@ -1325,9 +1313,7 @@ class RelationshipState(rx.State):
             logging.exception(f"Error loading active node relationships: {e}")
 
     @rx.event
-    def get_node_relationships(
-        self, node_id: int, node_type: str
-    ) -> list[ActiveRelationshipItem]:
+    def get_node_relationships(self, node_id: int, node_type: str) -> list[dict]:
         """Fetch active relationships for a node."""
         try:
             relationships_data = []
@@ -1430,6 +1416,7 @@ class RelationshipState(rx.State):
         if not self.selected_node_id:
             return
         try:
+            self.show_side_panel = True
             parts = self.selected_node_id.split("-")
             if len(parts) < 2:
                 return
@@ -1484,6 +1471,9 @@ class RelationshipState(rx.State):
         self.creation_term = "friend"
         self.creation_score = 0
         self.filter_target_nodes("")
+        self.show_side_panel = True
+        self.node_create_mode = False
+        self.edit_mode = "none"
 
     @rx.event
     def set_creation_target(self, id: int, type: str, name: str):
