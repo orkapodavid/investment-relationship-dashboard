@@ -1414,10 +1414,10 @@ class RelationshipState(rx.State):
     @rx.event
     def prepare_node_edit(self):
         """Prepare state for editing the currently selected node."""
+        self.show_side_panel = True
         if not self.selected_node_id:
             return
         try:
-            self.show_side_panel = True
             parts = self.selected_node_id.split("-")
             if len(parts) < 2:
                 return
@@ -1464,6 +1464,9 @@ class RelationshipState(rx.State):
     @rx.event
     def start_relationship_creation(self):
         """Enter relationship creation mode."""
+        self.show_side_panel = True
+        self.node_create_mode = False
+        self.edit_mode = "none"
         self.is_creating_relationship = True
         self.relationship_target_search = ""
         self.creation_target_id = 0
@@ -1472,9 +1475,6 @@ class RelationshipState(rx.State):
         self.creation_term = "friend"
         self.creation_score = 0
         self.filter_target_nodes("")
-        self.show_side_panel = True
-        self.node_create_mode = False
-        self.edit_mode = "none"
 
     @rx.event
     def set_creation_target(self, id: int, type: str, name: str):
