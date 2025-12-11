@@ -2,7 +2,7 @@ import reflex as rx
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
-from typing import Optional, Union, Any, TypedDict
+from typing import Optional, Union
 from datetime import datetime
 import logging
 from collections import Counter, defaultdict
@@ -60,7 +60,7 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
-    active_node_relationships: list[dict[str, str | int | bool]] = []
+    active_node_relationships: list[dict] = []
     creation_target_id: int = 0
     creation_target_type: str = ""
     creation_target_name: str = ""
@@ -68,7 +68,7 @@ class RelationshipState(rx.State):
     creation_score: int = 0
     editing_node_data: dict = {}
     relationship_target_search: str = ""
-    filtered_target_nodes: list[dict[str, str | int]] = []
+    filtered_target_nodes: list[dict] = []
     new_node_type: str = "person"
     new_node_name: str = ""
     new_node_last_name: str = ""
@@ -83,8 +83,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
-    nodes: list[Any] = []
-    edges: list[Any] = []
+    nodes: list[dict] = []
+    edges: list[dict] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
@@ -669,6 +669,7 @@ class RelationshipState(rx.State):
         else:
             factor = score / 100.0
             return interpolate(gray_rgb, green_rgb, factor)
+            return f"#{r:02x}{g:02x}{b:02x}"
 
     @rx.event
     def on_node_click(self, node: dict):

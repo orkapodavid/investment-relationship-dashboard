@@ -11,7 +11,7 @@ def relationship_item(item: dict) -> rx.Component:
             ),
             rx.el.div(
                 rx.el.span(
-                    item["term"].upper(),
+                    item["term"].to(str).upper(),
                     class_name="text-[10px] font-bold tracking-wider text-gray-500 uppercase mr-2",
                 ),
                 rx.el.span(
@@ -23,8 +23,7 @@ def relationship_item(item: dict) -> rx.Component:
                     class_name=rx.cond(
                         item["type"] == "employment",
                         "px-1.5 py-0.5 rounded text-[10px] font-semibold bg-gray-100 text-gray-600 border border-gray-200",
-                        "px-1.5 py-0.5 rounded text-[10px] font-semibold "
-                        + item["badge_class"],
+                        f"px-1.5 py-0.5 rounded text-[10px] font-semibold {item['badge_class']}",
                     ),
                 ),
                 class_name="flex items-center mt-0.5",
