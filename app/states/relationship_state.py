@@ -60,7 +60,7 @@ class RelationshipState(rx.State):
     node_create_mode: bool = False
     editing_node_id: int = 0
     editing_node_type: str = ""
-    active_node_relationships: list[dict] = []
+    active_node_relationships: list[dict[str, str | int | bool]] = []
     creation_target_id: int = 0
     creation_target_type: str = ""
     creation_target_name: str = ""
@@ -68,7 +68,7 @@ class RelationshipState(rx.State):
     creation_score: int = 0
     editing_node_data: dict = {}
     relationship_target_search: str = ""
-    filtered_target_nodes: list[dict] = []
+    filtered_target_nodes: list[dict[str, str | int]] = []
     new_node_type: str = "person"
     new_node_name: str = ""
     new_node_last_name: str = ""
@@ -83,8 +83,8 @@ class RelationshipState(rx.State):
     current_user: str = "System User"
     last_operation_type: str = ""
     last_operation_timestamp: str = ""
-    nodes: list[dict] = []
-    edges: list[dict] = []
+    nodes: list[Any] = []
+    edges: list[Any] = []
 
     @rx.var
     def relationship_terms(self) -> list[str]:
