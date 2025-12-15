@@ -6,3 +6,15 @@ assets/external/
 .states/
 __pycache__/
 /app/__pycache__/
+.web/.npmrc
+.web/bun.lock
+.web/bunfig.toml
+.web/package.json
+.web/reflex.install_frontend_packages.cached
+.web/reflex.json
+.web/vite.config.js
+.web/app/root.jsx
+.web/app/routes/_index.jsx
+.web/backend/upload_is_used
+.web/utils/components.jsx
+.web/utils/state.js

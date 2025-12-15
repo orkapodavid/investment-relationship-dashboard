@@ -92,6 +92,20 @@ class RelationshipState(rx.State):
         return [t.value for t in RelationshipTerm]
 
     @rx.event
+    def on_viewport_change(self, viewport: dict):
+        """Handle viewport changes to track zoom level."""
+        if "zoom" in viewport:
+            new_zoom = float(viewport["zoom"])
+            # Only rebuild if zoom crosses threshold boundaries
+            old_zoom = self.zoom_level
+            self.zoom_level = new_zoom
+            # Rebuild if crossing label threshold (0.6) or simplify threshold (0.5)
+            if (old_zoom < 0.5 and new_zoom >= 0.5) or (old_zoom >= 0.5 and new_zoom < 0.5) or \
+               (old_zoom < 0.6 and new_zoom >= 0.6) or (old_zoom >= 0.6 and new_zoom < 0.6) or \
+               (old_zoom < 0.4 and new_zoom >= 0.4) or (old_zoom >= 0.4 and new_zoom < 0.4):
+                self.build_graph_data()
+
+    @rx.event
     def toggle_historic(self, value: bool):
         """Toggle visibility of historic/deleted relationships."""
         self.show_historic = value
@@ -115,6 +129,7 @@ class RelationshipState(rx.State):
 
     @rx.event
     def set_editing_node_data(self, updates: dict):
+        """Update editing node data with provided updates."""
         self.editing_node_data = {**self.editing_node_data, **updates}
 
     @rx.event
@@ -381,12 +396,12 @@ class RelationshipState(rx.State):
         should_animate_particles = total_nodes <= 100
         comp_size = "50px" if small_nodes else "100px"
         pers_size = "30px" if small_nodes else "60px"
+        
+        logging.info(f"Building graph: zoom={self.zoom_level}, show_labels={show_labels}, simplify_edges={simplify_edges}, relationships={len(current_relationships)}")
 
-        @rx.event
         def get_id(obj):
             return getattr(obj, "id", obj.get("id") if isinstance(obj, dict) else None)
 
-        @rx.event
         def get_attr(obj, attr, default=""):
             return getattr(
                 obj, attr, obj.get(attr, default) if isinstance(obj, dict) else default
@@ -541,11 +556,16 @@ class RelationshipState(rx.State):
                 edge_dict.update(
                     {
                         "animated": False,
+                        "label": "Employment" if not simplify_edges else "",
                         "style": {
                             "stroke": "#334155",
                             "strokeWidth": 2,
                             "strokeDasharray": "5,5",
                         },
+                        "labelStyle": {
+                            "fill": "#334155",
+                            "fontSize": "10px",
+                        } if not simplify_edges else {},
                     }
                 )
             else:
@@ -569,22 +589,12 @@ class RelationshipState(rx.State):
                             "style": {
                                 "stroke": edge_color,
                                 "strokeWidth": 3,
-                                "strokeDasharray": "0",
                             },
                             "labelStyle": {
                                 "fill": edge_color,
-                                "fontWeight": 700,
-                                "fontSize": 11,
+                                "fontWeight": "bold",
+                                "fontSize": "12px",
                             },
-                            "labelShowBg": True,
-                            "labelBgStyle": {
-                                "fill": "#ffffff",
-                                "fillOpacity": 0.95,
-                                "stroke": edge_color,
-                                "strokeWidth": 1,
-                            },
-                            "labelBgPadding": [8, 4],
-                            "labelBgBorderRadius": 6,
                         }
                     )
             edges.append(edge_dict)
@@ -652,7 +662,6 @@ class RelationshipState(rx.State):
     def get_edge_color(self, score: int) -> str:
         """Return gradient color based on relationship score."""
 
-        @rx.event
         def interpolate(start_rgb, end_rgb, factor):
             r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * factor)
             g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * factor)
@@ -669,7 +678,6 @@ class RelationshipState(rx.State):
         else:
             factor = score / 100.0
             return interpolate(gray_rgb, green_rgb, factor)
-            return f"#{r:02x}{g:02x}{b:02x}"
 
     @rx.event
     def on_node_click(self, node: dict):
@@ -772,9 +780,9 @@ class RelationshipState(rx.State):
         self.node_create_mode = False
 
     @rx.event
-    def set_editing_score(self, value: int):
+    def set_editing_score(self, value: str):
         """Update the temporary score value while editing."""
-        self.editing_score = value
+        self.editing_score = int(value)
 
     @rx.event
     def save_relationship_update(self):
@@ -787,7 +795,7 @@ class RelationshipState(rx.State):
             logging.exception(f"Failed to save relationship: {e}")
 
     @rx.event
-    def save_node(self):
+    async def save_node(self):
         """Consolidated handler for creating or updating a node with audit trail."""
         self.is_loading = True
         yield
@@ -1460,6 +1468,7 @@ class RelationshipState(rx.State):
         self.editing_node_data = {}
         self.relationship_target_search = ""
         self.filtered_target_nodes = []
+        self.show_side_panel = False
 
     @rx.event
     def start_relationship_creation(self):
@@ -1495,9 +1504,9 @@ class RelationshipState(rx.State):
             logging.exception(f"Error setting creation term: {e}")
 
     @rx.event
-    def set_creation_score(self, score: int):
+    def set_creation_score(self, score: str):
         """Set the score for new relationship."""
-        self.creation_score = score
+        self.creation_score = int(score)
 
     @rx.event
     def cancel_relationship_creation(self):
@@ -1603,6 +1612,7 @@ class RelationshipState(rx.State):
         self.new_node_name = ""
         self.new_node_last_name = ""
         self.new_node_title_or_ticker = ""
+        self.show_side_panel = False
 
     @rx.event
     def delete_current_selection(self):

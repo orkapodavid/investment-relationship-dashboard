@@ -40,9 +40,7 @@ def limit_slider() -> rx.Component:
                 step="50",
                 default_value=RelationshipState.node_limit.to_string(),
                 key=RelationshipState.node_limit.to_string(),
-                on_change=lambda val: RelationshipState.set_node_limit(
-                    val.to(int)
-                ).throttle(100),
+                on_change=RelationshipState.set_node_limit,
                 class_name="w-24 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600 hover:accent-indigo-700 transition-all",
             ),
             class_name="flex items-center h-4",
@@ -152,5 +150,5 @@ def search_bar() -> rx.Component:
         rx.el.div(class_name="w-px h-8 bg-gray-200"),
         creation_buttons(),
         edit_actions(),
-        class_name="absolute top-4 left-4 z-[500] flex flex-wrap items-center gap-4 p-3 bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg transition-all hover:shadow-xl max-w-[calc(100vw-32px)]",
+        class_name="absolute top-[72px] left-4 z-[500] flex flex-wrap items-center gap-4 p-3 bg-white/95 backdrop-blur-sm border border-gray-200/50 rounded-2xl shadow-lg transition-all hover:shadow-xl max-w-[calc(100vw-32px)]",
     )

@@ -20,10 +20,39 @@ async def lifespan_task():
 from app.components.search_bar import search_bar
 
 
+def banner() -> rx.Component:
+    """Top banner for the application."""
+    return rx.el.div(
+        rx.el.div(
+            rx.el.div(
+                rx.icon("network", class_name="w-5 h-5 text-indigo-600"),
+                rx.el.h1(
+                    "Investment Relationship Dashboard",
+                    class_name="text-lg font-bold text-gray-900",
+                ),
+                class_name="flex items-center gap-3",
+            ),
+            rx.el.div(
+                rx.el.span(
+                    "Track relationships and connections",
+                    class_name="text-xs text-gray-500",
+                ),
+                class_name="hidden sm:block",
+            ),
+            class_name="flex items-center justify-between max-w-7xl mx-auto px-4",
+        ),
+        class_name="absolute top-0 left-0 right-0 z-[600] bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm h-14 flex items-center",
+    )
+
+
 def index() -> rx.Component:
     """The main page layout."""
     return rx.el.div(
-        rx.el.div(graph_view(), class_name="absolute inset-0 z-0 w-full h-full"),
+        banner(),
+        rx.el.div(
+            graph_view(),
+            class_name="absolute inset-0 z-0 w-full h-full pt-14",
+        ),
         search_bar(),
         side_panel(),
         class_name="relative h-screen w-full font-sans bg-white text-gray-900 font-['Inter'] overflow-hidden",

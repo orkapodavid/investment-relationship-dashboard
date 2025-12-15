@@ -12,6 +12,7 @@ def graph_view() -> rx.Component:
             edges=RelationshipState.edges,
             on_nodes_change=RelationshipState.on_nodes_change,
             on_edges_change=RelationshipState.on_edges_change,
+            on_viewport_change=RelationshipState.on_viewport_change,
             fit_view=True,
             fit_view_options={"padding": 0.2},
             nodes_draggable=True,

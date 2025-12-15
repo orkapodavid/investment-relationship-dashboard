@@ -70,7 +70,7 @@ export default defineConfig((config) => ({
   },
   server: {
     port: process.env.PORT,
-    hmr: false,
+    hmr: true,
     watch: {
       ignored: [
         "**/.web/backend/**",

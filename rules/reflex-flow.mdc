@@ -1,0 +1,1785 @@
+---
+description: Expert guide for Reflex Flow (React Flow) - interactive graph visualization with nodes, edges, and viewport controls
+globs: ["**/*.py"]
+---
+
+# You are an expert in Reflex Flow (React Flow Integration)
+
+## Core Principles
+
+- Flow diagrams are interactive graphs with nodes connected by edges
+- Nodes are building blocks that can be customized with interactive elements
+- Edges connect nodes and can be styled with labels, colors, and animations
+- Handles are connection points on nodes where edges attach
+- Viewport controls pan, zoom, and navigation of the flow canvas
+- All configurations use Python dictionaries that map to React Flow props
+
+## Flow Component (rxe.flow)
+
+### Basic Setup
+
+```python
+import reflex as rx
+import reflex_enterprise as rxe
+from typing import Any
+from rxe.flow.util import apply_node_changes, apply_edge_changes, add_edge
+
+class FlowState(rx.State):
+    nodes: list[dict[str, Any]] = []
+    edges: list[dict[str, Any]] = []
+    
+    @rx.event
+    def set_nodes(self, changes: list[dict]):
+        """Update nodes using utility function"""
+        self.nodes = apply_node_changes(self.nodes, changes)
+    
+    @rx.event
+    def set_edges(self, changes: list[dict]):
+        """Update edges using utility function"""
+        self.edges = apply_edge_changes(self.edges, changes)
+    
+    @rx.event
+    def on_connect(self, params: dict):
+        """Handle new connections between nodes"""
+        self.edges = add_edge(params, self.edges)
+    
+    @rx.event
+    def on_viewport_change(self, viewport: dict):
+        """Handle zoom/pan changes"""
+        # viewport contains: x, y, zoom
+        pass
+
+def flow_graph() -> rx.Component:
+    return rxe.flow(
+        # Visual elements
+        rxe.flow.background(variant="dots", gap=12, size=1),
+        rxe.flow.controls(
+            show_zoom=True,
+            show_fit_view=True,
+            show_interactive=True,
+            position="bottom-right",
+        ),
+        rxe.flow.mini_map(
+            node_color="#93c5fd",
+            pannable=True,
+            zoomable=True,
+            position="bottom-left",
+        ),
+        
+        # Data binding (controlled flow)
+        nodes=FlowState.nodes,
+        edges=FlowState.edges,
+        
+        # Event handlers
+        on_nodes_change=FlowState.set_nodes,
+        on_edges_change=FlowState.set_edges,
+        on_connect=FlowState.on_connect,
+        on_viewport_change=FlowState.on_viewport_change,
+        on_node_click=FlowState.on_node_click,
+        on_edge_click=FlowState.on_edge_click,
+        
+        # Viewport settings
+        fit_view=True,
+        fit_view_options={"padding": 0.2},
+        min_zoom=0.1,
+        max_zoom=4.0,
+        
+        # Interaction settings
+        nodes_draggable=True,
+        nodes_connectable=True,
+        nodes_focusable=True,
+        edges_focusable=True,
+        zoom_on_scroll=True,
+        pan_on_scroll=False,
+        snap_to_grid=False,
+        
+        # Styling
+        class_name="w-full h-full",
+    )
+```
+
+### Controlled vs Uncontrolled Flow
+
+**Controlled Flow** (recommended for dynamic apps):
+```python
+# Use nodes/edges props with event handlers
+rxe.flow(
+    nodes=FlowState.nodes,  # Dynamic state
+    edges=FlowState.edges,  # Dynamic state
+    on_nodes_change=FlowState.set_nodes,
+    on_edges_change=FlowState.set_edges,
+)
+```
+
+**Uncontrolled Flow** (for static diagrams):
+```python
+# Use default_nodes/default_edges for initial state only
+rxe.flow(
+    default_nodes=[{"id": "1", "position": {"x": 0, "y": 0}}],
+    default_edges=[{"id": "e1", "source": "1", "target": "2"}],
+)
+```
+
+### Flow Component Props
+
+**Data Props:**
+- `nodes` (list[dict]) – List of node dictionaries (controlled)
+- `edges` (list[dict]) – List of edge dictionaries (controlled)
+- `default_nodes` (list[dict]) – Initial nodes (uncontrolled)
+- `default_edges` (list[dict]) – Initial edges (uncontrolled)
+- `node_types` (dict) – Custom node components
+- `edge_types` (dict) – Custom edge components
+- `node_origin` (tuple[float, float]) – Origin point for node positioning (default: [0, 0])
+- `node_extent` (list[list[float]]) – Boundary limits for node movement: [[min_x, min_y], [max_x, max_y]]
+
+**Viewport Props:**
+- `fit_view` (bool) – Auto-fit all nodes in view
+- `fit_view_options` (dict) – Options for fit_view: `{"padding": 0.2, "includeHiddenNodes": False}`
+- `min_zoom` (float) – Minimum zoom level (default: 0.5)
+- `max_zoom` (float) – Maximum zoom level (default: 2.0)
+- `default_viewport` (dict) – Initial viewport: `{"x": 0, "y": 0, "zoom": 1}`
+
+**Interaction Props:**
+- `nodes_draggable` (bool) – Enable dragging nodes
+- `nodes_connectable` (bool) – Enable connecting nodes with edges
+- `nodes_focusable` (bool) – Enable focusing nodes
+- `edges_focusable` (bool) – Enable focusing edges
+- `zoom_on_scroll` (bool) – Zoom with scroll wheel
+- `pan_on_scroll` (bool) – Pan with scroll (alternative to zoom)
+- `zoom_on_double_click` (bool) – Zoom on double click
+- `pan_on_drag` (bool) – Pan by dragging canvas
+- `select_nodes_on_drag` (bool) – Select nodes when dragging
+- `snap_to_grid` (bool) – Snap nodes to grid
+- `snap_grid` (list[int]) – Grid size: `[15, 15]`
+
+**Event Handlers:**
+- `on_nodes_change` – Node position, selection, or dimension changes (use with `apply_node_changes`)
+- `on_edges_change` – Edge addition, removal, or selection (use with `apply_edge_changes`)
+- `on_connect` – New connection created between nodes (use with `add_edge`)
+- `on_viewport_change` – Zoom or pan changes
+- `on_node_click` – Node click event
+- `on_edge_click` – Edge click event
+- `on_node_double_click` – Node double click
+- `on_node_drag` – Node being dragged
+- `on_node_drag_start` – Node drag started
+- `on_node_drag_stop` – Node drag ended
+- `on_connect_start` – Connection drag started
+- `on_connect_end` – Connection drag ended (even if no connection made)
+- `on_pane_click` – Click on empty canvas area
+- `on_pane_scroll` – Scroll on canvas
+- `on_pane_context_menu` – Right-click on canvas
+
+## Nodes
+
+### Node Dictionary Structure
+
+```python
+node = {
+    # Required fields
+    "id": "node-1",                    # Unique identifier
+    "position": {"x": 0, "y": 100},    # Position coordinates
+    "data": {"label": "My Node"},      # Arbitrary data
+    
+    # Optional fields
+    "type": "default",                 # Node type: "input", "default", "output", or custom
+    "sourcePosition": "right",         # Handle position: "top", "right", "bottom", "left"
+    "targetPosition": "left",          # Handle position for incoming edges
+    "hidden": False,                   # Visibility
+    "selected": False,                 # Selection state
+    "draggable": True,                 # Can be dragged
+    "selectable": True,                # Can be selected
+    "connectable": True,               # Can be connected
+    "deletable": True,                 # Can be deleted
+    "width": 150,                      # Node width
+    "height": 40,                      # Node height
+    "parentId": None,                  # Parent node for sub-flows
+    "style": {                         # Custom styles
+        "background": "#1e1b4b",
+        "color": "white",
+        "border": "2px solid #6366f1",
+        "borderRadius": "8px",
+        "padding": "10px",
+        "width": "100px",
+        "height": "100px",
+    },
+    "className": "custom-node",        # CSS class
+}
+```
+
+### Built-in Node Types
+
+**Input Node** – Entry point with only source handles:
+```python
+{
+    "id": "input-1",
+    "type": "input",
+    "position": {"x": 0, "y": 0},
+    "data": {"label": "Start"},
+}
+```
+
+**Default Node** – Standard node with both source and target handles:
+```python
+{
+    "id": "node-1",
+    "type": "default",
+    "position": {"x": 200, "y": 0},
+    "data": {"label": "Process"},
+}
+```
+
+**Output Node** – Exit point with only target handles:
+```python
+{
+    "id": "output-1",
+    "type": "output",
+    "position": {"x": 400, "y": 0},
+    "data": {"label": "End"},
+}
+```
+
+### Node Styling Patterns
+
+**Circular Nodes** (for people/users):
+```python
+{
+    "id": "person-1",
+    "position": {"x": 100, "y": 100},
+    "data": {"label": "John Doe"},
+    "style": {
+        "width": "60px",
+        "height": "60px",
+        "borderRadius": "50%",
+        "background": "#bae6fd",
+        "color": "#0f172a",
+        "border": "2px solid #0284c7",
+        "display": "flex",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "fontSize": "10px",
+        "fontWeight": "bold",
+    },
+}
+```
+
+**Rectangular Nodes** (for companies/entities):
+```python
+{
+    "id": "company-1",
+    "position": {"x": 200, "y": 200},
+    "data": {"label": "Acme Corp"},
+    "style": {
+        "width": "100px",
+        "height": "100px",
+        "borderRadius": "8px",
+        "background": "#1e1b4b",
+        "color": "white",
+        "display": "flex",
+        "justifyContent": "center",
+        "alignItems": "center",
+        "fontWeight": "bold",
+    },
+}
+```
+
+### Node Positioning
+
+**Circular Layout**:
+```python
+import math
+
+def create_circular_layout(nodes: list, radius: int = 300, center_x: int = 0, center_y: int = 0):
+    """Position nodes in a circle"""
+    positioned_nodes = []
+    for idx, node in enumerate(nodes):
+        angle = 2 * math.pi * idx / len(nodes)
+        x = center_x + radius * math.cos(angle)
+        y = center_y + radius * math.sin(angle)
+        node["position"] = {"x": x, "y": y}
+        positioned_nodes.append(node)
+    return positioned_nodes
+```
+
+**Grid Layout**:
+```python
+def create_grid_layout(nodes: list, columns: int = 3, spacing_x: int = 200, spacing_y: int = 150):
+    """Position nodes in a grid"""
+    for idx, node in enumerate(nodes):
+        row = idx // columns
+        col = idx % columns
+        node["position"] = {
+            "x": col * spacing_x,
+            "y": row * spacing_y,
+        }
+    return nodes
+```
+
+### Dynamic Node Labels (Zoom-based)
+
+```python
+class FlowState(rx.State):
+    zoom_level: float = 1.0
+    
+    @rx.event
+    def on_viewport_change(self, viewport: dict):
+        """Update zoom level"""
+        if "zoom" in viewport:
+            self.zoom_level = float(viewport["zoom"])
+            self.rebuild_nodes()
+    
+    def rebuild_nodes(self):
+        """Rebuild nodes with zoom-appropriate labels"""
+        show_labels = self.zoom_level >= 0.6
+        
+        for node in self.nodes:
+            if show_labels:
+                node["data"]["label"] = node["data"]["full_name"]
+            else:
+                node["data"]["label"] = ""
+```
+
+## Edges
+
+### Edge Dictionary Structure
+
+```python
+edge = {
+    # Required fields
+    "id": "edge-1",                    # Unique identifier
+    "source": "node-1",                # Source node ID
+    "target": "node-2",                # Target node ID
+    
+    # Optional fields
+    "type": "smoothstep",              # Edge type
+    "sourceHandle": None,              # Source handle ID (for multi-handle nodes)
+    "targetHandle": None,              # Target handle ID
+    "animated": True,                  # Flowing animation
+    "hidden": False,                   # Visibility
+    "deletable": True,                 # Can be deleted
+    "selectable": True,                # Can be selected
+    "data": {                          # Arbitrary metadata
+        "score": 75,
+        "type": "business",
+    },
+    "label": "Business (75)",          # Edge label text
+    "style": {                         # Custom styles
+        "stroke": "#10b981",
+        "strokeWidth": 3,
+    },
+    "labelStyle": {                    # Label styles
+        "fill": "#10b981",
+        "fontWeight": "bold",
+        "fontSize": "12px",
+    },
+    "markerEnd": {                     # Arrow marker
+        "type": "arrowclosed",
+    },
+    "className": "custom-edge",        # CSS class
+}
+```
+
+### Built-in Edge Types
+
+**Default** – Standard curved edge:
+```python
+{"id": "e1", "source": "1", "target": "2", "type": "default"}
+```
+
+**Straight** – Direct line:
+```python
+{"id": "e1", "source": "1", "target": "2", "type": "straight"}
+```
+
+**Step** – Right-angled path with steps:
+```python
+{"id": "e1", "source": "1", "target": "2", "type": "step"}
+```
+
+**Smooth Step** – Smooth right-angled path:
+```python
+{"id": "e1", "source": "1", "target": "2", "type": "smoothstep"}
+```
+
+**Bezier** – Curved bezier path:
+```python
+{"id": "e1", "source": "1", "target": "2", "type": "bezier"}
+```
+
+### Edge Styling Patterns
+
+**Directed Edges with Arrows**:
+```python
+{
+    "id": "edge-1",
+    "source": "node-1",
+    "target": "node-2",
+    "type": "smoothstep",
+    "markerEnd": {"type": "arrowclosed"},  # Add arrow
+    "style": {
+        "stroke": "#6366f1",
+        "strokeWidth": 2,
+    },
+}
+```
+
+**Dashed Edges** (for employment/weak relationships):
+```python
+{
+    "id": "edge-employment",
+    "source": "person-1",
+    "target": "company-1",
+    "type": "smoothstep",
+    "style": {
+        "stroke": "#334155",
+        "strokeWidth": 2,
+        "strokeDasharray": "5,5",  # Dashed line
+    },
+}
+```
+
+**Animated Edges** (for active/flowing data):
+```python
+{
+    "id": "edge-active",
+    "source": "node-1",
+    "target": "node-2",
+    "type": "smoothstep",
+    "animated": True,  # Flowing dots animation
+    "style": {
+        "stroke": "#10b981",
+        "strokeWidth": 3,
+    },
+}
+```
+
+**Labeled Edges**:
+```python
+{
+    "id": "edge-labeled",
+    "source": "node-1",
+    "target": "node-2",
+    "type": "smoothstep",
+    "label": "Business (75)",
+    "style": {
+        "stroke": "#10b981",
+        "strokeWidth": 3,
+    },
+    "labelStyle": {
+        "fill": "#10b981",
+        "fontWeight": "bold",
+        "fontSize": "12px",
+    },
+}
+```
+
+### Edge Color Based on Score/Value
+
+```python
+def get_edge_color(score: int) -> str:
+    """Return color based on score (-100 to 100)"""
+    def interpolate(start_rgb, end_rgb, factor):
+        r = int(start_rgb[0] + (end_rgb[0] - start_rgb[0]) * factor)
+        g = int(start_rgb[1] + (end_rgb[1] - start_rgb[1]) * factor)
+        b = int(start_rgb[2] + (end_rgb[2] - start_rgb[2]) * factor)
+        return f"#{r:02x}{g:02x}{b:02x}"
+    
+    score = max(-100, min(100, score))
+    red_rgb = (239, 68, 68)      # Red for negative
+    gray_rgb = (156, 163, 175)   # Gray for neutral
+    green_rgb = (16, 185, 129)   # Green for positive
+    
+    if score < 0:
+        factor = (score + 100) / 100.0
+        return interpolate(red_rgb, gray_rgb, factor)
+    else:
+        factor = score / 100.0
+        return interpolate(gray_rgb, green_rgb, factor)
+
+# Usage
+edge = {
+    "id": "edge-1",
+    "source": "node-1",
+    "target": "node-2",
+    "type": "smoothstep",
+    "label": f"Score: {score}",
+    "style": {
+        "stroke": get_edge_color(score),
+        "strokeWidth": 3,
+    },
+    "labelStyle": {
+        "fill": get_edge_color(score),
+        "fontWeight": "bold",
+    },
+}
+```
+
+### Conditional Edge Styling (Zoom-based)
+
+```python
+class FlowState(rx.State):
+    zoom_level: float = 1.0
+    
+    def build_edge(self, rel: Relationship):
+        """Build edge with zoom-appropriate styling"""
+        simplify_edges = self.zoom_level < 0.5
+        
+        edge = {
+            "id": f"rel-{rel.id}",
+            "source": f"node-{rel.source_id}",
+            "target": f"node-{rel.target_id}",
+            "type": "smoothstep",
+        }
+        
+        if simplify_edges:
+            # Simple style for zoomed out view
+            edge["style"] = {
+                "stroke": self.get_edge_color(rel.score),
+                "strokeWidth": 1,
+            }
+        else:
+            # Detailed style with labels for zoomed in view
+            edge["label"] = f"{rel.type} ({rel.score})"
+            edge["style"] = {
+                "stroke": self.get_edge_color(rel.score),
+                "strokeWidth": 3,
+            }
+            edge["labelStyle"] = {
+                "fill": self.get_edge_color(rel.score),
+                "fontWeight": "bold",
+                "fontSize": "12px",
+            }
+        
+        return edge
+```
+
+## Utility Functions (rxe.flow.util)
+
+### Change Handlers
+
+These utility functions simplify state management for nodes and edges.
+
+**apply_node_changes** – Apply node changes from `on_nodes_change`:
+```python
+from rxe.flow.util import apply_node_changes
+
+class FlowState(rx.State):
+    nodes: list[dict] = []
+    
+    @rx.event
+    def set_nodes(self, changes: list[dict]):
+        """Apply changes to nodes"""
+        self.nodes = apply_node_changes(self.nodes, changes)
+```
+
+**apply_edge_changes** – Apply edge changes from `on_edges_change`:
+```python
+from rxe.flow.util import apply_edge_changes
+
+class FlowState(rx.State):
+    edges: list[dict] = []
+    
+    @rx.event
+    def set_edges(self, changes: list[dict]):
+        """Apply changes to edges"""
+        self.edges = apply_edge_changes(self.edges, changes)
+```
+
+**add_edge** – Create new edge from connection params:
+```python
+from rxe.flow.util import add_edge
+
+class FlowState(rx.State):
+    edges: list[dict] = []
+    
+    @rx.event
+    def on_connect(self, params: dict):
+        """Add edge when nodes are connected"""
+        # params contains: source, target, sourceHandle, targetHandle
+        self.edges = add_edge(params, self.edges)
+```
+
+### Path Calculation
+
+**get_bezier_path** – Calculate bezier curve path:
+```python
+from rxe.flow.util import get_bezier_path
+
+path_data = get_bezier_path(
+    source_x=0,
+    source_y=0,
+    target_x=100,
+    target_y=100,
+    source_position="right",  # "top", "right", "bottom", "left"
+    target_position="left",
+    curvature=0.5,  # 0-1, controls curve strength
+)
+# Returns: path string, label_x, label_y, offset_x, offset_y
+```
+
+**get_straight_path** – Calculate straight line path:
+```python
+from rxe.flow.util import get_straight_path
+
+path_data = get_straight_path(
+    source_x=0,
+    source_y=0,
+    target_x=100,
+    target_y=100,
+)
+```
+
+**get_smooth_step_path** – Calculate stepped path with rounded corners:
+```python
+from rxe.flow.util import get_smooth_step_path
+
+path_data = get_smooth_step_path(
+    source_x=0,
+    source_y=0,
+    target_x=200,
+    target_y=200,
+    source_position="right",
+    target_position="left",
+    border_radius=5,
+    center_x=None,  # Optional center point
+    center_y=None,
+    offset=20,  # Offset from node
+    step_position=0.5,  # Where to place the step (0-1)
+)
+```
+
+### Graph Analysis
+
+**get_incomers** – Get all nodes with edges pointing to a node:
+```python
+from rxe.flow.util import get_incomers
+
+incoming_nodes = get_incomers(
+    node_id="node-1",
+    nodes=self.nodes,
+    edges=self.edges,
+)
+```
+
+**get_outgoers** – Get all nodes with edges coming from a node:
+```python
+from rxe.flow.util import get_outgoers
+
+outgoing_nodes = get_outgoers(
+    node_id="node-1",
+    nodes=self.nodes,
+    edges=self.edges,
+)
+```
+
+**get_connected_edges** – Get all edges connected to specific nodes:
+```python
+from rxe.flow.util import get_connected_edges
+
+connected = get_connected_edges(
+    nodes=[node1, node2],  # List of nodes
+    edges=self.edges,
+)
+```
+
+## Flow Hooks (rxe.flow.api)
+
+### Node Manipulation Hooks
+
+**get_nodes()** – Get all nodes:
+```python
+from rxe.flow.api import get_nodes
+
+all_nodes = get_nodes()
+```
+
+**set_nodes(nodes)** – Replace all nodes:
+```python
+from rxe.flow.api import set_nodes
+
+set_nodes([{"id": "1", "position": {"x": 0, "y": 0}}])
+```
+
+**add_nodes(nodes)** – Add new nodes:
+```python
+from rxe.flow.api import add_nodes
+
+add_nodes([{"id": "new-1", "position": {"x": 100, "y": 100}}])
+```
+
+**get_node(id)** – Get specific node:
+```python
+from rxe.flow.api import get_node
+
+node = get_node("node-1")
+```
+
+**update_node(id, node_update, replace=False)** – Update node:
+```python
+from rxe.flow.api import update_node
+
+# Merge update
+update_node("node-1", {"position": {"x": 200, "y": 200}})
+
+# Replace entire node
+update_node("node-1", new_node_data, replace=True)
+```
+
+**update_node_data(id, data_update, replace=False)** – Update node data:
+```python
+from rxe.flow.api import update_node_data
+
+# Merge data update
+update_node_data("node-1", {"label": "New Label"})
+```
+
+### Edge Manipulation Hooks
+
+**get_edges()** – Get all edges:
+```python
+from rxe.flow.api import get_edges
+
+all_edges = get_edges()
+```
+
+**set_edges(edges)** – Replace all edges:
+```python
+from rxe.flow.api import set_edges
+
+set_edges([{"id": "e1", "source": "1", "target": "2"}])
+```
+
+**add_edges(edges)** – Add new edges:
+```python
+from rxe.flow.api import add_edges
+
+add_edges([{"id": "e2", "source": "2", "target": "3"}])
+```
+
+**get_edge(id)** – Get specific edge:
+```python
+from rxe.flow.api import get_edge
+
+edge = get_edge("edge-1")
+```
+
+**update_edge(id, edge_update, replace=False)** – Update edge:
+```python
+from rxe.flow.api import update_edge
+
+update_edge("edge-1", {"animated": True})
+```
+
+**update_edge_data(id, data_update, replace=False)** – Update edge data:
+```python
+from rxe.flow.api import update_edge_data
+
+update_edge_data("edge-1", {"score": 85})
+```
+
+### Viewport Hooks
+
+**screen_to_flow_position(x, y, snap_to_grid=False)** – Convert screen coordinates to flow coordinates:
+```python
+from rxe.flow.api import screen_to_flow_position
+
+flow_pos = screen_to_flow_position(x=500, y=300, snap_to_grid=True)
+# Returns: {"x": flow_x, "y": flow_y}
+```
+
+**flow_to_screen_position(x, y)** – Convert flow coordinates to screen coordinates:
+```python
+from rxe.flow.api import flow_to_screen_position
+
+screen_pos = flow_to_screen_position(x=100, y=100)
+# Returns: {"x": screen_x, "y": screen_y}
+```
+
+### Other Hooks
+
+**to_object()** – Export flow state to JSON:
+```python
+from rxe.flow.api import to_object
+
+flow_state = to_object()
+# Returns: {"nodes": [...], "edges": [...], "viewport": {...}}
+```
+
+**get_intersecting_nodes(node, partially=True, nodes=None)** – Find intersecting nodes:
+```python
+from rxe.flow.api import get_intersecting_nodes
+
+# Find nodes intersecting with a specific node
+intersecting = get_intersecting_nodes(
+    node={"id": "node-1", "position": {"x": 0, "y": 0}, "width": 100, "height": 100},
+    partially=True,  # Include partial overlaps
+    nodes=None,  # Use current flow nodes if None
+)
+```
+
+**get_node_connections(id=None, handle_type=None, handle_id=None)** – Get node connections:
+```python
+from rxe.flow.api import get_node_connections
+
+# All connections for a node
+connections = get_node_connections(id="node-1")
+
+# Only source connections
+source_connections = get_node_connections(id="node-1", handle_type="source")
+
+# Specific handle
+handle_connections = get_node_connections(id="node-1", handle_id="handle-a")
+```
+
+**get_connection()** – Get current active connection state:
+```python
+from rxe.flow.api import get_connection
+
+# During connection drag
+connection = get_connection()
+# Returns: {"source": "node-1", "sourceHandle": "handle-a", ...} or None
+```
+
+## Background and Controls
+
+### Background Component (rxe.flow.background)
+
+The Background component renders a pattern behind the flow canvas.
+
+**Props:**
+- `variant` (str) – Pattern type: `"lines"`, `"dots"`, `"cross"`
+- `gap` (float | tuple[float, float]) – Gap between pattern elements
+- `size` (float) – Size of pattern elements
+- `color` (str) – Pattern color
+- `bg_color` (str) – Background color
+
+**Examples:**
+
+```python
+# Dots pattern
+rxe.flow.background(variant="dots", gap=12, size=1)
+
+# Lines pattern
+rxe.flow.background(variant="lines", gap=20, size=1)
+
+# Cross pattern
+rxe.flow.background(variant="cross", gap=20, size=1)
+
+# Custom colors
+rxe.flow.background(
+    variant="dots",
+    gap=12,
+    size=1,
+    color="#93c5fd",      # Dot color
+    bg_color="#f8fafc",   # Background color
+)
+
+# Anisotropic gap (different x and y)
+rxe.flow.background(
+    variant="lines",
+    gap=(20, 40),  # 20px horizontal, 40px vertical
+    size=1,
+)
+```
+
+### Controls Component (rxe.flow.controls)
+
+The Controls component renders zoom/pan/fit view buttons.
+
+**Props:**
+- `show_zoom` (bool) – Show zoom in/out buttons (default: True)
+- `show_fit_view` (bool) – Show fit view button (default: True)
+- `show_interactive` (bool) – Show lock/unlock interaction button (default: True)
+- `position` (str) – Position on canvas: `"top-left"`, `"top-right"`, `"bottom-left"`, `"bottom-right"`
+
+**Examples:**
+
+```python
+# Basic controls with all buttons
+rxe.flow.controls()
+
+# Minimal controls (only fit view)
+rxe.flow.controls(
+    show_zoom=False,
+    show_fit_view=True,
+    show_interactive=False,
+)
+
+# Positioned in top-right corner
+rxe.flow.controls(
+    show_zoom=True,
+    show_fit_view=True,
+    show_interactive=True,
+    position="top-right",
+)
+```
+
+### MiniMap Component (rxe.flow.mini_map)
+
+The MiniMap component renders a small overview of the entire flow.
+
+**Props:**
+- `node_color` (str | callable) – Color of nodes on minimap
+- `node_stroke_color` (str | callable) – Stroke color of nodes
+- `pannable` (bool) – Allow panning by dragging minimap (default: False)
+- `zoomable` (bool) – Allow zooming by scrolling on minimap (default: False)
+- `position` (str) – Position: `"top-left"`, `"top-right"`, `"bottom-left"`, `"bottom-right"`
+- `mask_color` (str) – Color of viewport mask
+
+**Examples:**
+
+```python
+# Basic minimap
+rxe.flow.mini_map()
+
+# Interactive minimap with custom colors
+rxe.flow.mini_map(
+    node_color="#93c5fd",
+    node_stroke_color="#1e3a8a",
+    pannable=True,
+    zoomable=True,
+    position="bottom-left",
+    mask_color="rgba(240, 240, 240, 0.6)",
+)
+
+# Minimap with dynamic node colors
+def get_node_color(node):
+    """Return color based on node type"""
+    if node.get("data", {}).get("type") == "company":
+        return "#1e1b4b"
+    return "#bae6fd"
+
+rxe.flow.mini_map(
+    node_color=get_node_color,
+    pannable=True,
+)
+```
+
+### Flow Provider (rxe.flow.provider)
+
+The FlowProvider enables access to flow state outside the main flow component.
+
+**Props:**
+- `initial_nodes` (list[dict]) – Initial nodes (not reactive)
+- `default_edges` (list[dict]) – Initial edges (not reactive)
+- `initial_width` (float) – Initial width for server-side rendering
+- `initial_height` (float) – Initial height for server-side rendering
+- `fit_view` (bool) – Fit view on initialization
+- `initial_fit_view_options` (dict) – Options for initial fit view
+- `initial_min_zoom` (float) – Initial minimum zoom
+- `initial_max_zoom` (float) – Initial maximum zoom
+- `node_origin` (tuple[float, float]) – Node origin point
+- `node_extent` (list[list[float]]) – Node movement boundary
+
+**Example:**
+
+```python
+def app():
+    return rxe.flow.provider(
+        rxe.flow(
+            nodes=FlowState.nodes,
+            edges=FlowState.edges,
+        ),
+        # Components outside flow that need access to flow state
+        node_info_panel(),
+        
+        initial_width=1200,
+        initial_height=800,
+        fit_view=True,
+    )
+```
+
+## Event Handling
+
+### Node Events
+
+**on_node_click** – Handle node selection:
+```python
+@rx.event
+def on_node_click(self, node: dict):
+    """Handle node click"""
+    node_id = node.get("id", "")
+    node_data = node.get("data", {})
+    
+    # Extract node information
+    self.selected_node_id = node_id
+    self.selected_node_data = node_data
+    
+    # Show side panel or modal
+    self.show_details_panel = True
+```
+
+**on_nodes_change** – Handle node position/state changes:
+```python
+@rx.event
+def on_nodes_change(self, changes: list[dict]):
+    """Handle node changes (position, selection, etc.)"""
+    for change in changes:
+        change_type = change.get("type")
+        
+        if change_type == "position" and "position" in change:
+            # Node moved
+            node_id = change["id"]
+            new_pos = change["position"]
+            
+            # Update in-memory state
+            for node in self.nodes:
+                if node["id"] == node_id:
+                    node["position"] = new_pos
+            
+            # Persist to database
+            self.save_node_position(node_id, new_pos)
+        
+        elif change_type == "select":
+            # Node selected/deselected
+            node_id = change["id"]
+            selected = change.get("selected", False)
+            
+        elif change_type == "remove":
+            # Node removed
+            node_id = change["id"]
+            self.delete_node(node_id)
+```
+
+### Edge Events
+
+**on_edge_click** – Handle edge selection:
+```python
+@rx.event
+def on_edge_click(self, edge: dict):
+    """Handle edge click"""
+    edge_id = edge.get("id", "")
+    edge_data = edge.get("data", {})
+    
+    self.selected_edge_id = edge_id
+    self.selected_edge_data = edge_data
+    
+    # Show edge editor
+    self.show_edge_editor = True
+```
+
+**on_edges_change** – Handle edge changes:
+```python
+@rx.event
+def on_edges_change(self, changes: list[dict]):
+    """Handle edge changes"""
+    for change in changes:
+        change_type = change.get("type")
+        
+        if change_type == "remove":
+            # Edge deleted
+            edge_id = change["id"]
+            self.soft_delete_edge(edge_id)
+```
+
+**on_connect** – Handle new connections:
+```python
+@rx.event
+def on_connect(self, connection: dict):
+    """Handle new edge creation"""
+    source = connection.get("source", "")
+    target = connection.get("target", "")
+    
+    # Validate connection
+    if source == target:
+        yield rx.toast("Cannot connect node to itself")
+        return
+    
+    # Create new edge
+    new_edge = {
+        "id": f"edge-{len(self.edges) + 1}",
+        "source": source,
+        "target": target,
+        "type": "smoothstep",
+    }
+    
+    self.edges.append(new_edge)
+    
+    # Save to database
+    self.save_relationship(source, target)
+    yield rx.toast("Relationship created")
+```
+
+### Viewport Events
+
+**on_viewport_change** – Track zoom and pan:
+```python
+@rx.event
+def on_viewport_change(self, viewport: dict):
+    """Handle viewport changes"""
+    if "zoom" in viewport:
+        new_zoom = float(viewport["zoom"])
+        old_zoom = self.zoom_level
+        self.zoom_level = new_zoom
+        
+        # Rebuild graph if crossing threshold
+        if (old_zoom < 0.5 and new_zoom >= 0.5) or \
+           (old_zoom >= 0.5 and new_zoom < 0.5) or \
+           (old_zoom < 0.6 and new_zoom >= 0.6) or \
+           (old_zoom >= 0.6 and new_zoom < 0.6):
+            self.rebuild_graph()
+    
+    if "x" in viewport and "y" in viewport:
+        # Track pan position
+        self.viewport_x = viewport["x"]
+        self.viewport_y = viewport["y"]
+```
+
+## Theming and Styling
+
+### CSS Variables
+
+Reflex Flow uses CSS variables for theming. Override these in your custom stylesheet:
+
+**Common CSS Variables:**
+```css
+:root {
+  /* Node styles */
+  --xy-node-color: #1a192b;
+  --xy-node-border: #555;
+  --xy-node-background: #fff;
+  --xy-node-border-radius: 4px;
+  
+  /* Edge styles */
+  --xy-edge-stroke: #b1b1b7;
+  --xy-edge-stroke-width: 1;
+  --xy-edge-stroke-selected: #555;
+  
+  /* Handle styles */
+  --xy-handle-background: #1a192b;
+  --xy-handle-border: 1px solid #fff;
+  
+  /* Controls */
+  --xy-controls-background: #fefefe;
+  --xy-controls-button-background: #fff;
+  --xy-controls-button-background-hover: #f4f4f4;
+  --xy-controls-button-color: inherit;
+  --xy-controls-button-border-color: #ddd;
+  
+  /* MiniMap */
+  --xy-minimap-background: #fff;
+  --xy-minimap-mask-background: rgba(0, 0, 0, 0.1);
+  --xy-minimap-mask-stroke: #555;
+  
+  /* Selection */
+  --xy-selection-background: rgba(0, 89, 220, 0.08);
+  --xy-selection-border: 1px solid rgba(0, 89, 220, 0.8);
+}
+```
+
+### Custom Stylesheets
+
+Add custom styles to your Reflex app:
+
+**1. Create stylesheet** `assets/css/flow-custom.css`:
+```css
+/* Custom node styles */
+.react-flow__node {
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.react-flow__node.selected {
+  box-shadow: 0 0 0 2px #6366f1;
+}
+
+/* Custom edge styles */
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #6366f1;
+  stroke-width: 3px;
+}
+
+/* Custom handle styles */
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Dark mode */
+.dark .react-flow {
+  background: #0f172a;
+}
+
+.dark .react-flow__node {
+  background: #1e293b;
+  color: #f1f5f9;
+  border-color: #475569;
+}
+```
+
+**2. Add to app configuration**:
+```python
+import reflex as rx
+
+app = rx.App(
+    stylesheets=[
+        "css/flow-custom.css",
+    ],
+)
+```
+
+### Individual Node/Edge Styling
+
+**Using style prop:**
+```python
+node = {
+    "id": "styled-node",
+    "position": {"x": 0, "y": 0},
+    "data": {"label": "Custom Node"},
+    "style": {
+        "background": "linear-gradient(to right, #667eea 0%, #764ba2 100%)",
+        "color": "white",
+        "border": "2px solid #4c51bf",
+        "borderRadius": "12px",
+        "padding": "20px",
+        "fontSize": "16px",
+        "fontWeight": "bold",
+        "boxShadow": "0 4px 6px rgba(0, 0, 0, 0.1)",
+    },
+}
+```
+
+**Using className prop:**
+```python
+# Define in CSS
+# .custom-node-class { ... }
+
+node = {
+    "id": "classed-node",
+    "position": {"x": 100, "y": 100},
+    "data": {"label": "Styled Node"},
+    "className": "custom-node-class",
+}
+```
+
+## Advanced Examples
+
+### Add Node on Edge Drop
+
+Create a new node when a connection is dropped on empty canvas:
+
+```python
+class FlowState(rx.State):
+    nodes: list[dict] = []
+    edges: list[dict] = []
+    connect_start_node: str = ""
+    
+    @rx.event
+    def on_connect_start(self, event: dict):
+        """Track connection start"""
+        self.connect_start_node = event.get("nodeId", "")
+    
+    @rx.event
+    def on_connect_end(self, event: dict):
+        """Create node if dropped on canvas"""
+        from rxe.flow.api import screen_to_flow_position
+        
+        # Check if connection was not completed (dropped on empty space)
+        if not event.get("targetHandle"):
+            # Get mouse position and convert to flow coordinates
+            client_x = event.get("clientX", 0)
+            client_y = event.get("clientY", 0)
+            
+            position = screen_to_flow_position(client_x, client_y)
+            
+            # Create new node
+            new_node_id = f"node-{len(self.nodes) + 1}"
+            new_node = {
+                "id": new_node_id,
+                "type": "default",
+                "position": position,
+                "data": {"label": f"New Node {len(self.nodes) + 1}"},
+            }
+            self.nodes.append(new_node)
+            
+            # Create edge to new node
+            if self.connect_start_node:
+                new_edge = {
+                    "id": f"edge-{len(self.edges) + 1}",
+                    "source": self.connect_start_node,
+                    "target": new_node_id,
+                    "type": "smoothstep",
+                }
+                self.edges.append(new_edge)
+        
+        self.connect_start_node = ""
+
+def flow_with_edge_drop():
+    return rxe.flow(
+        nodes=FlowState.nodes,
+        edges=FlowState.edges,
+        on_connect_start=FlowState.on_connect_start,
+        on_connect_end=FlowState.on_connect_end,
+        nodes_connectable=True,
+    )
+```
+
+### Connection Limit on Handles
+
+Limit the number of connections a handle can have:
+
+```python
+class LimitedFlowState(rx.State):
+    max_connections: int = 1
+    
+    @rx.event
+    def on_connect(self, params: dict):
+        """Check connection limit before adding edge"""
+        from rxe.flow.api import get_node_connections
+        
+        source_id = params.get("source")
+        source_handle = params.get("sourceHandle")
+        
+        # Get existing connections for this handle
+        connections = get_node_connections(
+            id=source_id,
+            handle_type="source",
+            handle_id=source_handle,
+        )
+        
+        # Check limit
+        if len(connections) >= self.max_connections:
+            yield rx.toast(f"Maximum {self.max_connections} connection(s) allowed")
+            return
+        
+        # Add edge if under limit
+        from rxe.flow.util import add_edge
+        self.edges = add_edge(params, self.edges)
+```
+
+### Interactive Node Search and Filter
+
+Filter nodes based on search query:
+
+```python
+class SearchableFlowState(rx.State):
+    all_nodes: list[dict] = []
+    filtered_nodes: list[dict] = []
+    all_edges: list[dict] = []
+    filtered_edges: list[dict] = []
+    search_query: str = ""
+    
+    @rx.event
+    def handle_search(self, query: str):
+        """Filter nodes based on search"""
+        self.search_query = query
+        
+        if not query:
+            self.filtered_nodes = self.all_nodes
+            self.filtered_edges = self.all_edges
+            return
+        
+        # Filter nodes by label
+        matched_nodes = [
+            node for node in self.all_nodes
+            if query.lower() in node.get("data", {}).get("label", "").lower()
+        ]
+        
+        # Get IDs of matched nodes
+        matched_ids = {node["id"] for node in matched_nodes}
+        
+        # Find connected nodes (1 degree)
+        from rxe.flow.util import get_incomers, get_outgoers
+        
+        for node_id in list(matched_ids):
+            incomers = get_incomers(node_id, self.all_nodes, self.all_edges)
+            outgoers = get_outgoers(node_id, self.all_nodes, self.all_edges)
+            matched_ids.update(n["id"] for n in incomers)
+            matched_ids.update(n["id"] for n in outgoers)
+        
+        # Filter nodes and edges
+        self.filtered_nodes = [
+            n for n in self.all_nodes if n["id"] in matched_ids
+        ]
+        
+        self.filtered_edges = [
+            e for e in self.all_edges
+            if e["source"] in matched_ids and e["target"] in matched_ids
+        ]
+
+def searchable_flow():
+    return rx.vstack(
+        rx.input(
+            placeholder="Search nodes...",
+            on_change=SearchableFlowState.handle_search,
+        ),
+        rxe.flow(
+            nodes=SearchableFlowState.filtered_nodes,
+            edges=SearchableFlowState.filtered_edges,
+            fit_view=True,
+        ),
+    )
+```
+
+### Collision Detection and Auto-Layout
+
+Detect node collisions and prevent overlaps:
+
+```python
+class CollisionFlowState(rx.State):
+    nodes: list[dict] = []
+    
+    @rx.event
+    def on_node_drag_stop(self, event: dict):
+        """Check for collisions after drag"""
+        from rxe.flow.api import get_intersecting_nodes
+        
+        dragged_node_id = event.get("id")
+        dragged_node = next((n for n in self.nodes if n["id"] == dragged_node_id), None)
+        
+        if not dragged_node:
+            return
+        
+        # Find intersecting nodes
+        intersecting = get_intersecting_nodes(
+            node=dragged_node,
+            partially=True,
+            nodes=self.nodes,
+        )
+        
+        # Remove the dragged node from results
+        intersecting = [n for n in intersecting if n["id"] != dragged_node_id]
+        
+        if intersecting:
+            # Collision detected - revert or adjust position
+            yield rx.toast(f"Collision detected with {len(intersecting)} node(s)")
+            
+            # Option 1: Offset position
+            dragged_node["position"]["x"] += 20
+            dragged_node["position"]["y"] += 20
+            
+            # Trigger re-render
+            self.nodes = list(self.nodes)
+```
+
+### Performance Optimization
+
+**1. Limit Node Count**:
+```python
+# Load top N most connected nodes
+def get_most_connected_nodes(self, limit: int = 100):
+    """Fetch most connected nodes"""
+    # Use limit to prevent rendering thousands of nodes
+    pass
+```
+
+**2. Simplify at Low Zoom**:
+```python
+# Disable labels and reduce edge width when zoomed out
+simplify_edges = self.zoom_level < 0.5
+show_labels = self.zoom_level >= 0.6
+```
+
+**3. Conditional Animation**:
+```python
+# Only animate when node count is reasonable
+should_animate = len(self.nodes) <= 100
+```
+
+**4. Debounce Position Updates**:
+```python
+# Don't save every position change immediately
+# Batch updates or use debouncing
+```
+
+### Data Management
+
+**1. Separate Display from Database State**:
+```python
+# Database models
+relationships: list[Relationship] = []
+
+# Display state (filtered/transformed)
+filtered_relationships: list[Relationship] = []
+nodes: list[dict] = []
+edges: list[dict] = []
+```
+
+**2. Transform Data in Backend**:
+```python
+@rx.event
+def build_graph_data(self):
+    """Transform database models to nodes/edges"""
+    self.nodes = self.build_nodes()
+    self.edges = self.build_edges()
+```
+
+**3. Persist Important Changes**:
+```python
+@rx.event
+def on_nodes_change(self, changes: list[dict]):
+    """Save position changes to database"""
+    for change in changes:
+        if change.get("type") == "position":
+            # Save to DB
+            pass
+```
+
+### Styling Consistency
+
+**1. Define Style Constants**:
+```python
+COMPANY_STYLE = {
+    "width": "100px",
+    "height": "100px",
+    "background": "#1e1b4b",
+    "color": "white",
+    "borderRadius": "8px",
+}
+
+PERSON_STYLE = {
+    "width": "60px",
+    "height": "60px",
+    "background": "#bae6fd",
+    "borderRadius": "50%",
+    "border": "2px solid #0284c7",
+}
+```
+
+**2. Use Semantic Color Functions**:
+```python
+def get_relationship_color(relationship_type: str) -> str:
+    """Return color based on relationship type"""
+    colors = {
+        "business": "#10b981",
+        "social": "#3b82f6",
+        "employment": "#334155",
+    }
+    return colors.get(relationship_type, "#9ca3af")
+```
+
+## Common Patterns
+
+### Interactive Node Selection with Details Panel
+
+```python
+class FlowState(rx.State):
+    selected_node_id: str = ""
+    show_details: bool = False
+    
+    @rx.event
+    def on_node_click(self, node: dict):
+        self.selected_node_id = node.get("id", "")
+        self.show_details = True
+        self.load_node_details(self.selected_node_id)
+
+def app():
+    return rx.box(
+        rxe.flow(
+            nodes=FlowState.nodes,
+            on_node_click=FlowState.on_node_click,
+        ),
+        rx.cond(
+            FlowState.show_details,
+            node_details_panel(),
+        ),
+    )
+```
+
+### Drag-and-Drop Node Creation
+
+```python
+@rx.event
+def on_connect(self, connection: dict):
+    """Create relationship when connecting nodes"""
+    source = connection["source"]
+    target = connection["target"]
+    
+    # Create new edge in state
+    new_edge = {
+        "id": f"edge-{len(self.edges)}",
+        "source": source,
+        "target": target,
+        "type": "smoothstep",
+    }
+    self.edges.append(new_edge)
+    
+    # Save to database
+    yield self.save_relationship(source, target)
+    yield rx.toast("Connection created")
+```
+
+### Search and Filter Flow
+
+```python
+class FlowState(rx.State):
+    search_query: str = ""
+    all_nodes: list[dict] = []
+    
+    @rx.event
+    def handle_search(self, query: str):
+        self.search_query = query
+        
+        if query:
+            # Filter and build subgraph
+            self.build_search_subgraph(query)
+        else:
+            # Show all nodes
+            self.nodes = self.all_nodes
+```
+
+## Troubleshooting
+
+### Edges Not Showing
+
+**Problem**: Edges are created but not visible on canvas.
+
+**Solutions**:
+1. Verify edge `source` and `target` IDs match node IDs exactly
+2. Check edge `style.stroke` is not transparent or white
+3. Ensure edge `hidden` property is not `True`
+4. Verify edges are in `edges` state list
+5. Check that `strokeWidth` is > 0
+
+```python
+# Debug edge visibility
+logging.info(f"Edge: id={edge['id']}, source={edge['source']}, target={edge['target']}")
+logging.info(f"Edge style: {edge.get('style', {})}")
+```
+
+### Edge Labels Not Showing
+
+**Problem**: Labels are defined but not rendering.
+
+**Solutions**:
+1. Ensure `label` property is a string (not dict or None)
+2. Check `labelStyle.fontSize` is defined (use string like "12px")
+3. Verify `labelStyle.fill` color contrasts with background
+4. Make sure zoom level is appropriate for label visibility
+
+```python
+# Correct label format
+edge["label"] = "Business (75)"  # String
+edge["labelStyle"] = {
+    "fill": "#10b981",
+    "fontSize": "12px",  # Use string with units
+    "fontWeight": "bold",
+}
+```
+
+### Performance Issues with Many Nodes
+
+**Problem**: Slow rendering with 500+ nodes.
+
+**Solutions**:
+1. Limit initial node count (show top 100)
+2. Implement virtual scrolling or pagination
+3. Simplify styling at low zoom levels
+4. Disable animations when node count > 100
+5. Use search to filter down to relevant subgraph
+
+```python
+# Performance optimization
+if len(nodes) > 100:
+    should_animate_particles = False
+    simplify_edges = True
+```
+
+## Current Implementation Review
+
+### Implementation Checklist
+
+Based on the investment-relationship-dashboard codebase review:
+
+**✅ Correctly Implemented:**
+1. Flow component with background, controls (graph_view.py)
+2. Controlled flow using `nodes` and `edges` state
+3. Event handlers: `on_nodes_change`, `on_edges_change`, `on_connect`, `on_viewport_change`
+4. Node click and edge click handlers
+5. Zoom-based label visibility and edge simplification
+6. Dynamic edge colors based on scores
+7. Node position persistence to database
+8. Employment edges with dashed styling
+9. Directed edges with arrow markers
+
+**⚠️ Needs Improvement:**
+1. **CRITICAL**: Use `apply_node_changes` and `apply_edge_changes` utilities instead of manual change handling
+2. **CRITICAL**: Use `add_edge` utility for `on_connect` handler
+3. Consider adding MiniMap for better navigation
+4. Edge labels should use string values for `fontSize` ("12px" not 12)
+5. `labelStyle.fontWeight` should be "bold" not 700
+
+### Recommended Fixes
+
+**Fix 1: Update event handlers to use utility functions**
+
+Current implementation manually processes changes. Should use:
+
+```python
+from rxe.flow.util import apply_node_changes, apply_edge_changes, add_edge
+
+class RelationshipState(rx.State):
+    @rx.event
+    def on_nodes_change(self, changes: list[dict]):
+        """Apply node changes using utility"""
+        self.nodes = apply_node_changes(self.nodes, changes)
+        
+        # Then handle persistence
+        for change in changes:
+            if change.get("type") == "position" and "position" in change:
+                # Save to database
+                pass
+    
+    @rx.event
+    def on_edges_change(self, changes: list[dict]):
+        """Apply edge changes using utility"""
+        self.edges = apply_edge_changes(self.edges, changes)
+        
+        # Handle deletions
+        for change in changes:
+            if change.get("type") == "remove":
+                # Soft delete in database
+                pass
+    
+    @rx.event
+    def on_connect(self, params: dict):
+        """Create edge using utility"""
+        # Validate connection first
+        source = params.get("source")
+        target = params.get("target")
+        
+        if source == target:
+            yield rx.toast("Cannot connect node to itself")
+            return
+        
+        # Add edge
+        self.edges = add_edge(params, self.edges)
+        
+        # Save to database
+        yield self.save_relationship(source, target)
+```
+
+**Fix 2: Add MiniMap to graph_view.py**
+
+```python
+def graph_view() -> rx.Component:
+    return rx.el.div(
+        rxe.flow(
+            rxe.flow.background(variant="dots", gap=12, size=1),
+            rxe.flow.controls(),
+            rxe.flow.mini_map(  # ADD THIS
+                node_color="#93c5fd",
+                pannable=True,
+                zoomable=True,
+                position="bottom-right",
+            ),
+            # ... rest of config
+        ),
+    )
+```
+
+**Fix 3: Ensure edge label styles use correct types**
+
+Edge labels already correctly use string values in the current implementation.
+
+### Performance Recommendations
+
+The current implementation already includes good performance practices:
+- ✅ Node limit (100 default)
+- ✅ Zoom-based simplification
+- ✅ Conditional animation based on node count
+- ✅ Filtered subgraph for search
+
+### Summary
+
+The current Reflex Flow implementation is mostly correct but should adopt the utility functions (`apply_node_changes`, `apply_edge_changes`, `add_edge`) for cleaner, more maintainable code and to ensure all React Flow change events are properly handled.

@@ -32,9 +32,7 @@ def relationship_item(item: dict) -> rx.Component:
         ),
         rx.el.button(
             rx.icon("trash", class_name="w-3.5 h-3.5"),
-            on_click=lambda: RelationshipState.soft_delete_relationship(
-                item["relationship_id"]
-            ),
+            on_click=RelationshipState.soft_delete_relationship(item["relationship_id"]),
             class_name="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-md transition-colors",
         ),
         class_name="flex items-center justify-between p-3 bg-white border border-gray-100 rounded-lg hover:border-indigo-100 transition-colors",
@@ -43,9 +41,12 @@ def relationship_item(item: dict) -> rx.Component:
 
 def node_creation_view() -> rx.Component:
     return rx.el.div(
-        rx.el.h2(
-            "New Entity",
-            class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0",
+        rx.drawer.title(
+            rx.el.h2(
+                "New Entity",
+                class_name="text-xl font-bold mb-4 text-gray-900 border-b pb-1 shrink-0",
+            ),
+            as_child=True,
         ),
         rx.el.div(
             rx.el.label(
@@ -58,9 +59,7 @@ def node_creation_view() -> rx.Component:
                         name="node_type",
                         value="person",
                         checked=RelationshipState.new_node_type == "person",
-                        on_change=lambda _: RelationshipState.set_new_node_type(
-                            "person"
-                        ),
+                        on_change=RelationshipState.set_new_node_type("person"),
                         class_name="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-gray-300",
                     ),
                     rx.el.span("Person", class_name="ml-2 text-sm text-gray-700"),
@@ -72,15 +71,13 @@ def node_creation_view() -> rx.Component:
                         name="node_type",
                         value="company",
                         checked=RelationshipState.new_node_type == "company",
-                        on_change=lambda _: RelationshipState.set_new_node_type(
-                            "company"
-                        ),
+                        on_change=RelationshipState.set_new_node_type("company"),
                         class_name="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-gray-300",
                     ),
                     rx.el.span("Company", class_name="ml-2 text-sm text-gray-700"),
                     class_name="flex items-center",
                 ),
-                class_name="flex gap-6 mb-6",
+                class_name="flex gap-4 mb-4",
             ),
             rx.cond(
                 RelationshipState.new_node_type == "person",
@@ -91,7 +88,7 @@ def node_creation_view() -> rx.Component:
                     ),
                     rx.el.input(
                         on_change=RelationshipState.set_new_node_name,
-                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
+                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
                         default_value=RelationshipState.new_node_name,
                     ),
                     rx.el.label(
@@ -100,7 +97,7 @@ def node_creation_view() -> rx.Component:
                     ),
                     rx.el.input(
                         on_change=RelationshipState.set_new_node_last_name,
-                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
+                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
                         default_value=RelationshipState.new_node_last_name,
                     ),
                     rx.el.label(
@@ -109,7 +106,7 @@ def node_creation_view() -> rx.Component:
                     ),
                     rx.el.input(
                         on_change=RelationshipState.set_new_node_title_or_ticker,
-                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
+                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
                         default_value=RelationshipState.new_node_title_or_ticker,
                     ),
                 ),
@@ -120,7 +117,7 @@ def node_creation_view() -> rx.Component:
                     ),
                     rx.el.input(
                         on_change=RelationshipState.set_new_node_name,
-                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
+                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
                         default_value=RelationshipState.new_node_name,
                     ),
                     rx.el.label(
@@ -129,7 +126,7 @@ def node_creation_view() -> rx.Component:
                     ),
                     rx.el.input(
                         on_change=RelationshipState.set_new_node_title_or_ticker,
-                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-6 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
+                        class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none",
                         default_value=RelationshipState.new_node_title_or_ticker,
                     ),
                 ),
@@ -145,24 +142,27 @@ def node_creation_view() -> rx.Component:
                 ),
                 on_click=RelationshipState.save_node,
                 disabled=RelationshipState.is_loading,
-                class_name="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold py-2.5 px-4 rounded-lg transition-colors shadow-sm mb-3",
+                class_name="w-full bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white font-semibold py-2 px-4 rounded-lg transition-colors shadow-sm mb-2",
             ),
             rx.el.button(
                 "Cancel",
                 on_click=RelationshipState.cancel_node_creation,
-                class_name="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-lg border border-gray-300 transition-colors",
+                class_name="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-2 px-4 rounded-lg border border-gray-300 transition-colors",
             ),
-            class_name="shrink-0 pt-4 border-t border-gray-200 bg-white mt-auto",
+            class_name="shrink-0 pt-2 border-t border-gray-200 bg-white",
         ),
-        class_name="p-6 h-full flex flex-col bg-white",
+        class_name="p-4 md:p-5 h-full flex flex-col bg-white",
     )
 
 
 def node_edit_view() -> rx.Component:
     return rx.el.div(
-        rx.el.h2(
-            "Edit Entity",
-            class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0",
+        rx.drawer.title(
+            rx.el.h2(
+                "Edit Entity",
+                class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2 shrink-0",
+            ),
+            as_child=True,
         ),
         rx.el.div(
             rx.cond(
@@ -248,7 +248,7 @@ def node_edit_view() -> rx.Component:
             rx.el.button(
                 rx.icon("trash-2", class_name="w-4 h-4 mr-2"),
                 "Delete Entity",
-                on_click=lambda: RelationshipState.delete_node(
+                on_click=RelationshipState.delete_node(
                     RelationshipState.editing_node_id,
                     RelationshipState.editing_node_type,
                 ),
@@ -262,9 +262,12 @@ def node_edit_view() -> rx.Component:
 
 def relationship_creation_view() -> rx.Component:
     return rx.el.div(
-        rx.el.h2(
-            "Add Connection",
-            class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2",
+        rx.drawer.title(
+            rx.el.h2(
+                "Add Connection",
+                class_name="text-xl font-bold mb-6 text-gray-900 border-b pb-2",
+            ),
+            as_child=True,
         ),
         rx.el.div(
             rx.el.label(
@@ -273,9 +276,7 @@ def relationship_creation_view() -> rx.Component:
             ),
             rx.el.input(
                 placeholder="Type name...",
-                on_change=lambda v: RelationshipState.filter_target_nodes(v).throttle(
-                    300
-                ),
+                on_change=RelationshipState.filter_target_nodes,
                 class_name="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2 focus:ring-2 focus:ring-indigo-500 outline-none",
                 default_value=RelationshipState.relationship_target_search,
             ),
@@ -300,7 +301,7 @@ def relationship_creation_view() -> rx.Component:
                                 node["type"],
                                 class_name="ml-2 text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded",
                             ),
-                            on_click=lambda: RelationshipState.set_creation_target(
+                            on_click=RelationshipState.set_creation_target(
                                 node["id"], node["type"], node["name"]
                             ),
                             class_name="w-full flex items-center p-2 hover:bg-indigo-50 rounded-md transition-colors text-sm border-b border-gray-50 last:border-0",
@@ -347,9 +348,7 @@ def relationship_creation_view() -> rx.Component:
                         max="100",
                         default_value=RelationshipState.creation_score.to_string(),
                         key=RelationshipState.creation_term,
-                        on_change=lambda v: RelationshipState.set_creation_score(
-                            v.to(int)
-                        ).throttle(100),
+                        on_change=RelationshipState.set_creation_score,
                         class_name="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-2 accent-indigo-600",
                     ),
                     rx.el.div(
@@ -378,7 +377,10 @@ def relationship_creation_view() -> rx.Component:
 def node_details_view() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            rx.el.h2("Details", class_name="text-xl font-bold text-gray-900"),
+            rx.drawer.title(
+                rx.el.h2("Details", class_name="text-xl font-bold text-gray-900"),
+                as_child=True,
+            ),
             rx.el.span(
                 rx.cond(
                     RelationshipState.selected_node_data["type"] == "company",
@@ -510,7 +512,10 @@ def node_details_view() -> rx.Component:
 def edge_edit_view() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            rx.el.h2("Edit Relationship", class_name="text-xl font-bold text-gray-900"),
+            rx.drawer.title(
+                rx.el.h2("Edit Relationship", class_name="text-xl font-bold text-gray-900"),
+                as_child=True,
+            ),
             class_name="mb-6 border-b pb-2 shrink-0",
         ),
         rx.el.div(
@@ -587,9 +592,7 @@ def edge_edit_view() -> rx.Component:
                         max="100",
                         default_value=RelationshipState.editing_score.to_string(),
                         key=RelationshipState.selected_edge_id,
-                        on_change=lambda value: RelationshipState.set_editing_score(
-                            value.to(int)
-                        ).throttle(100),
+                        on_change=RelationshipState.set_editing_score,
                         class_name="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer mb-4 accent-indigo-600",
                     ),
                     rx.el.div(
@@ -612,7 +615,7 @@ def edge_edit_view() -> rx.Component:
                 rx.el.button(
                     rx.icon("trash", class_name="w-4 h-4 mr-2"),
                     "Delete Relationship",
-                    on_click=lambda: RelationshipState.soft_delete_relationship(
+                    on_click=RelationshipState.soft_delete_relationship(
                         RelationshipState.selected_edge_id.split("-")[1].to(int)
                     ),
                     class_name="w-full flex items-center justify-center bg-white border border-red-200 text-red-600 hover:bg-red-50 font-semibold py-3 px-4 rounded-lg transition-colors",
@@ -660,9 +663,9 @@ def side_panel() -> rx.Component:
                         & (RelationshipState.edit_mode == "edge"),
                         edge_edit_view(),
                     ),
-                    class_name="flex-1 w-full h-full bg-white relative",
+                    class_name="flex-1 w-full h-full bg-white relative max-w-md mx-auto",
                 ),
-                class_name="fixed top-0 right-0 h-full w-96 flex flex-col bg-white shadow-2xl z-[10000] border-l border-gray-200 outline-none",
+                class_name="fixed top-0 right-0 h-full w-full max-w-md sm:w-[420px] flex flex-col bg-white shadow-2xl z-[10000] border-l border-gray-200 outline-none sm:rounded-l-3xl",
             ),
         ),
         direction="right",
