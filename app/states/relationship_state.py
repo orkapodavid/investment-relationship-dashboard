@@ -410,7 +410,7 @@ class RelationshipState(rx.State):
             nodes.append(
                 {
                     "id": f"acc-{acc_id}",
-                    "type": "account",
+                    "type": "default",
                     "group": "company",
                     "data": {
                         "label": acc_name if show_labels else "",
@@ -455,7 +455,7 @@ class RelationshipState(rx.State):
             nodes.append(
                 {
                     "id": f"con-{con_id}",
-                    "type": "contact",
+                    "type": "default",
                     "group": "person",
                     "data": {
                         "label": f"{con_first} {con_last}" if show_labels else "",
