@@ -1,4 +1,6 @@
 import reflex as rx
+import reflex_enterprise as rxe
+from rxe.flow.util import apply_node_changes, apply_edge_changes, add_edge
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
@@ -549,7 +551,7 @@ class RelationshipState(rx.State):
                             "strokeDasharray": "5,5",
                             "opacity": 0.4,
                         },
-                        "labelStyle": {"fill": "#94a3b8", "fontSize": 10},
+                        "labelStyle": {"fill": "#94a3b8", "fontSize": "10px"},
                     }
                 )
             elif is_employment:
@@ -603,15 +605,21 @@ class RelationshipState(rx.State):
 
     @rx.event
     async def on_nodes_change(self, changes: list[dict]):
+        """Handle node changes using utility function and persist positions."""
+        # Apply changes using utility function first
+        self.nodes = apply_node_changes(self.nodes, changes)
+        
+        # Process changes for custom logic
         updates_to_persist = {}
+        nodes_to_delete = []
+        
         for change in changes:
-            if change.get("type") == "position" and "position" in change:
+            change_type = change.get("type")
+            
+            if change_type == "position" and "position" in change:
+                # Node position changed - persist to database
                 node_id = change["id"]
                 new_pos = change["position"]
-                for node in self.nodes:
-                    if node["id"] == node_id:
-                        node["position"] = new_pos
-                        break
                 parts = node_id.split("-")
                 if len(parts) >= 2:
                     prefix = parts[0]
@@ -622,7 +630,26 @@ class RelationshipState(rx.State):
                         logging.exception(
                             f"Invalid node ID format in on_nodes_change: {e}"
                         )
-        self.nodes = list(self.nodes)
+            
+            elif change_type == "select":
+                # Node selected/deselected
+                node_id = change["id"]
+                selected = change.get("selected", False)
+                # Could track selection state here if needed
+                logging.info(f"Node {node_id} {'selected' if selected else 'deselected'}")
+            
+            elif change_type == "remove":
+                # Node removed - trigger soft delete
+                node_id = change["id"]
+                nodes_to_delete.append(node_id)
+                logging.info(f"Node {node_id} marked for removal")
+            
+            elif change_type == "dimensions":
+                # Node dimensions changed
+                node_id = change["id"]
+                logging.info(f"Node {node_id} dimensions changed")
+        
+        # Persist position updates to database
         if updates_to_persist:
             with rx.session() as session:
                 for (prefix, db_id), (x, y) in updates_to_persist.items():
@@ -639,16 +666,31 @@ class RelationshipState(rx.State):
                             obj.position_y = y
                             session.add(obj)
                 session.commit()
+        
+        # Handle node deletions (soft delete in database)
+        if nodes_to_delete:
+            for node_id in nodes_to_delete:
+                parts = node_id.split("-")
+                if len(parts) >= 2:
+                    prefix = parts[0]
+                    try:
+                        db_id = int(parts[1])
+                        # Soft delete logic could be implemented here
+                        # For now, just log - actual deletion handled by removing relationships
+                        logging.info(f"Node deletion requested: {prefix}-{db_id}")
+                    except ValueError as e:
+                        logging.exception(f"Invalid node ID format for deletion: {e}")
 
     @rx.event
     def on_edges_change(self, changes: list[dict]):
-        ids_to_delete = []
+        """Handle edge changes using utility function and process deletions."""
+        # Apply changes using utility function first
+        self.edges = apply_edge_changes(self.edges, changes)
+        
+        # Process changes for custom logic (e.g., soft delete)
         for change in changes:
             if change.get("type") == "remove":
-                ids_to_delete.append(change["id"])
-        if ids_to_delete:
-            self.edges = [e for e in self.edges if e["id"] not in ids_to_delete]
-            for edge_id in ids_to_delete:
+                edge_id = change["id"]
                 if edge_id.startswith("rel-"):
                     try:
                         rid = int(edge_id.split("-")[1])
@@ -1016,25 +1058,35 @@ class RelationshipState(rx.State):
             yield rx.toast("Failed to update term", duration=3000)
 
     @rx.event
-    def on_connect(self, connection: dict):
+    def on_connect(self, params: dict):
         """Handle creating new relationships by dragging between nodes."""
-        source = connection.get("source", "")
-        target = connection.get("target", "")
+        source = params.get("source", "")
+        target = params.get("target", "")
+        
+        # Validate connection
+        if source == target:
+            yield rx.toast("Cannot connect a node to itself", duration=3000)
+            return
+        
         try:
             src_parts = source.split("-")
             tgt_parts = target.split("-")
             if len(src_parts) < 2 or len(tgt_parts) < 2:
                 yield rx.toast("Invalid node identifiers", duration=3000)
                 return
+            
             src_prefix, src_id_str = (src_parts[0], src_parts[1])
             tgt_prefix, tgt_id_str = (tgt_parts[0], tgt_parts[1])
             src_id = int(src_id_str)
             tgt_id = int(tgt_id_str)
             src_type = "company" if src_prefix == "acc" else "person"
             tgt_type = "company" if tgt_prefix == "acc" else "person"
+            
             if src_type == tgt_type and src_id == tgt_id:
                 yield rx.toast("Cannot connect a node to itself", duration=3000)
                 return
+            
+            # Determine relationship type based on node types
             rel_type = RelationshipType.SOCIAL
             default_term = RelationshipTerm.FRIEND
             if src_type == "company" and tgt_type == "company":
@@ -1050,6 +1102,7 @@ class RelationshipState(rx.State):
             elif src_type == "person" and tgt_type == "person":
                 rel_type = RelationshipType.SOCIAL
                 default_term = RelationshipTerm.FRIEND
+            
             new_rel_id = None
             new_rel_score = 0
             new_rel_type_val = ""
@@ -1057,6 +1110,7 @@ class RelationshipState(rx.State):
             new_rel_is_directed = False
             operation_success = False
             success_message = ""
+            
             with rx.session() as session:
                 existing = session.exec(
                     sqlmodel.select(Relationship).where(
@@ -1111,7 +1165,11 @@ class RelationshipState(rx.State):
                     new_rel_is_directed = new_rel.is_directed
                     operation_success = True
                     success_message = f"Created new {rel_type.value} relationship"
+            
             if operation_success:
+                # Use add_edge utility to add the edge to the state
+                self.edges = add_edge(params, self.edges)
+                
                 yield rx.toast(success_message, duration=3000)
                 self.selected_edge_id = f"rel-{new_rel_id}"
                 self.editing_score = new_rel_score
