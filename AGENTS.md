@@ -2,7 +2,9 @@
 
 ## Reflex App Execution
 
-When starting the Reflex application (e.g., `reflex run`), **ALWAYS** set the environment variable `CI=1` to disable the login requirement.
+This application runs on custom ports (3005/8005) to avoid conflicts with other Reflex apps.
+
+When starting the application, **ALWAYS** set the environment variable `CI=1` to disable the login requirement.
 
 ### Required Command Format
 
@@ -20,6 +22,12 @@ $env:CI=1; reflex run
 ```bash
 CI=1 reflex run
 ```
+
+### Application URLs
+
+- Frontend: http://localhost:3005
+- Backend API: http://localhost:8005
+- API Docs: http://localhost:8005/docs
 
 ### Why This Is Important
 

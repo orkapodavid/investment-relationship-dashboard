@@ -1,6 +1,5 @@
 import reflex as rx
 import reflex_enterprise as rxe
-from rxe.flow.util import apply_node_changes, apply_edge_changes, add_edge
 import sqlmodel
 from sqlmodel import select, or_, col, delete
 import math
@@ -32,6 +31,13 @@ TERM_TO_TYPE = {
     RelationshipTerm.COLLEAGUE: RelationshipType.BUSINESS,
     RelationshipTerm.FRIEND: RelationshipType.SOCIAL,
     RelationshipTerm.ENEMY: RelationshipType.SOCIAL,
+}
+
+# Zoom thresholds for different display optimizations
+ZOOM_THRESHOLDS = {
+    "node_labels": 0.6,      # Below: hide labels, Above: show labels
+    "edge_detail": 0.5,      # Below: simple edges, Above: detailed with labels
+    "node_size": 0.4,        # Below: small nodes, Above: normal size
 }
 
 
@@ -93,19 +99,26 @@ class RelationshipState(rx.State):
         """Return list of available relationship terms."""
         return [t.value for t in RelationshipTerm]
 
+    def _crossed_any_threshold(self, old_zoom: float, new_zoom: float) -> bool:
+        """Check if zoom crossed any configured threshold in either direction."""
+        for threshold in ZOOM_THRESHOLDS.values():
+            if (old_zoom < threshold <= new_zoom) or (new_zoom < threshold <= old_zoom):
+                return True
+        return False
+
     @rx.event
     def on_viewport_change(self, viewport: dict):
         """Handle viewport changes to track zoom level."""
-        if "zoom" in viewport:
-            new_zoom = float(viewport["zoom"])
-            # Only rebuild if zoom crosses threshold boundaries
-            old_zoom = self.zoom_level
-            self.zoom_level = new_zoom
-            # Rebuild if crossing label threshold (0.6) or simplify threshold (0.5)
-            if (old_zoom < 0.5 and new_zoom >= 0.5) or (old_zoom >= 0.5 and new_zoom < 0.5) or \
-               (old_zoom < 0.6 and new_zoom >= 0.6) or (old_zoom >= 0.6 and new_zoom < 0.6) or \
-               (old_zoom < 0.4 and new_zoom >= 0.4) or (old_zoom >= 0.4 and new_zoom < 0.4):
-                self.build_graph_data()
+        if "zoom" not in viewport:
+            return
+        
+        new_zoom = float(viewport["zoom"])
+        old_zoom = self.zoom_level
+        self.zoom_level = new_zoom
+        
+        # Only rebuild if crossing a meaningful threshold
+        if self._crossed_any_threshold(old_zoom, new_zoom):
+            self.build_graph_data()
 
     @rx.event
     def toggle_historic(self, value: bool):
@@ -391,15 +404,22 @@ class RelationshipState(rx.State):
         current_accounts = self.filtered_accounts
         current_contacts = self.filtered_contacts
         current_relationships = self.filtered_relationships
-        show_labels = self.zoom_level >= 0.6
-        small_nodes = self.zoom_level < 0.4
-        simplify_edges = self.zoom_level < 0.5
+        
+        # Use named thresholds instead of magic numbers
+        show_labels = self.zoom_level >= ZOOM_THRESHOLDS["node_labels"]
+        small_nodes = self.zoom_level < ZOOM_THRESHOLDS["node_size"]
+        simplify_edges = self.zoom_level < ZOOM_THRESHOLDS["edge_detail"]
+        
         total_nodes = len(current_accounts) + len(current_contacts)
         should_animate_particles = total_nodes <= 100
         comp_size = "50px" if small_nodes else "100px"
         pers_size = "30px" if small_nodes else "60px"
         
-        logging.info(f"Building graph: zoom={self.zoom_level}, show_labels={show_labels}, simplify_edges={simplify_edges}, relationships={len(current_relationships)}")
+        logging.info(
+            f"Building graph: zoom={self.zoom_level:.2f}, "
+            f"show_labels={show_labels}, simplify_edges={simplify_edges}, "
+            f"small_nodes={small_nodes}, relationships={len(current_relationships)}"
+        )
 
         def get_id(obj):
             return getattr(obj, "id", obj.get("id") if isinstance(obj, dict) else None)
@@ -606,8 +626,32 @@ class RelationshipState(rx.State):
     @rx.event
     async def on_nodes_change(self, changes: list[dict]):
         """Handle node changes using utility function and persist positions."""
-        # Apply changes using utility function first
-        self.nodes = apply_node_changes(self.nodes, changes)
+        # Apply changes manually to avoid Reflex Var issues with utility functions
+        # Process each change and update the nodes list
+        updated_nodes = []
+        nodes_dict = {node["id"]: node for node in self.nodes}
+        
+        for change in changes:
+            change_type = change.get("type")
+            node_id = change.get("id")
+            
+            if change_type == "position" and node_id in nodes_dict:
+                # Update position
+                nodes_dict[node_id]["position"] = change["position"]
+            elif change_type == "dimensions" and node_id in nodes_dict:
+                # Update dimensions
+                if "dimensions" in change:
+                    nodes_dict[node_id]["width"] = change["dimensions"].get("width")
+                    nodes_dict[node_id]["height"] = change["dimensions"].get("height")
+            elif change_type == "select" and node_id in nodes_dict:
+                # Update selection state
+                nodes_dict[node_id]["selected"] = change.get("selected", False)
+            elif change_type == "remove" and node_id in nodes_dict:
+                # Remove node
+                del nodes_dict[node_id]
+        
+        # Convert back to list
+        self.nodes = list(nodes_dict.values())
         
         # Process changes for custom logic
         updates_to_persist = {}
@@ -683,9 +727,23 @@ class RelationshipState(rx.State):
 
     @rx.event
     def on_edges_change(self, changes: list[dict]):
-        """Handle edge changes using utility function and process deletions."""
-        # Apply changes using utility function first
-        self.edges = apply_edge_changes(self.edges, changes)
+        """Handle edge changes manually to avoid Reflex Var issues."""
+        # Apply changes manually to avoid Reflex Var issues with utility functions
+        edges_dict = {edge["id"]: edge for edge in self.edges}
+        
+        for change in changes:
+            change_type = change.get("type")
+            edge_id = change.get("id")
+            
+            if change_type == "select" and edge_id in edges_dict:
+                # Update selection state
+                edges_dict[edge_id]["selected"] = change.get("selected", False)
+            elif change_type == "remove" and edge_id in edges_dict:
+                # Remove edge
+                del edges_dict[edge_id]
+        
+        # Convert back to list
+        self.edges = list(edges_dict.values())
         
         # Process changes for custom logic (e.g., soft delete)
         for change in changes:
@@ -1167,8 +1225,22 @@ class RelationshipState(rx.State):
                     success_message = f"Created new {rel_type.value} relationship"
             
             if operation_success:
-                # Use add_edge utility to add the edge to the state
-                self.edges = add_edge(params, self.edges)
+                # Manually add the new edge to avoid Reflex Var issues
+                # Create edge dictionary from params
+                new_edge = {
+                    "id": f"rel-{new_rel_id}",
+                    "source": params.get("source"),
+                    "target": params.get("target"),
+                    "type": "smoothstep",
+                    "animated": False,
+                }
+                if params.get("sourceHandle"):
+                    new_edge["sourceHandle"] = params["sourceHandle"]
+                if params.get("targetHandle"):
+                    new_edge["targetHandle"] = params["targetHandle"]
+                
+                # Add to edges list
+                self.edges = self.edges + [new_edge]
                 
                 yield rx.toast(success_message, duration=3000)
                 self.selected_edge_id = f"rel-{new_rel_id}"
