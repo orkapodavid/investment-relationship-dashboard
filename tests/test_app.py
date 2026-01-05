@@ -7,7 +7,7 @@ import pytest
 from playwright.sync_api import Page, expect
 import time
 
-APP_URL = "http://localhost:3000"
+APP_URL = "http://localhost:3005"
 WAIT_FOR_GRAPH = 3000
 
 
